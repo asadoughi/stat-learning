@@ -1,0 +1,113 @@
+1. (a) better - a more flexible approach will fit the data closer and with the
+large sample size a better fit than an inflexible approach would be obtained
+
+(b) worse - a flexible method would overfit the small number of observations
+
+(c) better - with more degrees of freedom, a flexible model would obtain a
+better fit
+
+(d) worse - flexible methods increase variance
+
+
+2. (a) regression. inference. qualitative output of CEO salary based on CEO
+firm's features.
+n - 500 firms in the US
+p - profit, number of employees, industry, CEO salary
+
+(b) classication. prediction. predicting new product's success or failure.
+n - 20 similar products previously launched
+p - success/failure, price charged, marketing budget, comp. price, ten other
+variables
+
+(c) regression. prediction. qualitative output of % change
+n - 52 weeks of 2012 weekly data
+p - % change in dollar, % change in US market, % change in British market,
+% change in German market
+
+
+3. (a) See 3a.jpg.
+
+(b) i. (squared) bias - decreases monotonically because increases in flexibility
+yield a closer fit
+
+ii. variance - increases monotonically because increases in flexibility yield
+overfit
+
+iii. training error - decreases monotonically because increases in flexiblity
+yield a closer fit
+
+iv. test error - concave up curve because increase in flexibilty yields a closer
+fit before it overfits
+
+v. Bayes (irreducible) error - probability determined from class overlap from
+ the decision boundary so it's a constant with between 0 and 1.
+
+
+4. (a) i. stock market price direction, prediction, response: up, down,
+input: yesterday's price movement % change, two previous day price movement %
+change, etc.
+
+ii. illness classification, inference, response: ill, healthy, input: resting
+heart rate, resting breath rate, mile run time
+
+iii. car part replacement, prediction, response: needs to be replace, good,
+input: age of part, mileage used for, current amperage
+
+(b) i. CEO salary. inference. predictors: age, industry experience, industry,
+years of education. response: salary.
+
+ii. car part replacement. inference. response: life of car part. predictors: age
+of part, mileage used for, current amperage.
+
+iii. illness classification, prediction, response: age of death,
+input: current age, gender, resting heart rate, resting breath rate, mile run
+time.
+
+(c) i. cancer type clustering. diagnose cancer types more accurately.
+
+ii. Netflix movie recommendations. recommend movies based on users who have
+watched and rated similar movies.
+
+iii. marketing survey. clustering of demographics for a product(s) to see which
+clusters of consumers buy which products.
+
+
+5. The advantages for a very flexible approach for regression or classification
+are obtaining a better fit for non-linear models, decreasing bias.
+
+The disadvantages for a very flexible approach for regression or classification
+are requires estimating a greater number of parameters, follow the noise too
+closely (overfit), increasing variance.
+
+A more flexibile approach would be preferred to a less flexible approach when we
+are interested in prediction and not the interpretability of the results.
+
+A less flexible approach would be preferred to a more flexible appraoch when we
+are interested in inference and the interpretability of the results.
+
+
+6. A parametric approach reduces the problem of estimating f down to one of
+estimating a set of parameters because it assumes a form for f.
+
+A non-parametric approach does not assume a functional form for f and so
+requires a very large number of observations to accurately estimate f.
+
+The advantages of a parametric approach to regression or classification are the
+simplifying of modeling f to a few parameters and not as many observations are
+required compared to a non-parametric approach.
+
+The disadvantages of a parametric appraoch to regression or classification
+are a potential to inaccurately estimate f if the form of f assumed is wrong or
+to overfit the observations if more flexible models are used.
+
+
+7. (a) 3, 2, sqrt(10) ~ 3.2, sqrt(5) ~ 2.2, sqrt(2) ~ 1.4, sqrt(3) ~ 1.7
+
+(b) Green. Observation #5 is the closest neighbor for K = 1.
+
+(c) Red. Observations #2, 5, 6 are the closest neighbors for K = 3. 2 is Red,
+5 is Green, and 6 is Red.
+
+(d) Small. A small K would be flexible for a non-linear decision boundary,
+whereas a large K would try to fit a more linear boundary because it takes more
+points into consideration.
