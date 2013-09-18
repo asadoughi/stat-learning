@@ -1,5 +1,5 @@
 # 8. (a)
-college = read.csv("../College.csv")
+college = read.csv("../data/College.csv")
 # 8. (b)
 fix(college)
 rownames(college) = college[,1]
@@ -37,7 +37,7 @@ plot(college$Top10perc, college$Grad.Rate)
 
 
 # 9.
-Auto = read.csv("../Auto.csv", header=T, na.strings="?")
+Auto = read.csv("../data/Auto.csv", header=T, na.strings="?")
 Auto = na.omit(Auto)
 dim(Auto)
 summary(Auto)
