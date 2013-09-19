@@ -1,0 +1,24 @@
+1. In Table 3.4, we test the null hypothesis to see if there is a relationship
+between the response and its predictors: whether all of the regression
+coefficients are zero. TV and radio have low p-values, while newspaper has a
+high p-value. This suggests that only TV and sradio are related to sales.
+
+2. KNN classifier and KNN regression methods are closely related in formula.
+However, the final result of KNN classifier is the classification output for Y
+(qualitative), where as the output for a KNN regression predicts the
+quantitative value for f(X).
+
+3. Y = 50 + 20(gpa) + 0.07(iq) + 35(gender) + 0.01(gpa * iq) - 10 (gpa * gender)
+
+(a) Y = 50 + 20 k_1 + 0.07 k_2 + 35 gender + 0.01(k_1 * k_2) - 10 (k_1 * gender)
+male: (gender = 0)   50 + 20 k_1 + 0.07 k_2 + 0.01(k_1 * k_2)
+female: (gender = 1) 50 + 20 k_1 + 0.07 k_2 + 35 + 0.01(k_1 * k_2) - 10 (k_1)
+
+Once the GPA is high enough, males earn more on average. => iv.
+
+(b) Y(Gender = 1, IQ = 110, GPA = 4.0)
+= 50 + 20 * 4 + 0.07 * 110 + 35 + 0.01 (4 * 110) - 10 * 4
+= 137.1
+
+(c) False. We must examine the p-value of the regression coefficient to
+determine if the interaction term is statstically significant or not.
