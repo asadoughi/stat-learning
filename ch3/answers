@@ -3,10 +3,12 @@ between the response and its predictors: whether all of the regression
 coefficients are zero. TV and radio have low p-values, while newspaper has a
 high p-value. This suggests that only TV and sradio are related to sales.
 
+
 2. KNN classifier and KNN regression methods are closely related in formula.
 However, the final result of KNN classifier is the classification output for Y
 (qualitative), where as the output for a KNN regression predicts the
 quantitative value for f(X).
+
 
 3. Y = 50 + 20(gpa) + 0.07(iq) + 35(gender) + 0.01(gpa * iq) - 10 (gpa * gender)
 
@@ -22,3 +24,35 @@ Once the GPA is high enough, males earn more on average. => iv.
 
 (c) False. We must examine the p-value of the regression coefficient to
 determine if the interaction term is statstically significant or not.
+
+
+4. (*) (a) I would expect the polynomial regression to have a lower training RSS
+than the linear regression because it could make a tighter fit against data that
+matched with a wider irreducible error (Var(epsilon)).
+
+(b) Converse to (a), I would expect the polynomial regression to have a higher
+test RSS as the overfit from training would have more error than the linear
+regression.
+
+(c) There is not enough information to tell which training RSS would be lower
+for either regression given the problem statement is defined as not knowing
+"how far it is from linear". If it is closer to linear than cubic, the linear
+regression training RSS could be lower than the cubic regression training RSS.
+Or, if it is closer to cubic than linear, the cubic regression training RSS
+could be lower than the linear regression training RSS.
+
+(d) See (c), replacing training RSS with test RSS.
+
+
+5. See 5.jpg.
+
+
+6. y = B_0 + B_1 x
+from (3.4): B_0 = avg(y) - B_1 avg(x)
+right hand side will equal 0 if (avg(x), avg(y)) is a point on the line
+0 = B_0 + B_1 avg(x) - avg(y)
+0 = (avg(y) - B_1 avg(x)) + B_1 avg(x) - avg(y)
+0 = 0
+
+
+7. See 7.jpg.
