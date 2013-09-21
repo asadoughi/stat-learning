@@ -1,0 +1,616 @@
+Chapter 3: Linear Regression: Exercises: Applied
+================================================
+
+8a.
+---
+
+```{r}
+Auto = read.csv("../data/Auto.csv", header=T, na.strings="?")
+Auto = na.omit(Auto)
+summary(Auto)
+attach(Auto)
+lm.fit = lm(mpg ~ horsepower)
+summary(lm.fit)
+```
+
+### i.
+Yes, there is a relationship between horsepower and mpg as deterined by
+testing the null hypothesis of all regression coefficients equal to zero.
+Since the F-statistic is far larger than 1 and the p-value of the F-statistic
+is close to zero we can reject the null hypothesis and state there is a
+statistically significant relationship between horsepower and mpg.
+
+### ii.
+The mean of horsepower is ``r mean(horsepower, na.rm=T)`` horses. The RSE of
+the lm.fit was ``r 4.906`` which indicates a percentage error of
+``r 4.906/mean(horsepower, na.rm=T) * 100.0``%. The $R^2$ of the lm.fit was
+about ``r summary(lm.fit)$r.sq``, meaning ``r summary(lm.fit)$r.sq * 100.0``%
+of the variance in mpg is explained by horsepower.
+
+### iii.
+The relationship between mpg and horsepower is negative. The more horsepower
+an automobile has the linear regression indicates the less mpg fuel efficiency
+the automobile will have.
+
+### iv.
+```{r}
+predict(lm.fit, data.frame(horsepower=c(98)), interval="confidence")
+predict(lm.fit, data.frame(horsepower=c(98)), interval="prediction")
+```
+
+
+8b.
+---
+
+```{r}
+plot(horsepower, mpg)
+abline(lm.fit)
+```
+
+8c.
+---
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit)
+```
+
+Based on the residuals plots, there is some evidence of non-linearity.
+
+
+9a.
+---
+```{r}
+pairs(Auto)
+```
+
+9b.
+---
+```{r}
+cor(subset(Auto, select=-name))
+```
+
+9c.
+---
+```{r}
+lm.fit1 = lm(mpg~.-name, data=Auto)
+summary(lm.fit1)
+```
+
+### i.
+Yes, there is a relatioship between the predictors and the response by testing
+the null hypothesis of whether all the regression coefficients are zero. The F
+-statistic is far from 1 (with a small p-value), indicating evidence against
+the null hypothesis.
+
+### ii.
+Looking at the p-values associated with each predictor's t-statistic, we see
+that displacement, weight, year, and origin have a statistically significant relationship, while cylinders, horsepower, and acceleration do not.
+
+### iii.
+The regression coefficient for year, ``r coefficients(lm.fit1)["year"]``,
+suggests that for every one year, mpg increases by the coefficient. In other
+words, cars become more fuel efficient every year by almost 1 mpg / year.
+
+9d.
+---
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit1)
+```
+The fit does not appear to be accurate because there is a discernible curve
+pattern to the residuals plots. From the leverage plot, point 14 appears to have
+high leverage, although not a high magnitude residual.
+
+```{r}
+plot(predict(lm.fit1), rstudent(lm.fit1))
+```
+There are possible outliers as seen in the plot of studentized residuals
+because there are data with a value greater than 3.
+
+9e.
+---
+```{r}
+lm.fit2 = lm(mpg~cylinders*displacement+displacement*weight)
+summary(lm.fit2)
+```
+From the correlation matrix, I obtained the two highest correlated pairs and
+used them in picking my interaction effects. From the p-values, we can see
+that the interaction between displacement and weight is statistically
+signifcant, while the interactiion between cylinders and displacement is not.
+
+9f.
+---
+```{r}
+lm.fit3 = lm(mpg~log(weight)+sqrt(horsepower)+acceleration+I(acceleration^2))
+summary(lm.fit3)
+par(mfrow=c(2,2))
+plot(lm.fit3)
+```
+
+```{r}
+plot(predict(lm.fit3), rstudent(lm.fit3))
+```
+Apparently, from the p-values, the log(weight), sqrt(horsepower), and
+acceleration^2 all have statistical significance of some sort. The residuals
+plot has less of a discernible pattern than the plot of all linear regression
+terms. The studentized residuals displays potential outliers (>3). The
+leverage plot indicates more than three points with high leverage.
+
+10a.
+----
+
+```{r}
+library(ISLR)
+summary(Carseats)
+attach(Carseats)
+lm.fit = lm(Sales~Price+Urban+US)
+summary(lm.fit)
+```
+
+10b.
+----
+### Price
+The linear regression suggests a relationship between price and sales given the
+low p-value of the t-statistic. The coefficient states a negative
+relationship between Price and Sales: as Price increases, Sales decreases.
+
+### UrbanYes
+The linear regression suggests that there isn't a relationship between the
+location of the store and the number of sales based on the high p-value of the
+t-statistic.
+
+### USYes
+The linear regression suggests there is a relationship between whether the store
+is in the US or not and the amount of sales. The coefficient states a positive relationship between USYes and Sales: if the store is in the US, the sales will
+increase by approximately 1201 units.
+
+10c.
+----
+Sales = 13.04 + -0.05 Price + -0.02 UrbanYes + 1.20 USYes
+
+10d.
+----
+Price and USYes, based on the p-values, F-statistic, and p-value of the
+F-statistic.
+
+10e.
+----
+```{r}
+lm.fit2 = lm(Sales ~ Price + US)
+summary(lm.fit2)
+```
+
+10f.
+----
+Based on the RSE and R^2 of the linear regressions, they both fit the data
+similarly, with linear regression from (e) fitting the data slightly better.
+
+10g.
+----
+```{r}
+confint(lm.fit2)
+```
+
+10h.
+----
+```{r}
+plot(predict(lm.fit2), rstudent(lm.fit2))
+```
+All studentized residuals appear to be bounded by -3 to 3, so not potential
+outliers are suggested from the linear regression.
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit2)
+```
+There are a few observations that greatly exceed $(p+1)/n$ (``r 3/397``) on the leverage-statistic plot that suggest that the corresponding points have high leverage.
+
+11.
+---
+
+```{r}
+set.seed(1)
+x = rnorm(100)
+y = 2*x + rnorm(100)
+```
+
+11a.
+----
+```{r}
+lm.fit = lm(y~x+0)
+summary(lm.fit)
+```
+The p-value of the t-statistic is near zero so the null hypothesis is rejected.
+
+11b.
+----
+```{r}
+lm.fit = lm(x~y+0)
+summary(lm.fit)
+```
+The p-value of the t-statistic is near zero so the null hypothesis is rejected.
+
+11c.
+----
+Both results in (a) and (b) reflect the same line created in 11a. In other
+words, $y = 2x + \epsilon$ could also be written $x = 0.5 * (y - \epsilon)$.
+
+11d.
+----
+$$
+\begin{array}{cc}
+t = \beta / SE(\beta) &
+\beta = \frac {\sum{x_i y_i}} {\sum{x_i^2}} &
+SE(\beta) = \sqrt{\frac {\sum{(y_i - x_i \beta)^2}} {(n-1) \sum{x_i^2}}}
+\end{array}
+\\
+t = {\frac {\sum{x_i y_i}} {\sum{x_i^2}}}
+    {\sqrt{\frac {(n-1) \sum{x_i^2}} {\sum{(y_i - x_i \beta)^2}}}}
+\\
+\frac {\sqrt{n-1} \sum{x_i y_i}}
+      {\sqrt{\sum{x_i^2} \sum{(y_i - x_i \beta)^2}}}
+\\
+\frac {\sqrt{n-1} \sum{x_i y_i}}
+      {\sqrt{\sum{x_i^2} \sum{(y_i^2 - 2 \beta x_i y_i  + x_i^2 \beta^2)}}}
+\\
+\frac {\sqrt{n-1} \sum{x_i y_i}}
+      {\sqrt{\sum{x_i^2} \sum{y_i^2} - 
+            \sum{x_i^2} \beta (2 \sum{x_i y_i} - \beta \sum{x_i^2})}}
+\\
+\frac {\sqrt{n-1} \sum{x_i y_i}}
+      {\sqrt{\sum{x_i^2} \sum{y_i^2} - 
+            \sum{x_i y_i} (2 \sum{x_i y_i} - \sum{x_i y_i})}}
+\\
+t = \frac {\sqrt{n-1} \sum{x_i y_i}} 
+          {\sqrt{\sum{x_i^2} \sum{y_i^2} - (\sum{x_i y_i})^2 }}
+$$
+
+```{r}
+(sqrt(length(x)-1) * sum(x*y)) / (sqrt(sum(x*x) * sum(y*y) - (sum(x*y))^2))
+```
+This is same as the t-statistic shown above.
+
+11e.
+----
+If you swap t(x,y) as t(y,x), then you will find t(x,y) = t(y,x).
+
+11f.
+----
+```{r}
+lm.fit = lm(y~x)
+lm.fit2 = lm(x~y)
+summary(lm.fit)
+summary(lm.fit2)
+```
+You can see the t-statistic is the same for the two linear regressions.
+
+12a.
+----
+When the sum of the squares of the observed y-values are equal to the sum of the 
+squares of the observed x-values.
+
+12b.
+----
+```{r}
+set.seed(1)
+x = rnorm(100)
+y = 2*x
+lm.fit = lm(y~x)
+lm.fit2 = lm(x~y)
+summary(lm.fit)
+summary(lm.fit2)
+```
+The regression coefficients are different for each linear regression.
+
+12c.
+----
+```{r}
+set.seed(1)
+x = rnorm(100)
+y = x
+lm.fit = lm(y~x)
+lm.fit2 = lm(x~y)
+summary(lm.fit)
+summary(lm.fit2)
+```
+(*) This is a bit contrived so I am not sure about the answer. I'm not sure how
+else I could reach the condition as specified in 12a.
+
+13a.
+----
+```{r}
+set.seed(1)
+x = rnorm(100)
+```
+
+13b.
+----
+```{r}
+eps = rnorm(100, 0, 0.25)
+```
+
+13c.
+----
+```{r}
+y = -1 + 0.5*x + eps
+```
+y is of length 100. $\beta_0$ is -1, $\beta_1$ is 0.5.
+
+13d.
+----
+```{r}
+plot(x, y)
+```
+I observe a linear relationship between x and y with a positive slope, with a 
+variance as is to be expected.
+
+13e.
+----
+```{r}
+lm.fit = lm(y~x)
+summary(lm.fit)
+```
+The linear regression fits a model close to the true value of the coefficients
+as was constructed. The model has a large F-statistic with a near-zero p-value
+so the null hypothesis can be rejected.
+
+13f.
+----
+```{r}
+plot(x, y)
+abline(lm.fit, lwd=3, col=2)
+abline(-1, 0.5, lwd=3, col=3)
+legend(-1, legend = c("model fit", "pop. regression"), col=2:3, lwd=3)
+```
+
+13g.
+----
+```{r}
+lm.fit_sq = lm(y~x+I(x^2))
+summary(lm.fit_sq)
+```
+There is evidence that model fit has increased over the training data given the
+slight increase in $R^2$ and $RSE$. Although, the p-value of the t-statistic
+suggests that there isn't a relationship between y and $x^2$.
+
+13h.
+----
+```{r}
+set.seed(1)
+eps1 = rnorm(100, 0, 0.125)
+x1 = rnorm(100)
+y1 = -1 + 0.5*x1 + eps1
+plot(x1, y1)
+lm.fit1 = lm(y1~x1)
+summary(lm.fit1)
+abline(lm.fit1, lwd=3, col=2)
+abline(-1, 0.5, lwd=3, col=3)
+legend(-1, legend = c("model fit", "pop. regression"), col=2:3, lwd=3)
+```
+As expected, the error observed in $R^2$ and $RSE$ decreases considerably.
+
+13i.
+----
+```{r}
+set.seed(1)
+eps2 = rnorm(100, 0, 0.5)
+x2 = rnorm(100)
+y2 = -1 + 0.5*x2 + eps2
+plot(x2, y2)
+lm.fit2 = lm(y2~x2)
+summary(lm.fit2)
+abline(lm.fit2, lwd=3, col=2)
+abline(-1, 0.5, lwd=3, col=3)
+legend(-1, legend = c("model fit", "pop. regression"), col=2:3, lwd=3)
+```
+As expected, the error observed in $R^2$ and $RSE$ increases considerably.
+
+13j.
+----
+```{r}
+confint(lm.fit)
+confint(lm.fit1)
+confint(lm.fit2)
+```
+All intervals seem to be centered on approximately 0.5, with the second fit's
+interval being narrower than the first fit's interval and the last fit's
+interval being wider than the first fit's interval.
+
+14a.
+----
+```{r}
+set.seed(1)
+x1 = runif(100)
+x2 = 0.5 * x1 + rnorm(100)/10
+y = 2 + 2*x1 + 0.3*x2 + rnorm(100)
+```
+$$
+Y = 2 + 2 X_1 + 0.3 X_2 + \epsilon \\
+\beta_0 = 2, \beta_1 = 2, \beta_3 = 0.3
+$$
+
+14b.
+----
+```{r}
+cor(x1, x2)
+plot(x1, x2)
+```
+
+14c.
+----
+```{r}
+lm.fit = lm(y~x1+x2)
+summary(lm.fit)
+```
+$$\beta_0 = 2.0533, \beta_1 = 1.6336, \beta_3 = 0.5588$$
+The regression coefficients are close to the true coefficients, although with
+high standard error. We can reject the null hypothesis for $\beta_1$ because
+its p-value is below 5%. We cannot reject the null hypothesis for $\beta_2$
+because its p-value is much above the 5% typical cutoff, over 60%.
+
+14d.
+----
+```{r}
+lm.fit = lm(y~x1)
+summary(lm.fit)
+```
+Yes, we can reject the null hypothesis for the regression coefficient given the
+p-value for its t-statistic is near zero.
+
+14e.
+----
+```{r}
+lm.fit = lm(y~x2)
+summary(lm.fit)
+```
+Yes, we can reject the null hypothesis for the regression coefficient given the
+p-value for its t-statistic is near zero.
+
+14f.
+----
+No, because x1 and x2 have collinearity, it is hard to distinguish their effects
+when regressed upon together. When they are regressed upon separately, the
+linear relationship between y and each predictor is indicated more clearly.
+
+14g.
+----
+```{r}
+x1 = c(x1, 0.1)
+x2 = c(x2, 0.8)
+y = c(y, 6)
+lm.fit1 = lm(y~x1+x2)
+summary(lm.fit1)
+lm.fit2 = lm(y~x1)
+summary(lm.fit2)
+lm.fit3 = lm(y~x2)
+summary(lm.fit3)
+```
+In the first model, it shifts x1 to statistically insignificance and shifts
+x2 to statistiscal significance from the change in p-values between the two
+linear regressions.
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit1)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit2)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit3)
+```
+In the first and third models, the point becomes a high leverage point. 
+
+```{r}
+plot(predict(lm.fit1), rstudent(lm.fit1))
+plot(predict(lm.fit2), rstudent(lm.fit2))
+plot(predict(lm.fit3), rstudent(lm.fit3))
+```
+Looking at the studentized residuals, we don't observe points too far from the
+|3| value cutoff, except for the second linear regression: y ~ x1.
+
+15a.
+----
+```{r}
+library(MASS)
+names(Boston)
+attach(Boston)
+lm.zn = lm(crim~zn)
+summary(lm.zn) # yes
+lm.indus = lm(crim~indus)
+summary(lm.indus) # yes
+lm.chas = lm(crim~chas) 
+summary(lm.chas) # no
+lm.nox = lm(crim~nox)
+summary(lm.nox) # yes
+lm.rm = lm(crim~rm)
+summary(lm.rm) # yes
+lm.age = lm(crim~age)
+summary(lm.age) # yes
+lm.dis = lm(crim~dis)
+summary(lm.dis) # yes
+lm.rad = lm(crim~rad)
+summary(lm.rad) # yes
+lm.tax = lm(crim~tax)
+summary(lm.tax) # yes
+lm.ptratio = lm(crim~ptratio)
+summary(lm.ptratio) # yes
+lm.black = lm(crim~black)
+summary(lm.black) # yes
+lm.lstat = lm(crim~lstat)
+summary(lm.lstat) # yes
+lm.medv = lm(crim~medv)
+summary(lm.medv) # yes
+```
+All, except chas. Plot each linear regression using "plot(lm)" to see
+residuals.
+
+15b.
+----
+```{r}
+lm.all = lm(crim~.-crim, data=Boston)
+summary(lm.all)
+```
+zn, dis, rad, black, medv
+
+15c.
+----
+```{r}
+x = c(coefficients(lm.zn)[2],
+      coefficients(lm.indus)[2],
+      coefficients(lm.chas)[2],
+      coefficients(lm.nox)[2],
+      coefficients(lm.rm)[2],
+      coefficients(lm.age)[2],
+      coefficients(lm.dis)[2],
+      coefficients(lm.rad)[2],
+      coefficients(lm.tax)[2],
+      coefficients(lm.ptratio)[2],
+      coefficients(lm.black)[2],
+      coefficients(lm.lstat)[2],
+      coefficients(lm.medv)[2])
+y = coefficients(lm.all)[2:14]
+plot(x, y)
+```
+Coefficient for nox is approximately -10 in univariate model and 31 in
+multiple regression model.
+
+15d.
+----
+```{r}
+lm.zn = lm(crim~poly(zn,3))
+summary(lm.zn) # 1, 2
+lm.indus = lm(crim~poly(indus,3))
+summary(lm.indus) # 1, 2, 3
+# lm.chas = lm(crim~poly(chas,3)) : qualitative predictor
+lm.nox = lm(crim~poly(nox,3))
+summary(lm.nox) # 1, 2, 3
+lm.rm = lm(crim~poly(rm,3))
+summary(lm.rm) # 1, 2
+lm.age = lm(crim~poly(age,3))
+summary(lm.age) # 1, 2, 3
+lm.dis = lm(crim~poly(dis,3))
+summary(lm.dis) # 1, 2, 3
+lm.rad = lm(crim~poly(rad,3))
+summary(lm.rad) # 1, 2
+lm.tax = lm(crim~poly(tax,3))
+summary(lm.tax) # 1, 2
+lm.ptratio = lm(crim~poly(ptratio,3))
+summary(lm.ptratio) # 1, 2, 3
+lm.black = lm(crim~poly(black,3))
+summary(lm.black) # 1
+lm.lstat = lm(crim~poly(lstat,3))
+summary(lm.lstat) # 1, 2
+lm.medv = lm(crim~poly(medv,3))
+summary(lm.medv) # 1, 2, 3
+```
+See inline comments above, the answer is yes for most, except for black and
+chas.
+
+
+
