@@ -1,0 +1,40 @@
+7
+========================================================
+$$
+p_k(x) = \frac {\pi_k
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
+               }
+               {\sum {
+                \pi_l
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
+               }}
+\\
+       = \frac {\pi_{yes}
+                \exp(- \frac {1} {2 \sigma^2}  (x - \mu_{yes})^2)
+               }
+               {\sum {
+                \pi_l
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
+               }}
+\\
+       = \frac {\pi_{yes} \exp(- \frac {1} {2 \sigma^2}  (x - \mu_{yes})^2)}
+               {
+                \pi_{yes} \exp(- \frac {1} {2 \sigma^2} (x - \mu_{yes})^2) +
+                \pi_{no}  \exp(- \frac {1} {2 \sigma^2}  (x - \mu_{no})^2)
+               }
+\\
+       = \frac {0.80 \exp(- \frac {1} {2 * 36}  (x - 10)^2)}
+               {
+                0.80 \exp(- \frac {1} {2 * 36} (x - 10)^2) +
+                0.20 \exp(- \frac {1} {2 * 36}  x^2)
+               }
+\\
+p_{yes}(4)  = \frac {0.80 \exp(- \frac {1} {2 * 36}  (4 - 10)^2)}
+               {
+                0.80 \exp(- \frac {1} {2 * 36} (4 - 10)^2) +
+                0.20 \exp(- \frac {1} {2 * 36}  4^2)
+               }
+        = 75.2\%
+$$
