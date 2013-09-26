@@ -1,0 +1,48 @@
+12
+========================================================
+
+### a
+```{r}
+Power = function() {
+  2^3
+}
+print(Power())
+```
+
+### b
+```{r}
+Power2 = function(x, a) {
+  x^a
+}
+Power2(3,8)
+```
+
+### c
+```{r}
+Power2(10, 3)
+Power2(8, 17)
+Power2(131, 3)
+```
+
+### d
+```{r}
+Power3 = function(x, a) {
+  result = x^a
+  return(result)
+}
+```
+
+### e
+```{r 12e}
+x = 1:10
+plot(x, Power3(x, 2),  log="xy", ylab="Log of y = x^2", xlab="Log of x",
+     main="Log of x^2 versus Log of x")
+```
+
+### f
+```{r 12f}
+PlotPower = function(x, a) {
+  plot(x, Power3(x, a))
+}
+PlotPower(1:10, 3)
+```
