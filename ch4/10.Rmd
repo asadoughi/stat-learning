@@ -1,0 +1,124 @@
+10
+========================================================
+
+### a
+
+```{r 10a}
+library(ISLR)
+summary(Weekly)
+pairs(Weekly)
+cor(Weekly[,-9])
+```
+
+Year and Volume appear to have a relationship. No other patterns are
+discernible.
+
+### b
+
+```{r}
+attach(Weekly)
+glm.fit = glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,
+              data=Weekly,
+              family=binomial)
+summary(glm.fit)
+```
+Lag 2 appears to have some statistical significance with a Pr(>|z|) = 3%.
+
+### c
+
+```{r}
+glm.probs = predict(glm.fit, type="response")
+glm.pred = rep("Down", length(glm.probs))
+glm.pred[glm.probs>.5] = "Up"
+table(glm.pred, Direction)
+```
+Percentage of currect predictions: (54+557)/(54+557+48+430) = 56.1%. Weeks the 
+market goes up the logistic regression is right most of the time, 557/(557+48)
+= 92.1%. Weeks the market goes up the logistic regression is wrong most of the
+time 54/(430+54) = 11.2%.
+
+### d
+```{r}
+train = (Year < 2009)
+Weekly.0910 = Weekly[!train,]
+glm.fit = glm(Direction~Lag2,
+              data=Weekly,
+              family=binomial,
+              subset=train)
+glm.probs = predict(glm.fit, Weekly.0910,type="response")
+glm.pred = rep("Down", length(glm.probs))
+glm.pred[glm.probs>.5] = "Up"
+Direction.0910 = Direction[!train]
+table(glm.pred, Direction.0910)
+mean(glm.pred == Direction.0910)
+```
+
+### e
+```{r}
+library(MASS)
+lda.fit = lda(Direction ~ Lag2, data=Weekly, subset=train)
+lda.pred = predict(lda.fit, Weekly.0910)
+table(lda.pred$class, Direction.0910)
+mean(lda.pred$class == Direction.0910)
+```
+
+## f
+```{r}
+qda.fit = qda(Direction~Lag2, data=Weekly, subset=train)
+qda.class = predict(qda.fit, Weekly.0910)$class
+table(qda.class, Direction.0910)
+mean(qda.class == Direction.0910)
+```
+A correctness of 58.7% even though it picked Up the whole time!
+
+### g
+```{r}
+library(class)
+train.X = as.matrix(Lag2[train])
+test.X = as.matrix(Lag2[!train])
+train.Direction = Direction[train]
+set.seed(1)
+knn.pred = knn(train.X, test.X, train.Direction, k=1)
+table(knn.pred, Direction.0910)
+mean(knn.pred == Direction.0910)
+```
+
+### h
+Logistic regression and LDA methods provide similar test error rates.
+
+### i
+```{r 10i}
+# Logistic regression with Lag2:Lag1
+glm.fit = glm(Direction~Lag2:Lag1, data=Weekly, family=binomial, subset=train)
+glm.probs = predict(glm.fit, Weekly.0910, type="response")
+glm.pred = rep("Down", length(glm.probs))
+glm.pred[glm.probs>.5] = "Up"
+Direction.0910 = Direction[!train]
+table(glm.pred, Direction.0910)
+mean(glm.pred == Direction.0910)
+
+# LDA with Lag2 interaction with Lag1
+lda.fit = lda(Direction ~ Lag2:Lag1, data=Weekly, subset=train)
+lda.pred = predict(lda.fit, Weekly.0910)
+mean(lda.pred$class == Direction.0910)
+
+# QDA with sqrt(abs(Lag2))
+qda.fit = qda(Direction~Lag2+sqrt(abs(Lag2)), data=Weekly, subset=train)
+qda.class = predict(qda.fit, Weekly.0910)$class
+table(qda.class, Direction.0910)
+mean(qda.class == Direction.0910)
+
+# KNN k =10
+knn.pred = knn(train.X, test.X, train.Direction, k=10)
+table(knn.pred, Direction.0910)
+mean(knn.pred == Direction.0910)
+
+# KNN k = 100
+knn.pred = knn(train.X, test.X, train.Direction, k=100)
+table(knn.pred, Direction.0910)
+mean(knn.pred == Direction.0910)
+```
+Out of these permutations, the original LDA and logistic regression have better
+performance in terms of test error rate.
+
+
