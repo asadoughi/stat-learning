@@ -1,0 +1,56 @@
+Chapter 5: Exercise 5
+========================================================
+
+```{r}
+library(ISLR)
+summary(Default)
+attach(Default)
+```
+
+### a
+```{r}
+set.seed(1)
+glm.fit = glm(default~income+balance, data=Default, family=binomial)
+```
+
+### b
+```{r}
+FiveB = function() {
+# i.
+train = sample(dim(Default)[1], dim(Default)[1]/2)
+# ii.
+glm.fit = glm(default~income+balance, data=Default, family=binomial,
+              subset=train)
+# iii.
+glm.pred = rep("No", dim(Default)[1]/2)
+glm.probs = predict(glm.fit, Default[-train,], type="response")
+glm.pred[glm.probs>.5] = "Yes"
+# iv.
+return(mean(glm.pred != Default[-train,]))
+}
+FiveB()
+```
+58.2% test error rate from validation set approach.
+
+### c
+```{r}
+FiveB()
+FiveB()
+FiveB()
+```
+It seems to average around 58% test error rate.
+
+### d
+```{r}
+train = sample(dim(Default)[1], dim(Default)[1]/2)
+glm.fit = glm(default~income+balance+student, data=Default, family=binomial,
+              subset=train)
+glm.pred = rep("No", dim(Default)[1]/2)
+glm.probs = predict(glm.fit, Default[-train,], type="response")
+glm.pred[glm.probs>.5] = "Yes"
+mean(glm.pred != Default[-train,])
+```
+58.1% test error rate, with student dummy variable. Using the validation set
+approach, it doesn't appear adding the student dummy variable leads to a
+reduction in the test error rate.
+
