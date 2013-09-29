@@ -1,0 +1,47 @@
+Chapter 5: Exercise 7
+========================================================
+
+```{r}
+library(ISLR)
+summary(Weekly)
+set.seed(1)
+attach(Weekly)
+```
+
+### a
+```{r}
+glm.fit = glm(Direction~Lag1+Lag2, data=Weekly, family=binomial)
+summary(glm.fit)
+```
+
+### b
+```{r}
+glm.fit = glm(Direction~Lag1+Lag2, data=Weekly[-1,], family=binomial)
+summary(glm.fit)
+```
+
+### c
+```{r}
+predict.glm(glm.fit, Weekly[1,], type="response") > 0.5
+```
+Prediction was UP, true Direction was DOWN.
+
+### d
+```{r}
+count = rep(0, dim(Weekly)[1])
+for (i in 1:(dim(Weekly)[1])) {
+   glm.fit = glm(Direction~Lag1+Lag2, data=Weekly[-i,], family=binomial)
+   is_up = predict.glm(glm.fit, Weekly[i,], type="response") > 0.5
+   is_true_up = Weekly[i,]$Direction == "Up"
+   if (is_up != is_true_up)
+     count[i] = 1
+}
+sum(count)
+```
+490 errors.
+
+### e
+```{r}
+mean(count)
+```
+LOOCV estimates a test error rate of 45%. 
