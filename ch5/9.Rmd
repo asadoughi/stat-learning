@@ -1,0 +1,64 @@
+Chapter 5: Exercise 9
+========================================================
+
+```{r}
+library(MASS)
+summary(Boston)
+set.seed(1)
+attach(Boston)
+```
+
+### a
+```{r}
+medv.mean = mean(medv)
+medv.mean
+```
+
+### b
+```{r}
+medv.err = sd(medv) / sqrt(length(medv))
+medv.err
+```
+
+### c
+```{r}
+boot.fn = function(data, index) return(mean(data[index]))
+library(boot)
+bstrap = boot(medv, boot.fn, 1000)
+bstrap
+```
+Similar to answer from (b) up to two significant digits. (0.4119 vs 0.4089)
+
+### d
+```{r}
+t.test(medv)
+c(bstrap$t0 - 2*0.4119, bstrap$t0 + 2*0.4119)
+```
+Bootstrap estimate only 0.02 away for t.test estimate.
+
+### e
+```{r}
+medv.med = median(medv)
+medv.med
+```
+
+### f
+```{r}
+boot.fn = function(data, index) return(median(data[index]))
+boot(medv, boot.fn, 1000)
+```
+Median of 21.2 with SE of 0.380. Small standard error relative to median value.
+
+### g
+```{r}
+medv.tenth = quantile(medv, c(0.1))
+medv.tenth
+```
+
+### h
+```{r}
+boot.fn = function(data, index) return(quantile(data[index], c(0.1)))
+boot(medv, boot.fn, 1000)
+```
+Tenth-percentile of 12.75 with SE of 0.511. Small standard error relative to
+tenth-percentile value.
