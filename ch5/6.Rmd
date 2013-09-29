@@ -1,0 +1,32 @@
+Chapter 5: Exercise 6
+========================================================
+
+```{r}
+library(ISLR)
+summary(Default)
+attach(Default)
+```
+
+### a
+```{r}
+set.seed(1)
+glm.fit = glm(default~income+balance, data=Default, family=binomial)
+summary(glm.fit)
+```
+
+### b
+```{r}
+boot.fn = function(data, index)
+  return(coef(glm(default~income+balance, data=data, family=binomial,
+                  subset=index)))
+```
+
+### c
+```{r}
+library(boot)
+boot(Default, boot.fn, 50)
+```
+
+### d
+Similar answers to the second and third significant digits.
+
