@@ -1,0 +1,10 @@
+Chapter 5: Exercise 4
+========================================================
+
+If we suppose using some statistical learning method to make a prediction for
+the response $Y$ for a particular value of the predictor $X$ we might estimate 
+the standard deviation of our prediction by using the bootstrap approach. The
+bootstrap approach works by repeatedly sampling observations (with replacement)
+from the original data set $B$ times, for some large value of $B$, each time
+fitting a new model and subsequently obtaining the RMSE of the estimates for all
+$B$ models.
