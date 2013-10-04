@@ -1,0 +1,20 @@
+Chapter 6: Exercise 1
+========================================================
+
+### a
+Best subset selection has the smallest training RSS because the other two 
+methods determine models with a path dependency on which predictors they pick
+first as they iterate to the k'th model.
+
+### b (*)
+Best subset selection may have the smallest test RSS because it considers more
+models then the other methods. However, the other models might have better luck
+picking a model that fits the test data better.
+
+### c
+i. True.
+ii. True.
+iii. False.
+iv. False.
+v. False.
+
