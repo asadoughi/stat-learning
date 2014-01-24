@@ -6,7 +6,7 @@ large sample size a better fit than an inflexible approach would be obtained
 (c) better - with more degrees of freedom, a flexible model would obtain a
 better fit
 
-(d) worse - flexible methods increase variance
+(d) worse - flexible methods fit to the noise in the error terms and increase variance
 
 
 2. (a) regression. inference. qualitative output of CEO salary based on CEO
