@@ -14,7 +14,7 @@ firm's features.
 n - 500 firms in the US
 p - profit, number of employees, industry, CEO salary
 
-(b) classication. prediction. predicting new product's success or failure.
+(b) classification. prediction. predicting new product's success or failure.
 n - 20 similar products previously launched
 p - success/failure, price charged, marketing budget, comp. price, ten other
 variables
@@ -33,10 +33,10 @@ yield a closer fit
 ii. variance - increases monotonically because increases in flexibility yield
 overfit
 
-iii. training error - decreases monotonically because increases in flexiblity
+iii. training error - decreases monotonically because increases in flexibility
 yield a closer fit
 
-iv. test error - concave up curve because increase in flexibilty yields a closer
+iv. test error - concave up curve because increase in flexibility yields a closer
 fit before it overfits
 
 v. Bayes (irreducible) error - probability determined from class overlap from
@@ -79,10 +79,10 @@ The disadvantages for a very flexible approach for regression or classification
 are requires estimating a greater number of parameters, follow the noise too
 closely (overfit), increasing variance.
 
-A more flexibile approach would be preferred to a less flexible approach when we
+A more flexible approach would be preferred to a less flexible approach when we
 are interested in prediction and not the interpretability of the results.
 
-A less flexible approach would be preferred to a more flexible appraoch when we
+A less flexible approach would be preferred to a more flexible approach when we
 are interested in inference and the interpretability of the results.
 
 
@@ -96,7 +96,7 @@ The advantages of a parametric approach to regression or classification are the
 simplifying of modeling f to a few parameters and not as many observations are
 required compared to a non-parametric approach.
 
-The disadvantages of a parametric appraoch to regression or classification
+The disadvantages of a parametric approach to regression or classification
 are a potential to inaccurately estimate f if the form of f assumed is wrong or
 to overfit the observations if more flexible models are used.
 
