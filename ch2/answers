@@ -12,17 +12,15 @@ better fit
 2. (a) regression. inference. qualitative output of CEO salary based on CEO
 firm's features.
 n - 500 firms in the US
-p - profit, number of employees, industry, CEO salary
+p - profit, number of employees, industry
 
 (b) classication. prediction. predicting new product's success or failure.
 n - 20 similar products previously launched
-p - success/failure, price charged, marketing budget, comp. price, ten other
-variables
+p - price charged, marketing budget, comp. price, ten other variables
 
 (c) regression. prediction. qualitative output of % change
 n - 52 weeks of 2012 weekly data
-p - % change in dollar, % change in US market, % change in British market,
-% change in German market
+p - % change in US market, % change in British market, % change in German market
 
 
 3. (a) See 3a.jpg.
