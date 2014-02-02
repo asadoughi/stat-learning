@@ -9,7 +9,7 @@ better fit
 (d) worse - flexible methods fit to the noise in the error terms and increase variance
 
 
-2. (a) regression. inference. qualitative output of CEO salary based on CEO
+2. (a) regression. inference. quantitative output of CEO salary based on CEO
 firm's features.
 n - 500 firms in the US
 p - profit, number of employees, industry

@@ -44,8 +44,8 @@ summary(Auto)
 
 # (a)
 # quantitative: mpg, cylinders, displacement, horsepower, weight,
-# acceleration, year, origin
-# qualitative: name
+# acceleration, year
+# qualitative: name, origin
 
 # (b)
 range(Auto$mpg)
@@ -62,8 +62,8 @@ range(Auto$acceleration)
 # 8.0 24.8
 range(Auto$year)
 # 70 82
-range(Auto$origin)
-# 1 3
+sapply(Auto[, 1:7], range)
+# see all of them at once
 
 # (c)
 mean(Auto$mpg); sd(Auto$mpg)
@@ -80,8 +80,9 @@ mean(Auto$acceleration); sd(Auto$acceleration)
 # 15.54133 2.758864
 mean(Auto$year); sd(Auto$year)
 # 75.97959 3.683737
-mean(Auto$origin); sd(Auto$origin)
-# 1.576531 0.8055182
+sapply(Auto[, 1:7], mean)
+sapply(Auto[, 1:7], sd)
+# see all of them at once
 
 # (d)
 newAuto = Auto[-(10:85),]
