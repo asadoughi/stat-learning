@@ -147,6 +147,9 @@ pairs(Auto)
 library(MASS)
 ?Boston
 dim(Boston)
+# 506 rows, 14 columns
+# 14 features, 506 housing values in Boston suburbs
+
 
 # (b)
 pairs(Boston)
@@ -171,71 +174,46 @@ plot(Boston$ptratio, Boston$crim)
 # Higher pupil:teacher ratio, more crime
 
 # (d)
-suburbs = rep("No", nrow(Boston))
-suburbs[Boston$zn>50] = "Yes"
-suburbs = as.factor(suburbs)
-Boston = data.frame(Boston, suburbs)
-plot(Boston$suburbs, Boston$crim)
-# It doesn't appear that highly residential areas are subject to as much crime
 range(Boston$crim)
-# Virtually 0 to 88.98, with no values higher than 20 in suburbs.
-plot(Boston$suburbs, Boston$tax)
-# It doesn't appear that highly residential areas are subject to more tax
+# Virtually 0 to 88.98; very wide range: two orders of magnitude
 range(Boston$tax)
-# 187 to 711, 2 urban areas are particularly at the high end, followed by
-# 1 suburban town in third
-plot(Boston$suburbs, Boston$ptratio)
-# Yes, it appears that some highly residential areas have high P:T ratios.
+# 187 to 711; not as wide of a range as crime rate
 range(Boston$ptratio)
-# 12.6 to 22.0; a suburb at 80% residential has highest P:T ratio
+# 12.6 to 22.0; not as wide of a range as crime rate
 
 # (e)
-subset(Boston, suburbs == "Yes" & chas == 1)
-# Only 1.
+dim(subset(Boston, chas == 1))
+# 35 suburbs
 
 # (f)
 median(Boston$ptratio)
 # 19.05
 
 # (g)
-burbs = subset(Boston, suburbs == "Yes")
-t(subset(burbs, medv == min(burbs$medv)))
+> t(subset(Boston, medv == min(Boston$medv)))
+#              399      406
+# crim     38.3518  67.9208 above 3rd quartile
+# zn        0.0000   0.0000 at min
+# indus    18.1000  18.1000 at 3rd quartile
+# chas      0.0000   0.0000 not bounded by river
+# nox       0.6930   0.6930 above 3rd quartile
+# rm        5.4530   5.6830 below 1st quartile
+# age     100.0000 100.0000 at max
+# dis       1.4896   1.4254 below 1st quartile
+# rad      24.0000  24.0000 at max
+# tax     666.0000 666.0000 at 3rd quartile
+# ptratio  20.2000  20.2000 at 3rd quartile
+# black   396.9000 384.9700 at max; above 1st quartile
+# lstat    30.5900  22.9800 above 3rd quartile
+# medv      5.0000   5.0000 at min
 summary(Boston)
-# crim    "0.04301" below 1st quartile
-# zn      "80"      above 3rd quartile
-# indus   "1.91"    below 1st quartile
-# chas    "0"       not near river, like most towns
-# nox     "0.413"   below 1st quartile
-# rm      "5.663"   below 1st q.
-# age     "21.9"    below 1st q.
-# dis     "10.5857" above 3rd q.
-# rad     "4"       at 1st q.
-# tax     "334"     near median
-# ptratio "22"      highest pt ratio in Boston
-# black   "382.8"   between 1st q. and median
-# lstat   "8.05"    between 1st q. and median
-# medv    "18.2"    between 1st q. and median
 # Not the best place to live, but certainly not the worst.
 
 # (h)
-dim(subset(burbs, rm > 7))
-# 15
-dim(subset(burbs, rm > 8))
-# 1
-t(subset(burbs, rm > 8))
-# crim    "0.02009" low crime
-# zn      "95"      highly residential
-# indus   "2.68"    low industrial use
-# chas    "0"       not near river, like most
-# nox     "0.4161"  low NOX
-# rm      "8.034"
-# age     "31.9"    younger homes
-# dis     "5.118"   at 3rd q.; fairly distant
-# rad     "4"       relatively accessible by highway
-# tax     "224"     low tax rate
-# ptratio "14.7"    low (good) p:t ratio
-# black   "390.55"  around median proportion of blacks
-# lstat   "2.88"    below 1st q.; low lower status of population
-# medv    "50"      highest value of all Boston
-# I am guessing this is near colleges/universities, such that dorms consist of
-# 8+ people per home. Just a guess.
+dim(subset(Boston, rm > 7))
+# 64
+dim(subset(Boston, rm > 8))
+# 13
+summary(subset(Boston, rm > 8))
+summary(Boston)
+# relatively lower crime (comparing range), lower lstat (comparing range)
