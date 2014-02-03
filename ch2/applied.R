@@ -48,41 +48,24 @@ summary(Auto)
 # qualitative: name, origin
 
 # (b)
-range(Auto$mpg)
-# 9.0 46.6
-range(Auto$cylinders)
-# 3 8
-range(Auto$displacement)
-# 68 455
-range(Auto$horsepower)
-# 46 230
-range(Auto$weight)
-# 1613 5140
-range(Auto$acceleration)
-# 8.0 24.8
-range(Auto$year)
-# 70 82
+# apply the range function to the first seven columns of Auto
 sapply(Auto[, 1:7], range)
-# see all of them at once
+#       mpg cylinders displacement horsepower weight acceleration year
+# [1,]  9.0         3           68         46   1613          8.0   70
+# [2,] 46.6         8          455        230   5140         24.8   82
 
 # (c)
-mean(Auto$mpg); sd(Auto$mpg)
-# 23.44592 7.805007
-mean(Auto$cylinders); sd(Auto$cylinders)
-# 5.471939 1.705783
-mean(Auto$displacement); sd(Auto$displacement)
-# 194.412 104.644
-mean(Auto$horsepower); sd(Auto$horsepower)
-# 104.4694 38.49116
-mean(Auto$weight); sd(Auto$weight)
-# 2977.584 849.4026
-mean(Auto$acceleration); sd(Auto$acceleration)
-# 15.54133 2.758864
-mean(Auto$year); sd(Auto$year)
-# 75.97959 3.683737
 sapply(Auto[, 1:7], mean)
+#         mpg    cylinders displacement   horsepower       weight acceleration 
+#   23.445918     5.471939   194.411990   104.469388  2977.584184    15.541327 
+#        year 
+#   75.979592
+
 sapply(Auto[, 1:7], sd)
-# see all of them at once
+#         mpg    cylinders displacement   horsepower       weight acceleration 
+#    7.805007     1.705783   104.644004    38.491160   849.402560     2.758864 
+#        year 
+#    3.683737
 
 # (d)
 newAuto = Auto[-(10:85),]
