@@ -14,7 +14,7 @@ firm's features.
 n - 500 firms in the US
 p - profit, number of employees, industry
 
-(b) classification. prediction. predicting new product's success or failure.
+(b) classification or regression. prediction. predicting new product's success or failure.
 n - 20 similar products previously launched
 p - price charged, marketing budget, comp. price, ten other variables
 
