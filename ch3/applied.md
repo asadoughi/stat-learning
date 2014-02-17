@@ -350,11 +350,12 @@ library(ISLR)
 ```
 
 ```
+## 
 ## Attaching package: 'ISLR'
 ## 
 ## The following object is masked _by_ '.GlobalEnv':
 ## 
-## Auto
+##     Auto
 ```
 
 ```r
@@ -705,30 +706,29 @@ squares of the observed x-values.
 set.seed(1)
 x = rnorm(100)
 y = 2 * x
-lm.fit = lm(y ~ x)
-lm.fit2 = lm(x ~ y)
+lm.fit = lm(y ~ x + 0)
+lm.fit2 = lm(x ~ y + 0)
 summary(lm.fit)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = y ~ x)
+## lm(formula = y ~ x + 0)
 ## 
 ## Residuals:
 ##       Min        1Q    Median        3Q       Max 
-## -3.95e-16 -3.99e-17  2.60e-18  2.95e-17  4.03e-16 
+## -3.78e-16 -3.38e-17  2.70e-18  6.11e-17  5.11e-16 
 ## 
 ## Coefficients:
-##              Estimate Std. Error   t value Pr(>|t|)    
-## (Intercept) -4.44e-17   1.09e-17 -4.06e+00    1e-04 ***
-## x            2.00e+00   1.22e-17  1.64e+17   <2e-16 ***
+##   Estimate Std. Error  t value Pr(>|t|)    
+## x  2.0e+00    1.3e-17 1.54e+17   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.09e-16 on 98 degrees of freedom
+## Residual standard error: 1.17e-16 on 99 degrees of freedom
 ## Multiple R-squared:     1,	Adjusted R-squared:     1 
-## F-statistic: 2.71e+34 on 1 and 98 DF,  p-value: <2e-16
+## F-statistic: 2.38e+34 on 1 and 99 DF,  p-value: <2e-16
 ```
 
 ```r
@@ -738,22 +738,21 @@ summary(lm.fit2)
 ```
 ## 
 ## Call:
-## lm(formula = x ~ y)
+## lm(formula = x ~ y + 0)
 ## 
 ## Residuals:
 ##       Min        1Q    Median        3Q       Max 
-## -1.97e-16 -2.00e-17  1.29e-18  1.47e-17  2.01e-16 
+## -1.89e-16 -1.69e-17  1.34e-18  3.06e-17  2.55e-16 
 ## 
 ## Coefficients:
-##              Estimate Std. Error   t value Pr(>|t|)    
-## (Intercept) -2.22e-17   5.47e-18 -4.06e+00    1e-04 ***
-## y            5.00e-01   3.04e-18  1.64e+17   <2e-16 ***
+##   Estimate Std. Error  t value Pr(>|t|)    
+## y 5.00e-01   3.24e-18 1.54e+17   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 5.43e-17 on 98 degrees of freedom
+## Residual standard error: 5.83e-17 on 99 degrees of freedom
 ## Multiple R-squared:     1,	Adjusted R-squared:     1 
-## F-statistic: 2.71e+34 on 1 and 98 DF,  p-value: <2e-16
+## F-statistic: 2.38e+34 on 1 and 99 DF,  p-value: <2e-16
 ```
 
 The regression coefficients are different for each linear regression.
@@ -763,32 +762,45 @@ The regression coefficients are different for each linear regression.
 
 ```r
 set.seed(1)
-x = rnorm(100)
-y = x
-lm.fit = lm(y ~ x)
-lm.fit2 = lm(x ~ y)
+x <- rnorm(100)
+y <- -sample(x, 100)
+sum(x^2)
+```
+
+```
+## [1] 81.06
+```
+
+```r
+sum(y^2)
+```
+
+```
+## [1] 81.06
+```
+
+```r
+lm.fit <- lm(y ~ x + 0)
+lm.fit2 <- lm(x ~ y + 0)
 summary(lm.fit)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = y ~ x)
+## lm(formula = y ~ x + 0)
 ## 
 ## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -1.97e-16 -2.00e-17  1.29e-18  1.47e-17  2.01e-16 
+##    Min     1Q Median     3Q    Max 
+## -2.393 -0.688 -0.103  0.512  2.232 
 ## 
 ## Coefficients:
-##              Estimate Std. Error   t value Pr(>|t|)    
-## (Intercept) -2.22e-17   5.47e-18 -4.06e+00    1e-04 ***
-## x            1.00e+00   6.08e-18  1.64e+17   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##   Estimate Std. Error t value Pr(>|t|)
+## x  -0.0215     0.1005   -0.21     0.83
 ## 
-## Residual standard error: 5.43e-17 on 98 degrees of freedom
-## Multiple R-squared:     1,	Adjusted R-squared:     1 
-## F-statistic: 2.71e+34 on 1 and 98 DF,  p-value: <2e-16
+## Residual standard error: 0.905 on 99 degrees of freedom
+## Multiple R-squared:  0.000461,	Adjusted R-squared:  -0.00963 
+## F-statistic: 0.0457 on 1 and 99 DF,  p-value: 0.831
 ```
 
 ```r
@@ -798,26 +810,25 @@ summary(lm.fit2)
 ```
 ## 
 ## Call:
-## lm(formula = x ~ y)
+## lm(formula = x ~ y + 0)
 ## 
 ## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -1.97e-16 -2.00e-17  1.29e-18  1.47e-17  2.01e-16 
+##    Min     1Q Median     3Q    Max 
+## -2.240 -0.515  0.121  0.679  2.396 
 ## 
 ## Coefficients:
-##              Estimate Std. Error   t value Pr(>|t|)    
-## (Intercept) -2.22e-17   5.47e-18 -4.06e+00    1e-04 ***
-## y            1.00e+00   6.08e-18  1.64e+17   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##   Estimate Std. Error t value Pr(>|t|)
+## y  -0.0215     0.1005   -0.21     0.83
 ## 
-## Residual standard error: 5.43e-17 on 98 degrees of freedom
-## Multiple R-squared:     1,	Adjusted R-squared:     1 
-## F-statistic: 2.71e+34 on 1 and 98 DF,  p-value: <2e-16
+## Residual standard error: 0.905 on 99 degrees of freedom
+## Multiple R-squared:  0.000461,	Adjusted R-squared:  -0.00963 
+## F-statistic: 0.0457 on 1 and 99 DF,  p-value: 0.831
 ```
 
-(*) This is a bit contrived so I am not sure about the answer. I'm not sure how
-else I could reach the condition as specified in 12a.
+The regression coefficients are the same for each linear regression. 
+So long as sum sum(x^2) = sum(y^2) the condition in 12a. will be satisfied.
+Here we have simply taken all the $x_i$ in a different order and made them
+negative.
 
 13a.
 ----
@@ -1345,12 +1356,74 @@ Looking at the studentized residuals, we don't observe points too far from the
 
 ```r
 library(MASS)
-names(Boston)
+summary(Boston)
 ```
 
 ```
-##  [1] "crim"    "zn"      "indus"   "chas"    "nox"     "rm"      "age"    
-##  [8] "dis"     "rad"     "tax"     "ptratio" "black"   "lstat"   "medv"
+##       crim             zn            indus            chas       
+##  Min.   : 0.01   Min.   :  0.0   Min.   : 0.46   Min.   :0.0000  
+##  1st Qu.: 0.08   1st Qu.:  0.0   1st Qu.: 5.19   1st Qu.:0.0000  
+##  Median : 0.26   Median :  0.0   Median : 9.69   Median :0.0000  
+##  Mean   : 3.61   Mean   : 11.4   Mean   :11.14   Mean   :0.0692  
+##  3rd Qu.: 3.68   3rd Qu.: 12.5   3rd Qu.:18.10   3rd Qu.:0.0000  
+##  Max.   :88.98   Max.   :100.0   Max.   :27.74   Max.   :1.0000  
+##       nox              rm            age             dis       
+##  Min.   :0.385   Min.   :3.56   Min.   :  2.9   Min.   : 1.13  
+##  1st Qu.:0.449   1st Qu.:5.89   1st Qu.: 45.0   1st Qu.: 2.10  
+##  Median :0.538   Median :6.21   Median : 77.5   Median : 3.21  
+##  Mean   :0.555   Mean   :6.29   Mean   : 68.6   Mean   : 3.79  
+##  3rd Qu.:0.624   3rd Qu.:6.62   3rd Qu.: 94.1   3rd Qu.: 5.19  
+##  Max.   :0.871   Max.   :8.78   Max.   :100.0   Max.   :12.13  
+##       rad             tax         ptratio         black      
+##  Min.   : 1.00   Min.   :187   Min.   :12.6   Min.   :  0.3  
+##  1st Qu.: 4.00   1st Qu.:279   1st Qu.:17.4   1st Qu.:375.4  
+##  Median : 5.00   Median :330   Median :19.1   Median :391.4  
+##  Mean   : 9.55   Mean   :408   Mean   :18.5   Mean   :356.7  
+##  3rd Qu.:24.00   3rd Qu.:666   3rd Qu.:20.2   3rd Qu.:396.2  
+##  Max.   :24.00   Max.   :711   Max.   :22.0   Max.   :396.9  
+##      lstat            medv     
+##  Min.   : 1.73   Min.   : 5.0  
+##  1st Qu.: 6.95   1st Qu.:17.0  
+##  Median :11.36   Median :21.2  
+##  Mean   :12.65   Mean   :22.5  
+##  3rd Qu.:16.95   3rd Qu.:25.0  
+##  Max.   :37.97   Max.   :50.0
+```
+
+```r
+Boston$chas <- factor(Boston$chas, labels = c("N", "Y"))
+summary(Boston)
+```
+
+```
+##       crim             zn            indus       chas         nox       
+##  Min.   : 0.01   Min.   :  0.0   Min.   : 0.46   N:471   Min.   :0.385  
+##  1st Qu.: 0.08   1st Qu.:  0.0   1st Qu.: 5.19   Y: 35   1st Qu.:0.449  
+##  Median : 0.26   Median :  0.0   Median : 9.69           Median :0.538  
+##  Mean   : 3.61   Mean   : 11.4   Mean   :11.14           Mean   :0.555  
+##  3rd Qu.: 3.68   3rd Qu.: 12.5   3rd Qu.:18.10           3rd Qu.:0.624  
+##  Max.   :88.98   Max.   :100.0   Max.   :27.74           Max.   :0.871  
+##        rm            age             dis             rad       
+##  Min.   :3.56   Min.   :  2.9   Min.   : 1.13   Min.   : 1.00  
+##  1st Qu.:5.89   1st Qu.: 45.0   1st Qu.: 2.10   1st Qu.: 4.00  
+##  Median :6.21   Median : 77.5   Median : 3.21   Median : 5.00  
+##  Mean   :6.29   Mean   : 68.6   Mean   : 3.79   Mean   : 9.55  
+##  3rd Qu.:6.62   3rd Qu.: 94.1   3rd Qu.: 5.19   3rd Qu.:24.00  
+##  Max.   :8.78   Max.   :100.0   Max.   :12.13   Max.   :24.00  
+##       tax         ptratio         black           lstat      
+##  Min.   :187   Min.   :12.6   Min.   :  0.3   Min.   : 1.73  
+##  1st Qu.:279   1st Qu.:17.4   1st Qu.:375.4   1st Qu.: 6.95  
+##  Median :330   Median :19.1   Median :391.4   Median :11.36  
+##  Mean   :408   Mean   :18.5   Mean   :356.7   Mean   :12.65  
+##  3rd Qu.:666   3rd Qu.:20.2   3rd Qu.:396.2   3rd Qu.:16.95  
+##  Max.   :711   Max.   :22.0   Max.   :396.9   Max.   :37.97  
+##       medv     
+##  Min.   : 5.0  
+##  1st Qu.:17.0  
+##  Median :21.2  
+##  Mean   :22.5  
+##  3rd Qu.:25.0  
+##  Max.   :50.0
 ```
 
 ```r
@@ -1408,7 +1481,7 @@ summary(lm.indus)  # yes
 
 ```r
 lm.chas = lm(crim ~ chas)
-summary(lm.chas)  # no
+summary(lm.chas)  # yes
 ```
 
 ```
@@ -1423,7 +1496,7 @@ summary(lm.chas)  # no
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept)    3.744      0.396    9.45   <2e-16 ***
-## chas          -1.893      1.506   -1.26     0.21    
+## chasY         -1.893      1.506   -1.26     0.21    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -1692,21 +1765,21 @@ summary(lm.medv)  # yes
 ## F-statistic: 89.5 on 1 and 504 DF,  p-value: <2e-16
 ```
 
-All, except chas. Plot each linear regression using "plot(lm)" to see
+All. Plot each linear regression using "plot(lm)" to see
 residuals.
 
 15b.
 ----
 
 ```r
-lm.all = lm(crim ~ . - crim, data = Boston)
+lm.all = lm(crim ~ ., data = Boston)
 summary(lm.all)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = crim ~ . - crim, data = Boston)
+## lm(formula = crim ~ ., data = Boston)
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
@@ -1717,7 +1790,7 @@ summary(lm.all)
 ## (Intercept)  17.03323    7.23490    2.35   0.0189 *  
 ## zn            0.04486    0.01873    2.39   0.0170 *  
 ## indus        -0.06385    0.08341   -0.77   0.4443    
-## chas         -0.74913    1.18015   -0.63   0.5259    
+## chasY        -0.74913    1.18015   -0.63   0.5259    
 ## nox         -10.31353    5.27554   -1.95   0.0512 .  
 ## rm            0.43013    0.61283    0.70   0.4831    
 ## age           0.00145    0.01793    0.08   0.9355    

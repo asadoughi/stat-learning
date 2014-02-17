@@ -1,6 +1,7 @@
 2
 ========================================================
 
+Assuming that $f_k(x)$ is normal, the probability that an observation $x$ is in class $k$ is given by
 $$
 p_k(x) = \frac {\pi_k
                 \frac {1} {\sqrt{2 \pi} \sigma}
@@ -12,50 +13,61 @@ p_k(x) = \frac {\pi_k
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
                }}
 $$
-
-$\frac {1} {\sqrt{2 \pi} \sigma}$ cancels out.
-
+while the discriminant function is given by
 $$
-p_k(x) = \frac {\pi_k
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
-               }
-               {\sum {
-                \pi_l
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
-\\
-       = \frac {\pi_k
-                \exp(- \frac {1} {2 \sigma^2} (x^2 - 2\mu_k x  + \mu_k^2))
-               }
-               {\sum {
-                \pi_l
-                \exp(- \frac {1} {2 \sigma^2} (x^2 - 2\mu_l x + \mu_l^2))
-               }}
-$$
-
-$x^2$ cancels out.
-
-$$
-p_k(x) = \frac {\pi_k
-                \exp(\frac {1} {2 \sigma^2} (2\mu_k x - \mu_k^2))
-               }
-               {\sum {
-                \pi_l
-                \exp(\frac {1} {2 \sigma^2} (2\mu_l x - \mu_l^2))
-               }}
-\\
-\log(p_k(x)) = \frac {\log(\pi_k) +
-                      \frac {1} {2 \sigma^2} (2\mu_k x - \mu_k^2)
-                     }
-                     {\log(\sum {
-                      \pi_l
-                      \exp(\frac {1} {2 \sigma^2} (2\mu_l x - \mu_l^2))
-                     })}
-\\
-\log(p_k(x)) 
-\log(\sum {\pi_l \exp(\frac {1} {2 \sigma^2} (2\mu_l x - \mu_l^2))})
-= \log(\pi_k) + \frac {1} {2 \sigma^2} (2\mu_k x - \mu_k^2)
-\\
 \delta_k(x) = x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2}
               + \log(\pi_k)
+$$            
+
+*Claim: Maximizing $p_k(x)$ is equivalent to maximizing $\delta_k(x)$.*
+
+*Proof.* Let $x$ remain fixed and observe that we are maximizing over the parameter $k$. Suppose that $\delta_k(x) \geq \delta_i(x)$. We will show that $f_k(x) \geq f_i(x)$. From our assumption we have
 $$
+x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2} + \log(\pi_k)
+\geq
+x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2} + \log(\pi_i).
+$$
+Exponentiation is a monotonically increasing function, so the following inequality holds
+$$
+\pi_k \exp (x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2})
+\geq
+\pi_i \exp (x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2})
+$$
+Multipy this inequality by the positive constant
+$$
+c = \frac {
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} x^2)
+               }
+               {\sum {
+                \pi_l
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
+               }}
+$$
+and we have that
+$$
+
+\frac {\pi_k
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
+               }
+               {\sum {
+                \pi_l
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
+               }}
+               
+\geq
+
+\frac {\pi_i
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_i)^2)
+               }
+               {\sum {
+                \pi_l
+                \frac {1} {\sqrt{2 \pi} \sigma}
+                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
+               }}
+$$
+or equivalently, $f_k(x) \geq f_i(x)$. Reversing these steps also holds, so we have that maximizing $\delta_k$ is equivalent to maximizing $p_k$.
