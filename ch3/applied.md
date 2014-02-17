@@ -74,11 +74,12 @@ is close to zero we can reject the null hypothesis and state there is a
 statistically significant relationship between horsepower and mpg.
 
 ### ii.
-The mean of horsepower is `104.4694` horses. The RSE of
-the lm.fit was `4.906` which indicates a percentage error of
-`4.6961`%. The $R^2$ of the lm.fit was
-about `0.6059`, meaning `60.5948`%
-of the variance in mpg is explained by horsepower.
+To calculate the residual error relative to the response we use the mean
+of the response and the RSE. The mean of mpg is `23.4459`. 
+The RSE of the lm.fit was `4.906` which indicates a percentage error of
+`20.9248`%. The $R^2$ of the lm.fit was about 
+`0.6059`, meaning `60.5948`%
+ of the variance in mpg is explained by horsepower.
 
 ### iii.
 The relationship between mpg and horsepower is negative. The more horsepower
