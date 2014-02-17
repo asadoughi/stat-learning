@@ -1,10 +1,7 @@
-1. In Table 3.4, the null hypothesis for "TV" is that in the presence of radio
-ads and newspaper ads, TV ads have no effect on sales. Similarly, the null
-hypothesis for "radio" is that in the presence of TV and newspaper ads, radio
-ads have no effect on sales. (And there is a similar null hypothesis for
-"newspaper".) The low p-values of TV and radio suggest that the null hypotheses
-are false for TV and radio. The high p-value of newspaper suggests that the null
-hypothesis is true for newspaper.
+1. In Table 3.4, we test the null hypothesis to see if there is a relationship
+between the response and its predictors: whether all of the regression
+coefficients are zero. TV and radio have low p-values, while newspaper has a
+high p-value. This suggests that only TV and sradio are related to sales.
 
 
 2. KNN classifier and KNN regression methods are closely related in formula.
@@ -19,7 +16,7 @@ quantitative value for f(X).
 male: (gender = 0)   50 + 20 k_1 + 0.07 k_2 + 0.01(k_1 * k_2)
 female: (gender = 1) 50 + 20 k_1 + 0.07 k_2 + 35 + 0.01(k_1 * k_2) - 10 (k_1)
 
-Once the GPA is high enough, males earn more on average. => iii.
+Once the GPA is high enough, males earn more on average. => iv.
 
 (b) Y(Gender = 1, IQ = 110, GPA = 4.0)
 = 50 + 20 * 4 + 0.07 * 110 + 35 + 0.01 (4 * 110) - 10 * 4
@@ -29,7 +26,7 @@ Once the GPA is high enough, males earn more on average. => iii.
 determine if the interaction term is statstically significant or not.
 
 
-4. (a) I would expect the polynomial regression to have a lower training RSS
+4. (*) (a) I would expect the polynomial regression to have a lower training RSS
 than the linear regression because it could make a tighter fit against data that
 matched with a wider irreducible error (Var(epsilon)).
 

@@ -296,8 +296,8 @@ squares of the observed x-values.
 set.seed(1)
 x = rnorm(100)
 y = 2*x
-lm.fit = lm(y~x+0)
-lm.fit2 = lm(x~y+0)
+lm.fit = lm(y~x)
+lm.fit2 = lm(x~y)
 summary(lm.fit)
 summary(lm.fit2)
 ```
@@ -307,19 +307,15 @@ The regression coefficients are different for each linear regression.
 ----
 ```{r}
 set.seed(1)
-x <- rnorm(100)
-y <- -sample(x, 100)
-sum(x^2)
-sum(y^2)
-lm.fit <- lm(y~x+0)
-lm.fit2 <- lm(x~y+0)
+x = rnorm(100)
+y = x
+lm.fit = lm(y~x)
+lm.fit2 = lm(x~y)
 summary(lm.fit)
 summary(lm.fit2)
 ```
-The regression coefficients are the same for each linear regression. 
-So long as sum sum(x^2) = sum(y^2) the condition in 12a. will be satisfied.
-Here we have simply taken all the $x_i$ in a different order and made them
-negative.
+(*) This is a bit contrived so I am not sure about the answer. I'm not sure how
+else I could reach the condition as specified in 12a.
 
 13a.
 ----
@@ -522,16 +518,14 @@ Looking at the studentized residuals, we don't observe points too far from the
 ----
 ```{r}
 library(MASS)
-summary(Boston)
-Boston$chas <- factor(Boston$chas, labels = c("N","Y"))
-summary(Boston)
+names(Boston)
 attach(Boston)
 lm.zn = lm(crim~zn)
 summary(lm.zn) # yes
 lm.indus = lm(crim~indus)
 summary(lm.indus) # yes
 lm.chas = lm(crim~chas) 
-summary(lm.chas) # yes
+summary(lm.chas) # no
 lm.nox = lm(crim~nox)
 summary(lm.nox) # yes
 lm.rm = lm(crim~rm)
@@ -553,13 +547,13 @@ summary(lm.lstat) # yes
 lm.medv = lm(crim~medv)
 summary(lm.medv) # yes
 ```
-All. Plot each linear regression using "plot(lm)" to see
+All, except chas. Plot each linear regression using "plot(lm)" to see
 residuals.
 
 15b.
 ----
 ```{r}
-lm.all = lm(crim~., data=Boston)
+lm.all = lm(crim~.-crim, data=Boston)
 summary(lm.all)
 ```
 zn, dis, rad, black, medv
