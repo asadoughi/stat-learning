@@ -21,10 +21,9 @@ is close to zero we can reject the null hypothesis and state there is a
 statistically significant relationship between horsepower and mpg.
 
 ### ii.
-To calculate the residual error relative to the response we use the mean
-of the response and the RSE. The mean of mpg is ``r mean(mpg, na.rm=T)``. 
-The RSE of the lm.fit was ``r 4.906`` which indicates a percentage error of
-``r 4.906/mean(mpg, na.rm=T) * 100.0``%. The $R^2$ of the lm.fit was
+The mean of horsepower is ``r mean(horsepower, na.rm=T)`` horses. The RSE of
+the lm.fit was ``r 4.906`` which indicates a percentage error of
+``r 4.906/mean(horsepower, na.rm=T) * 100.0``%. The $R^2$ of the lm.fit was
 about ``r summary(lm.fit)$r.sq``, meaning ``r summary(lm.fit)$r.sq * 100.0``%
 of the variance in mpg is explained by horsepower.
 
