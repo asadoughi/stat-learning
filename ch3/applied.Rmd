@@ -21,9 +21,10 @@ is close to zero we can reject the null hypothesis and state there is a
 statistically significant relationship between horsepower and mpg.
 
 ### ii.
-The mean of horsepower is ``r mean(horsepower, na.rm=T)`` horses. The RSE of
-the lm.fit was ``r 4.906`` which indicates a percentage error of
-``r 4.906/mean(horsepower, na.rm=T) * 100.0``%. The $R^2$ of the lm.fit was
+To calculate the residual error relative to the response we use the mean
+of the response and the RSE. The mean of mpg is ``r mean(mpg, na.rm=T)``. 
+The RSE of the lm.fit was ``r 4.906`` which indicates a percentage error of
+``r 4.906/mean(mpg, na.rm=T) * 100.0``%. The $R^2$ of the lm.fit was
 about ``r summary(lm.fit)$r.sq``, meaning ``r summary(lm.fit)$r.sq * 100.0``%
 of the variance in mpg is explained by horsepower.
 
@@ -296,8 +297,8 @@ squares of the observed x-values.
 set.seed(1)
 x = rnorm(100)
 y = 2*x
-lm.fit = lm(y~x)
-lm.fit2 = lm(x~y)
+lm.fit = lm(y~x+0)
+lm.fit2 = lm(x~y+0)
 summary(lm.fit)
 summary(lm.fit2)
 ```
@@ -307,15 +308,19 @@ The regression coefficients are different for each linear regression.
 ----
 ```{r}
 set.seed(1)
-x = rnorm(100)
-y = x
-lm.fit = lm(y~x)
-lm.fit2 = lm(x~y)
+x <- rnorm(100)
+y <- -sample(x, 100)
+sum(x^2)
+sum(y^2)
+lm.fit <- lm(y~x+0)
+lm.fit2 <- lm(x~y+0)
 summary(lm.fit)
 summary(lm.fit2)
 ```
-(*) This is a bit contrived so I am not sure about the answer. I'm not sure how
-else I could reach the condition as specified in 12a.
+The regression coefficients are the same for each linear regression. 
+So long as sum sum(x^2) = sum(y^2) the condition in 12a. will be satisfied.
+Here we have simply taken all the $x_i$ in a different order and made them
+negative.
 
 13a.
 ----
@@ -518,14 +523,16 @@ Looking at the studentized residuals, we don't observe points too far from the
 ----
 ```{r}
 library(MASS)
-names(Boston)
+summary(Boston)
+Boston$chas <- factor(Boston$chas, labels = c("N","Y"))
+summary(Boston)
 attach(Boston)
 lm.zn = lm(crim~zn)
 summary(lm.zn) # yes
 lm.indus = lm(crim~indus)
 summary(lm.indus) # yes
 lm.chas = lm(crim~chas) 
-summary(lm.chas) # no
+summary(lm.chas) # yes
 lm.nox = lm(crim~nox)
 summary(lm.nox) # yes
 lm.rm = lm(crim~rm)
@@ -547,13 +554,13 @@ summary(lm.lstat) # yes
 lm.medv = lm(crim~medv)
 summary(lm.medv) # yes
 ```
-All, except chas. Plot each linear regression using "plot(lm)" to see
+All. Plot each linear regression using "plot(lm)" to see
 residuals.
 
 15b.
 ----
 ```{r}
-lm.all = lm(crim~.-crim, data=Boston)
+lm.all = lm(crim~., data=Boston)
 summary(lm.all)
 ```
 zn, dis, rad, black, medv
