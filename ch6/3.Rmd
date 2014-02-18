@@ -1,0 +1,17 @@
+Chapter 6: Exercise 3
+========================================================
+  
+### a
+(iv) Steadily decreases: As we increase $s$ from $0$, all $\beta$ 's increase from $0$ to their least square estimate values. Training error for $0$ $\beta$ s is the maximum and it steadily decreases to the Ordinary Least Square RSS
+
+### b
+(ii) Decrease initially, and then eventually start increasing in a U shape: When $s = 0$, all  $\beta$ s are $0$, the model is extremely simple and has a high test RSS. As we increase $s$, $beta$ s assume non-zero values and model starts fitting well on test data and so test RSS decreases. Eventually, as $beta$ s approach their full blown OLS values, they start overfitting to the training data, increasing test RSS. 
+
+### c
+(iii) Steadily increase: When $s = 0$, the model effectively predicts a constant and has almost no variance. As we increase $s$, the models includes more $\beta$ s and their values start increasing. At this point, the values of $\beta$ s become highly dependent on training data, thus increasing the variance. 
+
+### d
+(iv) Steadily decrease: When $s = 0$, the model effectively predicts a constant and hence the prediction is far from actual value. Thus bias is high. As $s$ increases, more $\beta$ s become non-zero and thus the model continues to fit training data better. And thus, bias decreases.
+
+#### e
+(v) Remains constant: By definition, irreducible error is model independent and hence irrespective of the choice of $s$, remains constant.

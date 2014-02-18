@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Chapter 6: Exercise 3</title>
+
+<base target="_blank"/>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h1>Chapter 6: Exercise 3</h1>
+
+<h3>a</h3>
+
+<p>(iv) Steadily decreases: As we increase \( s \) from \( 0 \), all \( \beta \) &#39;s increase from \( 0 \) to their least square estimate values. Training error for \( 0 \) \( \beta \) s is the maximum and it steadily decreases to the Ordinary Least Square RSS</p>
+
+<h3>b</h3>
+
+<p>(ii) Decrease initially, and then eventually start increasing in a U shape: When \( s = 0 \), all  \( \beta \) s are \( 0 \), the model is extremely simple and has a high test RSS. As we increase \( s \), \( beta \) s assume non-zero values and model starts fitting well on test data and so test RSS decreases. Eventually, as \( beta \) s approach their full blown OLS values, they start overfitting to the training data, increasing test RSS. </p>
+
+<h3>c</h3>
+
+<p>(iii) Steadily increase: When \( s = 0 \), the model effectively predicts a constant and has almost no variance. As we increase \( s \), the models includes more \( \beta \) s and their values start increasing. At this point, the values of \( \beta \) s become highly dependent on training data, thus increasing the variance. </p>
+
+<h3>d</h3>
+
+<p>(iv) Steadily decrease: When \( s = 0 \), the model effectively predicts a constant and hence the prediction is far from actual value. Thus bias is high. As \( s \) increases, more \( \beta \) s become non-zero and thus the model continues to fit training data better. And thus, bias decreases.</p>
+
+<h4>e</h4>
+
+<p>(v) Remains constant: By definition, irreducible error is model independent and hence irrespective of the choice of \( s \), remains constant.</p>
+
+</body>
+
+</html>
+
