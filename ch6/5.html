@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Chapter 6: Exercise 5</title>
+
+<base target="_blank"/>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h1>Chapter 6: Exercise 5</h1>
+
+<h3>a</h3>
+
+<p>A general form of Ridge regression optimization looks like</p>
+
+<p>Minimize: \( \sum\limits_{i=1}^n {(y_i - \hat{\beta}_0 - \sum\limits_{j=1}^p {\hat{\beta}_jx_j} )^2} + \lambda \sum\limits_{i=1}^p \hat{\beta}_i^2 \)</p>
+
+<p>In this case, \( \hat{\beta}_0 = 0 \) and \( n = p = 2 \). So, the optimization looks like:</p>
+
+<p>Minimize: \( (y_1 - \hat{\beta}_1x_{11} - \hat{\beta}_2x_{12})^2 + (y_2 - \hat{\beta}_1x_{21} - \hat{\beta}_2x_{22})^2 + \lambda (\hat{\beta}_1^2 + \hat{\beta}_2^2) \)</p>
+
+<h3>b</h3>
+
+<p>Now we are given that, \( x_{11} = x_{12} = x_1 \) and \( x_{21} = x_{22} = x_2 \). We take derivatives of above expression with respect to both \( \hat{\beta_1} \) and \( \hat{\beta_2} \) and setting them equal to zero find that,<br/>
+\( \hat{\beta^*}_1 = \frac{x_1y_1 + x_2y_2 - \hat{\beta^*}_2(x_1^2 + x_2^2)}{\lambda + x_1^2 + x_2^2} \) and<br/>
+\( \hat{\beta^*}_2 = \frac{x_1y_1 + x_2y_2 - \hat{\beta^*}_1(x_1^2 + x_2^2)}{\lambda + x_1^2 + x_2^2} \)</p>
+
+<p>Symmetry in these expressions suggests that \( \hat{\beta^*}_1 = \hat{\beta^*}_2 \)</p>
+
+<h3>c</h3>
+
+<p>Like Ridge regression, </p>
+
+<p>Minimize: \( (y_1 - \hat{\beta}_1x_{11} - \hat{\beta}_2x_{12})^2 + (y_2 - \hat{\beta}_1x_{21} - \hat{\beta}_2x_{22})^2 + \lambda (| \hat{\beta}_1 | + | \hat{\beta}_2 |) \)</p>
+
+</body>
+
+</html>
+
