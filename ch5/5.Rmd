@@ -26,11 +26,11 @@ glm.pred = rep("No", dim(Default)[1]/2)
 glm.probs = predict(glm.fit, Default[-train,], type="response")
 glm.pred[glm.probs>.5] = "Yes"
 # iv.
-return(mean(glm.pred != Default[-train,]))
+return(mean(glm.pred != Default[-train,]$default))
 }
 FiveB()
 ```
-58.2% test error rate from validation set approach.
+2.86% test error rate from validation set approach.
 
 ### c
 ```{r}
@@ -38,7 +38,7 @@ FiveB()
 FiveB()
 FiveB()
 ```
-It seems to average around 58% test error rate.
+It seems to average around 2.6% test error rate.
 
 ### d
 ```{r}
@@ -48,9 +48,9 @@ glm.fit = glm(default~income+balance+student, data=Default, family=binomial,
 glm.pred = rep("No", dim(Default)[1]/2)
 glm.probs = predict(glm.fit, Default[-train,], type="response")
 glm.pred[glm.probs>.5] = "Yes"
-mean(glm.pred != Default[-train,])
+mean(glm.pred != Default[-train,]$default)
 ```
-58.1% test error rate, with student dummy variable. Using the validation set
+2.64% test error rate, with student dummy variable. Using the validation set
 approach, it doesn't appear adding the student dummy variable leads to a
 reduction in the test error rate.
 

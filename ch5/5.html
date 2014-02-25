@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
 
 <title>Chapter 5: Exercise 5</title>
 
@@ -215,37 +216,37 @@ glm.fit = glm(default ~ income + balance, data = Default, family = binomial)
     glm.probs = predict(glm.fit, Default[-train, ], type = &quot;response&quot;)
     glm.pred[glm.probs &gt; 0.5] = &quot;Yes&quot;
     # iv.
-    return(mean(glm.pred != Default[-train, ]))
+    return(mean(glm.pred != Default[-train, ]$default))
 }
 FiveB()
 </code></pre>
 
-<pre><code>## [1] 0.5816
+<pre><code>## [1] 0.0286
 </code></pre>
 
-<p>58.2% test error rate from validation set approach.</p>
+<p>2.86% test error rate from validation set approach.</p>
 
 <h3>c</h3>
 
 <pre><code class="r">FiveB()
 </code></pre>
 
-<pre><code>## [1] 0.579
+<pre><code>## [1] 0.0236
 </code></pre>
 
 <pre><code class="r">FiveB()
 </code></pre>
 
-<pre><code>## [1] 0.5813
+<pre><code>## [1] 0.028
 </code></pre>
 
 <pre><code class="r">FiveB()
 </code></pre>
 
-<pre><code>## [1] 0.58
+<pre><code>## [1] 0.0268
 </code></pre>
 
-<p>It seems to average around 58% test error rate.</p>
+<p>It seems to average around 2.6% test error rate.</p>
 
 <h3>d</h3>
 
@@ -255,13 +256,13 @@ glm.fit = glm(default ~ income + balance + student, data = Default, family = bin
 glm.pred = rep(&quot;No&quot;, dim(Default)[1]/2)
 glm.probs = predict(glm.fit, Default[-train, ], type = &quot;response&quot;)
 glm.pred[glm.probs &gt; 0.5] = &quot;Yes&quot;
-mean(glm.pred != Default[-train, ])
+mean(glm.pred != Default[-train, ]$default)
 </code></pre>
 
-<pre><code>## [1] 0.5808
+<pre><code>## [1] 0.0264
 </code></pre>
 
-<p>58.1% test error rate, with student dummy variable. Using the validation set
+<p>2.64% test error rate, with student dummy variable. Using the validation set
 approach, it doesn&#39;t appear adding the student dummy variable leads to a
 reduction in the test error rate.</p>
 

@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
 
 <title>Chapter 5: Exercise 3</title>
 
@@ -159,10 +160,9 @@ variable depending on which observations are included in the training and
 validation sets. (2.) the validation set error rate may tend to overestimate
 the test error rate for the model fit on the entire data set.</p>
 
-<p>ii. LOOCV is a special case of k-fold cross-validation with k = 1. Thus, with
-the largest fold possible, LOOCV is the most computationally intense method,
-ignoring closed-form solutions for linear models fit by least squares). Also, 
-LOOCV has higher variance, but lower bias, than k-fold CV.</p>
+<p>ii. LOOCV is a special case of k-fold cross-validation with k = n. Thus, LOOCV
+is the most computationally intense method since the model must be fit n times.
+Also, LOOCV has higher variance, but lower bias, than k-fold CV.</p>
 
 </body>
 
