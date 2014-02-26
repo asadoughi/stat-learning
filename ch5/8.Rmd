@@ -9,7 +9,7 @@ x = rnorm(100)
 y = x - 2*x^2 + rnorm(100)
 ```
 
-n = 100, p = 1.
+n = 100, p = 2.
 
 $Y = X - 2 X^2 + \epsilon$.
 
