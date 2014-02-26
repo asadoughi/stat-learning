@@ -1,0 +1,126 @@
+Chater 6: Exercise 8
+========================================================
+
+### a
+Create 100 $X$ and $\epsilon$ variables
+```{r 8a}
+set.seed(1)
+X = rnorm(100)
+eps = rnorm(100)
+```
+
+### b
+We are selecting $\beta_0 = 3$, $\beta_1 = 2$, $\beta_2 = -3$ and $\beta_3 = 0.3$.
+```{r 8b}
+beta0 = 3
+beta1 = 2
+beta2 = -3
+beta3 = 0.3
+Y = beta0 + beta1 * X + beta2 * X^2 + beta3 * X^3 + eps
+```
+
+### c
+Use $regsubsets$ to select best model having polynomial of $X$ of degree 10
+```{r 8c}
+library(leaps)
+data.full = data.frame("y" = Y, "x" = X)
+mod.full = regsubsets(y~poly(x, 10, raw=T), data=data.full, nvmax=10)
+mod.summary = summary(mod.full)
+
+# Find the model size for best cp, BIC and adjr2
+which.min(mod.summary$cp)
+which.min(mod.summary$bic)
+which.max(mod.summary$adjr2)
+# Plot cp, BIC and adjr2
+plot(mod.summary$cp, xlab="Subset Size", ylab="Cp", pch=20, type="l")
+points(3, mod.summary$cp[3], pch=4, col="red", lwd=7)
+plot(mod.summary$bic, xlab="Subset Size", ylab="BIC", pch=20, type="l")
+points(3, mod.summary$bic[3], pch=4, col="red", lwd=7)
+plot(mod.summary$adjr2, xlab="Subset Size", ylab="Adjusted R2", pch=20, type="l")
+points(3, mod.summary$adjr2[3], pch=4, col="red", lwd=7)
+```
+We find that with Cp, BIC and Adjusted R2 criteria, $3$, $3$, and $3$ variable models are respectively picked. 
+```{r}
+coefficients(mod.full, id=3)
+```
+All statistics pick $X^7$ over $X^3$. The remaining coefficients are quite close to $\beta$ s.
+
+### d
+We fit forward and backward stepwise models to the data.
+```{r 8d}
+mod.fwd = regsubsets(y~poly(x, 10, raw=T), data=data.full, nvmax=10, method="forward")
+mod.bwd = regsubsets(y~poly(x, 10, raw=T), data=data.full, nvmax=10, method="backward")
+fwd.summary = summary(mod.fwd)
+bwd.summary = summary(mod.bwd)
+which.min(fwd.summary$cp)
+which.min(bwd.summary$cp)
+which.min(fwd.summary$bic)
+which.min(bwd.summary$bic)
+which.max(fwd.summary$adjr2)
+which.max(bwd.summary$adjr2)
+# Plot the statistics
+par(mfrow=c(3, 2))
+plot(fwd.summary$cp, xlab="Subset Size", ylab="Forward Cp", pch=20, type="l")
+points(3, fwd.summary$cp[3], pch=4, col="red", lwd=7)
+plot(bwd.summary$cp, xlab="Subset Size", ylab="Backward Cp", pch=20, type="l")
+points(3, bwd.summary$cp[3], pch=4, col="red", lwd=7)
+plot(fwd.summary$bic, xlab="Subset Size", ylab="Forward BIC", pch=20, type="l")
+points(3, fwd.summary$bic[3], pch=4, col="red", lwd=7)
+plot(bwd.summary$bic, xlab="Subset Size", ylab="Backward BIC", pch=20, type="l")
+points(3, bwd.summary$bic[3], pch=4, col="red", lwd=7)
+plot(fwd.summary$adjr2, xlab="Subset Size", ylab="Forward Adjusted R2", pch=20, type="l")
+points(3, fwd.summary$adjr2[3], pch=4, col="red", lwd=7)
+plot(bwd.summary$adjr2, xlab="Subset Size", ylab="Backward Adjusted R2", pch=20, type="l")
+points(4, bwd.summary$adjr2[4], pch=4, col="red", lwd=7)
+```
+We see that all statistics pick $3$ variable models except backward stepwise with adjusted R2. Here are the coefficients
+```{r}
+coefficients(mod.fwd, id=3)
+coefficients(mod.bwd, id=3)
+coefficients(mod.fwd, id=4)
+```
+Here forward stepwise picks $X^7$ over $X^3$. Backward stepwise with $3$ variables picks $X^9$ while backward stepwise with $4$ variables picks $X^4$ and $X^7$. All other coefficients are close to $\beta$ s.
+
+### e
+Training Lasso on the data
+```{r 8e}
+library(glmnet)
+xmat = model.matrix(y~poly(x, 10, raw=T), data=data.full)[, -1]
+mod.lasso = cv.glmnet(xmat, Y, alpha=1)
+best.lambda = mod.lasso$lambda.min
+best.lambda
+plot(mod.lasso)
+# Next fit the model on entire data using best lambda
+best.model = glmnet(xmat, Y, alpha=1)
+predict(best.model, s=best.lambda, type="coefficients")
+```
+Lasso also picks $X^5$ over $X^3$. It also picks $X^7$ with negligible coefficient.
+
+### f
+Create new Y with different $\beta_7 = 7$.
+```{r 8f}
+beta7 = 7
+Y = beta0 + beta7 * X^7 + eps
+# Predict using regsubsets
+data.full = data.frame("y" = Y, "x" = X)
+mod.full = regsubsets(y~poly(x, 10, raw=T), data=data.full, nvmax=10)
+mod.summary = summary(mod.full)
+
+# Find the model size for best cp, BIC and adjr2
+which.min(mod.summary$cp)
+which.min(mod.summary$bic)
+which.max(mod.summary$adjr2)
+coefficients(mod.full, id=1)
+coefficients(mod.full, id=2)
+coefficients(mod.full, id=4)
+```
+We see that BIC picks the most accurate 1-variable model with matching coefficients. Other criteria pick additional variables.
+```{r}
+xmat = model.matrix(y~poly(x, 10, raw=T), data=data.full)[, -1]
+mod.lasso = cv.glmnet(xmat, Y, alpha=1)
+best.lambda = mod.lasso$lambda.min
+best.lambda
+best.model = glmnet(xmat, Y, alpha=1)
+predict(best.model, s=best.lambda, type="coefficients")
+```
+Lasso also picks the best 1-variable model but intercet is quite off ($3.8$ vs $3$).
