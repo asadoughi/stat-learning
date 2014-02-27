@@ -1,13 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!-- saved from url=(0014)about:internet -->
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
 
 <title>Chapter 6: Exercise 5</title>
-
-<base target="_blank"/>
 
 <style type="text/css">
 body, td {
@@ -53,13 +51,14 @@ pre {
    margin-top: 0;
    max-width: 95%;
    border: 1px solid #ccc;
+   white-space: pre-wrap;
 }
 
 pre code {
    display: block; padding: 0.5em;
 }
 
-code.r {
+code.r, code.cpp {
    background-color: #F8F8F8;
 }
 
@@ -161,8 +160,8 @@ hr {
 
 <h3>b</h3>
 
-<p>Now we are given that, \( x_{11} = x_{12} = x_1 \) and \( x_{21} = x_{22} = x_2 \). We take derivatives of above expression with respect to both \( \hat{\beta_1} \) and \( \hat{\beta_2} \) and setting them equal to zero find that,<br/>
-\( \hat{\beta^*}_1 = \frac{x_1y_1 + x_2y_2 - \hat{\beta^*}_2(x_1^2 + x_2^2)}{\lambda + x_1^2 + x_2^2} \) and<br/>
+<p>Now we are given that, \( x_{11} = x_{12} = x_1 \) and \( x_{21} = x_{22} = x_2 \). We take derivatives of above expression with respect to both \( \hat{\beta_1} \) and \( \hat{\beta_2} \) and setting them equal to zero find that,
+\( \hat{\beta^*}_1 = \frac{x_1y_1 + x_2y_2 - \hat{\beta^*}_2(x_1^2 + x_2^2)}{\lambda + x_1^2 + x_2^2} \) and
 \( \hat{\beta^*}_2 = \frac{x_1y_1 + x_2y_2 - \hat{\beta^*}_1(x_1^2 + x_2^2)}{\lambda + x_1^2 + x_2^2} \)</p>
 
 <p>Symmetry in these expressions suggests that \( \hat{\beta^*}_1 = \hat{\beta^*}_2 \)</p>
@@ -175,21 +174,21 @@ hr {
 
 <h3>d</h3>
 
-<p>Here is a geometric interpretation of the solutions for the equation in <em>c</em> above.</p>
+<p>Here is a geometric interpretation of the solutions for the equation in <em>c</em> above. We use the alternate form of Lasso constraints \( | \hat{\beta}_1 | + | \hat{\beta}_2 | < s \).</p>
 
-<p>The Lasso constraint take the form \( \lambda (| \hat{\beta}_1 | + | \hat{\beta}_2 |) \), which when plotted take the familiar shape of a diamond centered at origin \( (0, 0) \). Next consider the squared optimization constraint \( (y_1 - \hat{\beta}_1x_{11} - \hat{\beta}_2x_{12})^2 + (y_2 - \hat{\beta}_1x_{21} - \hat{\beta}_2x_{22})^2 \). We use the facts \( x_{11} = x_{12} \), \( x_{21} = x_{22} \), \( x_{11} + x_{21} = 0 \), \( x_{12} + x_{22} = 0 \) and \( y_1 + y_2 = 0 \) to simplify it to </p>
+<p>The Lasso constraint take the form \( | \hat{\beta}_1 | + | \hat{\beta}_2 | < s \), which when plotted take the familiar shape of a diamond centered at origin \( (0, 0) \). Next consider the squared optimization constraint \( (y_1 - \hat{\beta}_1x_{11} - \hat{\beta}_2x_{12})^2 + (y_2 - \hat{\beta}_1x_{21} - \hat{\beta}_2x_{22})^2 \). We use the facts \( x_{11} = x_{12} \), \( x_{21} = x_{22} \), \( x_{11} + x_{21} = 0 \), \( x_{12} + x_{22} = 0 \) and \( y_1 + y_2 = 0 \) to simplify it to </p>
 
 <p>Minimize: \( 2.(y_1 - (\hat{\beta}_1 + \hat{\beta}_2)x_{11})^2 \).</p>
 
-<p>This optimization problem has a simple solution: \( \hat{\beta}_1 + \hat{\beta}_2 = \frac{y_1}{x_{11}} \). This is a line parallel to the edge of Lasso-diamond \( \hat{\beta}_1 + \hat{\beta}_2 = \lambda \). Now solutions to the original Lasso optimization problem are contours of the function \( (y_1 - (\hat{\beta}_1 + \hat{\beta}_2)x_{11})^2 \) that touch the Lasso-diamond \( \hat{\beta}_1 + \hat{\beta}_2 = \lambda \). Finally, as \( \hat{\beta}_1 \) and \( \hat{\beta}_2 \) vary along the line \( \hat{\beta}_1 + \hat{\beta}_2 = \frac{y_1}{x_{11}} \), these contours rouch the Lasso-diamond edge \( \hat{\beta}_1 + \hat{\beta}_2 = \lambda \) at different points. As a result, the entire edge \( \hat{\beta}_1 + \hat{\beta}_2 = \lambda \) is a potential solution to the Lasso optimization problem!</p>
+<p>This optimization problem has a simple solution: \( \hat{\beta}_1 + \hat{\beta}_2 = \frac{y_1}{x_{11}} \). This is a line parallel to the edge of Lasso-diamond \( \hat{\beta}_1 + \hat{\beta}_2 = s \). Now solutions to the original Lasso optimization problem are contours of the function \( (y_1 - (\hat{\beta}_1 + \hat{\beta}_2)x_{11})^2 \) that touch the Lasso-diamond \( \hat{\beta}_1 + \hat{\beta}_2 = s \). Finally, as \( \hat{\beta}_1 \) and \( \hat{\beta}_2 \) very along the line \( \hat{\beta}_1 + \hat{\beta}_2 = \frac{y_1}{x_{11}} \), these contours touch the Lasso-diamond edge \( \hat{\beta}_1 + \hat{\beta}_2 = s \) at different points. As a result, the entire edge \( \hat{\beta}_1 + \hat{\beta}_2 = s \) is a potential solution to the Lasso optimization problem!</p>
 
-<p>Similar argument can be made for the opposite Lasso-diamond edge: \( \hat{\beta}_1 + \hat{\beta}_2 = -\lambda \). </p>
+<p>Similar argument can be made for the opposite Lasso-diamond edge: \( \hat{\beta}_1 + \hat{\beta}_2 = -s \). </p>
 
 <p>Thus, the Lasso problem does not have a unique solution. The general form of solution is given by two line segments:</p>
 
-<p>\( \hat{\beta}_1 + \hat{\beta}_2 = \lambda; \hat{\beta}_1 \geq 0; \hat{\beta}_2 \geq 0 \)<br/>
-and<br/>
-\( \hat{\beta}_1 + \hat{\beta}_2 = -\lambda; \hat{\beta}_1 \leq 0; \hat{\beta}_2 \leq 0 \)</p>
+<p>\( \hat{\beta}_1 + \hat{\beta}_2 = s; \hat{\beta}_1 \geq 0; \hat{\beta}_2 \geq 0 \)
+and
+\( \hat{\beta}_1 + \hat{\beta}_2 = -s; \hat{\beta}_1 \leq 0; \hat{\beta}_2 \leq 0 \)</p>
 
 </body>
 

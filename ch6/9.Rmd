@@ -61,15 +61,30 @@ Use validation to fit pcr
 library(pls)
 pcr.fit = pcr(Apps~., data=College.train, scale=T, validation="CV")
 validationplot(pcr.fit, val.type="MSEP")
-pcr.pred = predict(pcr.fit, College.train, ncomp=15)
+pcr.pred = predict(pcr.fit, College.test, ncomp=10)
 mean((College.test[, "Apps"] - data.frame(pcr.pred))^2)
 ```
+Test RSS for PCR is about $3014496$.
 
 ### f
 Use validation to fit pls
 ```{r 9f}
 pls.fit = plsr(Apps~., data=College.train, scale=T, validation="CV")
 validationplot(pls.fit, val.type="MSEP")
-pls.pred = predict(pls.fit, College.train, ncomp=10)
-mean((College.test[, "Apps"] - data.frame(pcr.pred))^2)
+pls.pred = predict(pls.fit, College.test, ncomp=10)
+mean((College.test[, "Apps"] - data.frame(pls.pred))^2)
 ```
+Test RSS for PLS is about $1508987$.
+
+### g
+Results for OLS, Lasso, Ridge are comparable. Lasso reduces the $F.Undergrad$ and $Books$ variables to zero and shrinks coefficients of other variables. Here are the test $R^2$ for all models.
+```{r 9g}
+test.avg = mean(College.test[, "Apps"])
+lm.test.r2 = 1 - mean((College.test[, "Apps"] - lm.pred)^2) /mean((College.test[, "Apps"] - test.avg)^2)
+ridge.test.r2 = 1 - mean((College.test[, "Apps"] - ridge.pred)^2) /mean((College.test[, "Apps"] - test.avg)^2)
+lasso.test.r2 = 1 - mean((College.test[, "Apps"] - lasso.pred)^2) /mean((College.test[, "Apps"] - test.avg)^2)
+pcr.test.r2 = 1 - mean((College.test[, "Apps"] - data.frame(pcr.pred))^2) /mean((College.test[, "Apps"] - test.avg)^2)
+pls.test.r2 = 1 - mean((College.test[, "Apps"] - data.frame(pls.pred))^2) /mean((College.test[, "Apps"] - test.avg)^2)
+barplot(c(lm.test.r2, ridge.test.r2, lasso.test.r2, pcr.test.r2, pls.test.r2), col="red", names.arg=c("OLS", "Ridge", "Lasso", "PCR", "PLS"), main="Test R-squared")
+```
+The plot shows that test $R^2$ for all models except PCR are around 0.9, with PLS having slightly higher test $R^2$ than others. PCR has a smaller test $R^2$ of less than 0.8. All models except PCR predict college applications with high accuracy. 
