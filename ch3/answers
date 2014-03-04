@@ -37,14 +37,19 @@ matched with a wider irreducible error (Var(epsilon)).
 test RSS as the overfit from training would have more error than the linear
 regression.
 
-(c) There is not enough information to tell which training RSS would be lower
+(c) Polynomial regression has lower train RSS than the linear fit because of
+higher flexibility: no matter what the underlying true relationshop is the
+more flexible model will closer follow points and reduce train RSS.
+An example of this beahvior is shown on Figure~2.9 from Chapter 2.
+
+(d) There is not enough information to tell which test RSS would be lower
 for either regression given the problem statement is defined as not knowing
 "how far it is from linear". If it is closer to linear than cubic, the linear
-regression training RSS could be lower than the cubic regression training RSS.
-Or, if it is closer to cubic than linear, the cubic regression training RSS
-could be lower than the linear regression training RSS.
-
-(d) See (c), replacing training RSS with test RSS.
+regression test RSS could be lower than the cubic regression test RSS.
+Or, if it is closer to cubic than linear, the cubic regression test RSS
+could be lower than the linear regression test RSS. It is dues to
+bias-variance tradeoff: it is not clear what level of flexibility will
+fit data better.
 
 
 5. See 5.jpg.
