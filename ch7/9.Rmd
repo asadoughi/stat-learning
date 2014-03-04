@@ -1,0 +1,85 @@
+Chapter 6: Exercise 9
+========================================================
+
+Load the Boston dataset
+```{r}
+set.seed(1)
+library(MASS)
+attach(Boston)
+```
+
+### a
+
+```{r 9a}
+lm.fit = lm(nox~poly(dis, 3), data=Boston)
+summary(lm.fit)
+dislim = range(dis)
+dis.grid = seq(from=dislim[1], to=dislim[2], by=0.1)
+lm.pred = predict(lm.fit, list(dis=dis.grid))
+plot(nox~dis, data=Boston, col="darkgrey")
+lines(dis.grid, lm.pred, col="red", lwd=2)
+```
+
+Summary shows that all polynomial terms are significant while predicting nox using dis. Plot shows a smooth curve fitting the data fairly well.
+
+
+### b
+We plot polynomials of degrees 1 to 10 and save train RSS.
+```{r}
+all.rss = rep(NA, 10)
+for (i in 1:10) {
+  lm.fit = lm(nox~poly(dis, i), data=Boston)
+  all.rss[i] = sum(lm.fit$residuals^2)
+}
+all.rss
+```
+As expected, train RSS monotonically decreases with degree of polynomial. 
+
+### c
+We use a 10-fold cross validation to pick the best polynomial degree.
+```{r 9c}
+library(boot)
+all.deltas = rep(NA, 10)
+for (i in 1:10) {
+  glm.fit = glm(nox~poly(dis, i), data=Boston)
+  all.deltas[i] = cv.glm(Boston, glm.fit, K=10)$delta[2]
+}
+plot(1:10, all.deltas, xlab="Degree", ylab="CV error", type="l", pch=20, lwd=2)
+```
+A 10-fold CV shows that the CV error reduces as we increase degree from 1 to 3, stay almost constant till degree 5, and the starts increasing for higher degrees. We pick 4 as the best polynomial degree.
+
+### d
+We see that dis has limits of about 1 and 13 respectively. We split this range in roughly equal 4 intervals and establish knots at $[4, 7, 11]$. Note: bs function in R expects either df or knots argument. If both are specified, knots are ignored.
+```{r 9d}
+library(splines)
+sp.fit = lm(nox~bs(dis, df=4, knots=c(4, 7, 11)), data=Boston)
+summary(sp.fit)
+sp.pred = predict(sp.fit, list(dis=dis.grid))
+plot(nox~dis, data=Boston, col="darkgrey")
+lines(dis.grid, sp.pred, col="red", lwd=2)
+```
+The summary shows that all terms in spline fit are significant. Plot shows that the spline fits data well except at the extreme values of $dis$, (especially $dis > 10$). 
+
+### e
+We fit regression splines with dfs between 3 and 16. 
+```{r}
+all.cv = rep(NA, 16)
+for (i in 3:16) {
+  lm.fit = lm(nox~bs(dis, df=i), data=Boston)
+  all.cv[i] = sum(lm.fit$residuals^2)
+}
+all.cv[-c(1, 2)]
+```
+Train RSS monotonically decreases till df=14 and then slightly increases for df=15 and df=16.
+
+### f
+Finally, we use a 10-fold cross validation to find best df. We try all integer values of df between 3 and 16.
+```{r 9f}
+all.cv = rep(NA, 16)
+for (i in 3:16) {
+  lm.fit = glm(nox~bs(dis, df=i), data=Boston)
+  all.cv[i] = cv.glm(Boston, lm.fit, K=10)$delta[2]
+}
+plot(3:16, all.cv[-c(1, 2)], lwd=2, type="l", xlab="df", ylab="CV error")
+```
+CV error is more jumpy in this case, but attains minimum at df=10. We pick $10$ as the optimal degrees of freedom.
