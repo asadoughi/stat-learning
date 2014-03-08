@@ -59,11 +59,11 @@ for (i in 2:10) {
 }
 plot(2:10, all.cvs[-1], xlab="Number of cuts", ylab="CV error", type="l", pch=20, lwd=2)
 ```
-The cross validation shows that test error is minimum for $k=5$ cuts.
+The cross validation shows that test error is minimum for $k=8$ cuts.
 
-We now train the entire data with step function using $5$ cuts and plot it.
+We now train the entire data with step function using $8$ cuts and plot it.
 ```{r 6bb}
-lm.fit = glm(wage~cut(age, 5), data=Wage)
+lm.fit = glm(wage~cut(age, 8), data=Wage)
 agelims = range(Wage$age)
 age.grid = seq(from=agelims[1], to=agelims[2])
 lm.pred = predict(lm.fit, data.frame(age=age.grid))
