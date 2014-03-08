@@ -1,0 +1,23 @@
+Chapter 7: Exercise 2
+=====================
+
+## a.
+$g(x) = k$ because RSS term is ignored and $g(x) = k$ would minimize the area
+under the curve of $g^{(0)}$.
+
+## b.
+$g(x)  \alpha  x^2$. $g(x)$ would be quadratic to minimize the area under the curve
+of its first derivative.
+
+## c.
+$g(x)  \alpha  x^3$. $g(x)$ would be cubic to minimize the area under the curve
+of its second derivative. See Eqn 7.11.
+
+## d.
+$g(x)  \alpha  x^4$. $g(x)$ would be quartic to minimize the area under the curve
+of its third derivative.
+
+## e.
+The penalty term no longer matters. This is the formula for linear regression,
+to choose g based on minimizing RSS.
+
