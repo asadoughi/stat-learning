@@ -490,12 +490,11 @@ leverage plot indicates more than three points with high leverage.</p>
 <pre><code class="r">library(ISLR)
 </code></pre>
 
-<pre><code>## 
-## Attaching package: &#39;ISLR&#39;
+<pre><code>## Attaching package: &#39;ISLR&#39;
 ## 
 ## The following object is masked _by_ &#39;.GlobalEnv&#39;:
 ## 
-##     Auto
+## Auto
 </code></pre>
 
 <pre><code class="r">summary(Carseats)
@@ -1496,7 +1495,7 @@ summary(lm.indus)  # yes
 </code></pre>
 
 <pre><code class="r">lm.chas = lm(crim ~ chas)
-summary(lm.chas)  # yes
+summary(lm.chas)  # no
 </code></pre>
 
 <pre><code>## 
@@ -1759,7 +1758,7 @@ summary(lm.medv)  # yes
 ## F-statistic: 89.5 on 1 and 504 DF,  p-value: &lt;2e-16
 </code></pre>
 
-<p>All. Plot each linear regression using &ldquo;plot(lm)&rdquo; to see
+<p>All, except chas. Plot each linear regression using &ldquo;plot(lm)&rdquo; to see
 residuals.</p>
 
 <h2>15b.</h2>

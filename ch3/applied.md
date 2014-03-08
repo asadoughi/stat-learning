@@ -351,12 +351,11 @@ library(ISLR)
 ```
 
 ```
-## 
 ## Attaching package: 'ISLR'
 ## 
 ## The following object is masked _by_ '.GlobalEnv':
 ## 
-##     Auto
+## Auto
 ```
 
 ```r
@@ -1482,7 +1481,7 @@ summary(lm.indus)  # yes
 
 ```r
 lm.chas = lm(crim ~ chas)
-summary(lm.chas)  # yes
+summary(lm.chas)  # no
 ```
 
 ```
@@ -1766,7 +1765,7 @@ summary(lm.medv)  # yes
 ## F-statistic: 89.5 on 1 and 504 DF,  p-value: <2e-16
 ```
 
-All. Plot each linear regression using "plot(lm)" to see
+All, except chas. Plot each linear regression using "plot(lm)" to see
 residuals.
 
 15b.

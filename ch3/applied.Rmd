@@ -532,7 +532,7 @@ summary(lm.zn) # yes
 lm.indus = lm(crim~indus)
 summary(lm.indus) # yes
 lm.chas = lm(crim~chas) 
-summary(lm.chas) # yes
+summary(lm.chas) # no
 lm.nox = lm(crim~nox)
 summary(lm.nox) # yes
 lm.rm = lm(crim~rm)
@@ -554,7 +554,7 @@ summary(lm.lstat) # yes
 lm.medv = lm(crim~medv)
 summary(lm.medv) # yes
 ```
-All. Plot each linear regression using "plot(lm)" to see
+All, except chas. Plot each linear regression using "plot(lm)" to see
 residuals.
 
 15b.
