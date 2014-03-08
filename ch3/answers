@@ -61,6 +61,3 @@ right hand side will equal 0 if (avg(x), avg(y)) is a point on the line
 0 = B_0 + B_1 avg(x) - avg(y)
 0 = (avg(y) - B_1 avg(x)) + B_1 avg(x) - avg(y)
 0 = 0
-
-
-7. See 7.jpg.

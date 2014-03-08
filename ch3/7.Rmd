@@ -1,0 +1,128 @@
+Chapter 3, Problem 7
+========================================================
+
+Generic Solution
+--------------------------------------------------------
+
+**Proposition**: Prove that in case of simple linear regression:
+
+$$ y = \beta_0 + \beta_1 x + \varepsilon $$
+
+the $R^2$ is equal to correlation between X and Y squared, e.g.:
+
+$$ R^2 = corr^2(x, y) $$
+
+We'll be using the following definitions to prove the above proposition.
+
+**Def**:
+$$ R^2 = \frac{TSS - RSS}{TSS} $$
+
+**Def**:
+$$ TSS = \sum (y_i - \bar{y})^2 \label{TSS} $$
+
+**Def**:
+$$ RSS = \sum (y_i - \hat{y}_i)^2 \label{RSS} $$ 
+
+**Def**:
+$$
+\begin{align}
+  corr(x, y) &= \frac{\sum (x_i - \bar{x}) (y_i - \bar{y})}
+                     {\sigma_x \sigma_y} \\
+  \sigma_x^2 &= \sum (x_i - \bar{x})^2 \\
+  \sigma_y^2 &= \sum (y_i - \bar{y})^2
+\end{align}
+$$
+
+**Proof**:
+
+Substitute defintions of TSS and RSS into $R^2$:
+
+$$
+R^2 = \frac{\sum (y_i - \bar{y})^2 - \sum (y_i - \hat{y}_i)^2}
+           {\sum (y_i - \bar{y})^2}
+$$
+
+Let's work on the numerator:
+
+$$
+\begin{align}
+  A &= \sum (y_i - \bar{y})^2 - \sum (y_i - \hat{y}_i)^2 \\
+    &= \sum \left[ (y_i - \bar{y}) - (y_i - \hat{y}_i) \right] 
+            \left[ (y_i - \bar{y}) + (y_i - \hat{y}_i) \right] \\
+    &= \sum (\hat{y}_i - \bar{y})
+            (2y_i - \bar{y} - \hat{y}_i)
+\end{align}
+$$
+
+Recall that:
+
+$$
+\begin{align}
+  \hat{\beta}_0 &= \bar{y} - \hat{\beta}_1 \bar{x} \label{beta0} \\
+  \hat{\beta}_1 &= \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
+                        {\sum (x_j - \bar{x})^2}
+\end{align}
+$$
+
+Substitute the expression for $\hat{\beta}_0$ into $\hat{y}_i$:
+
+$$
+\begin{align}
+  \hat{y}_i &= \hat{\beta}_0 + \hat{\beta}_1 x_i \\
+            &= \bar{y} - \hat{\beta}_1 \bar{x} + \hat{\beta}_1 x_i \\
+            &= \bar{y} + \hat{\beta}_1 (x_i - \bar{x})
+\end{align}
+$$
+
+Let's analyze two terms from $A$:
+
+$$
+\begin{align}
+         \hat{y}_i - \bar{y} &= \hat{\beta}_1 (x_i - \bar{x}) \\
+  2y_i - \bar{y} - \hat{y}_i &= 2y_i - \bar{y} - \bar{y} -
+                                \hat{\beta}_1 (x_i - \bar{x}) \\
+                             &= 2(y_i - \bar{y}) - 
+                                \hat{\beta}_1 (x_i - \bar{x}) 
+\end{align}
+$$
+
+and substitute these expressions back into $A$:
+
+$$
+\begin{align}
+  A &= \sum \hat{\beta}_1 (x_i - \hat{x})
+            \left[ 2(y_i - \bar{y}) - \hat{\beta}_1 (x_i - \bar{x}) \right] \\
+    &= \hat{\beta}_1 \sum (x_i - \bar{x})
+                          \left[ 2(y_i - \bar{y}) -
+                                 \hat{\beta}_1 (x_i - \bar{x}) \right] \\
+    &= \hat{\beta}_1
+       \left[ 2 \sum (x_i - \bar{x})(y_i - \bar{y}) -
+              \hat{\beta}_1 \sum (x_i - \bar{x})^2 \label{A4} \right]
+\end{align}
+$$
+
+Using formula for $\hat{\beta}_1$ it is easy to see that the last term is
+nothing but:
+
+$$ \sum (x_i - \bar{x}) (y_i - \bar{y}) $$
+
+Thus, we get:
+
+$$
+\begin{align}
+  A &= \hat{\beta}_1 \sum (x_i - \bar{x}) (y_i - \bar{y}) \\
+    &= \frac{\left[ \sum (x_i - \bar{x}) (y_i - \bar{y}) \right]^2}
+            {\sum (x_j - \bar{x})^2}
+\end{align}
+$$
+
+Plug the final expression for $A$ back into $R^2$:
+
+$$
+R^2 = \frac{\left[ \sum (x_i - \bar{x}) (y_i - \bar{y}) \right]^2}
+           {\sum (x_j - \bar{x})^2 \sum (y_k - \bar{y})^2}
+$$
+
+Compare this to the definition of correlation and get:
+
+$$ R^2 = corr^2(x, y) $$
