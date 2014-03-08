@@ -52,12 +52,10 @@ lines(age.grid, lm.pred, col="blue", lwd=2)
 We use cut points of up to 10.
 ```{r 6b}
 all.cvs = rep(NA, 10)
-train = sample(3000, 1500)
-test = -train
 for (i in 2:10) {
-  lm.fit = glm(wage~cut(age, i), data=Wage[train, ])
-  lm.pred = predict(lm.fit, Wage[test, ])
-  all.cvs[i] = mean((Wage$age[test] - lm.pred)^2)
+  Wage$age.cut = cut(Wage$age, i)
+  lm.fit = glm(wage~age.cut, data=Wage)
+  all.cvs[i] = cv.glm(Wage, lm.fit, K=10)$delta[2]
 }
 plot(2:10, all.cvs[-1], xlab="Number of cuts", ylab="CV error", type="l", pch=20, lwd=2)
 ```
