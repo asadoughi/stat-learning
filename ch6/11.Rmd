@@ -1,0 +1,72 @@
+Chapter 6: Exercise 11
+======================
+
+## a
+```{r}
+set.seed(1)
+library(MASS)
+library(leaps)
+library(glmnet)
+```
+
+### Best subset selection
+```{r}
+predict.regsubsets = function(object, newdata, id, ...) {
+    form = as.formula(object$call[[2]])
+    mat = model.matrix(form, newdata)
+    coefi = coef(object, id = id)
+    mat[, names(coefi)] %*% coefi
+}
+
+k = 10
+p = ncol(Boston)-1
+folds = sample(rep(1:k, length=nrow(Boston)))
+cv.errors = matrix(NA, k, p)
+for (i in 1:k) {
+  best.fit = regsubsets(crim~., data=Boston[folds!=i,], nvmax=p)
+  for (j in 1:p) {
+    pred = predict(best.fit, Boston[folds==i, ], id=j)
+    cv.errors[i,j] = mean((Boston$crim[folds==i] - pred)^2)
+  }
+}
+rmse.cv = sqrt(apply(cv.errors, 2, mean))
+plot(rmse.cv, pch=19, type="b")
+which.min(rmse.cv)
+rmse.cv[which.min(rmse.cv)]
+```
+
+### Lasso
+```{r}
+x = model.matrix(crim~.-1, data=Boston)
+y = Boston$crim
+cv.lasso = cv.glmnet(x, y, type.measure="mse")
+plot(cv.lasso)
+coef(cv.lasso)
+sqrt(cv.lasso$cvm[cv.lasso$lambda == cv.lasso$lambda.1se])
+```
+
+### Ridge regression
+```{r}
+x = model.matrix(crim~.-1, data=Boston)
+y = Boston$crim
+cv.ridge = cv.glmnet(x, y, type.measure="mse", alpha=0)
+plot(cv.ridge)
+coef(cv.ridge)
+sqrt(cv.ridge$cvm[cv.ridge$lambda == cv.ridge$lambda.1se])
+```
+
+### PCR
+```{r}
+library(pls)
+pcr.fit = pcr(crim~., data=Boston, scale=TRUE, validation="CV")
+summary(pcr.fit)
+```
+13 component pcr fit has lowest CV/adjCV RMSEP.
+
+## b
+See above answers for cross-validate mean squared errors of selected models. 
+
+## c
+I would choose the 9 parameter best subset model because it had the best 
+cross-validated RMSE, next to PCR, but it was simpler model than the 13
+component PCR model.
