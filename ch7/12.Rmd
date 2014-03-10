@@ -1,0 +1,40 @@
+Chapter 7: Exercise 12
+======================
+
+```{r}
+set.seed(1)
+p = 100
+n = 1000
+x = matrix(ncol=p, nrow=n)
+coefi = rep(NA, p)
+for (i in 1:p) {
+  x[,i] = rnorm(n)
+  coefi[i] = rnorm(1) * 100
+}
+y = x %*% coefi + rnorm(n)
+```
+
+```{r}
+beta = rep(0, p)
+max_iterations = 1000
+errors = rep(NA, max_iterations + 1)
+iter = 2
+errors[1] = Inf
+errors[2] = sum((y - x %*% beta)^2)
+threshold = 0.0001
+while (iter < max_iterations && errors[iter-1] - errors[iter] > threshold) {
+  for (i in 1:p) {
+    a = y - x %*% beta + beta[i] * x[,i] 
+    beta[i] = lm(a~x[,i])$coef[2]
+  }
+  iter = iter + 1
+  errors[iter] = sum((y - x %*% beta)^2)
+  print(c(iter-2, errors[iter-1], errors[iter]))
+}
+```
+10 iterations to get to a "good" approximation defined by the threshold on sum of squared errors between subsequent iterations. The error increases on the 11th
+iteration.
+
+```{r}
+plot(1:11, errors[3:13])
+```
