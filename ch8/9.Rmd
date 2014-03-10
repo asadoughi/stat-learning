@@ -1,0 +1,75 @@
+Chapter 8: Exercise 9
+========================================================
+
+### a
+```{r 9a}
+library(ISLR)
+attach(OJ)
+set.seed(1013)
+
+train = sample(dim(OJ)[1], 800)
+OJ.train = OJ[train, ]
+OJ.test = OJ[-train, ]
+```
+
+### b
+```{r 9b}
+library(tree)
+oj.tree = tree(Purchase~., data=OJ.train)
+summary(oj.tree)
+```
+The tree only uses two variables: $\tt{LoyalCH}$ and $\tt{PriceDiff}$. It has $7$ terminal nodes. Training error rate (misclassification error) for the tree is $0.155$.
+
+### c
+```{r 9c}
+oj.tree
+```
+Let's pick terminal node labeled "10)". The splitting variable at this node is $\tt{PriceDiff}$. The splitting value of this node is $0.05$. There are $79$ points in the subtree below this node. The deviance for all points contained in region below this node is $80$. A * in the line denotes that this is in fact a terminal node. The prediction at this node is $\tt{Sales}$ = $\tt{MM}$. About $19$% points in this node have $\tt{CH}$ as value of $\tt{Sales}$. Remaining $81$% points have $\tt{MM}$ as value of $\tt{Sales}$.
+
+### d
+```{r 9d}
+plot(oj.tree)
+text(oj.tree, pretty=0)
+```
+$\tt{LoyalCH}$ is the most important variable of the tree, in fact top 3 nodes contain $\tt{LoyalCH}$. If $\tt{LoyalCH} < 0.27$, the tree predicts $\tt{MM}$. If $\tt{LoyalCH} > 0.76$, the tree predicts $\tt{CH}$. For intermediate values of $\tt{LoyalCH}$, the decision also depends on the value of $\tt{PriceDiff}$.
+
+### e
+```{r 9e}
+oj.pred = predict(oj.tree, OJ.test, type="class")
+table(OJ.test$Purchase, oj.pred)
+```
+
+### f
+```{r 9f}
+cv.oj = cv.tree(oj.tree, FUN=prune.tree)
+```
+
+### g
+```{r 9g}
+plot(cv.oj$size, cv.oj$dev, type="b", xlab="Tree Size", ylab="Deviance")
+```
+
+### h
+Size of 6 gives lowest cross-validation error.
+
+### i
+```{r 9i}
+oj.pruned = prune.tree(oj.tree, best=6)
+```
+
+### j
+```{r 9j}
+summary(oj.pruned)
+```
+Misclassification error of pruned tree is exactly same as that of original tree --- $0.155$.
+
+### k
+```{r 9k}
+pred.unpruned = predict(oj.tree, OJ.test, type="class")
+misclass.unpruned = sum(OJ.test$Purchase != pred.unpruned)
+misclass.unpruned / length(pred.unpruned)
+pred.pruned = predict(oj.pruned, OJ.test, type="class")
+misclass.pruned = sum(OJ.test$Purchase != pred.pruned)
+misclass.pruned / length(pred.pruned)
+```
+Pruned and unpruned trees have same test error rate of $0.189$.
