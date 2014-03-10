@@ -1,0 +1,43 @@
+Chapter 7: Exercise 7
+=====================
+
+```{r}
+library(ISLR)
+set.seed(1)
+```
+
+```{r 7.1,fig.width=16}
+summary(Wage$maritl)
+summary(Wage$jobclass)
+par(mfrow=c(1,2))
+plot(Wage$maritl, Wage$wage)
+plot(Wage$jobclass, Wage$wage)
+```
+It appears a married couple makes more money on average than other groups. It
+also appears that Informational jobs are higher-wage than Industrial jobs on
+average.
+
+## Polynomial and Step functions
+```{r 7.2}
+fit = lm(wage~maritl, data=Wage)
+deviance(fit)
+fit = lm(wage~jobclass, data=Wage)
+deviance(fit)
+fit = lm(wage~maritl+jobclass, data=Wage)
+deviance(fit)
+```
+
+## Splines
+Unable to fit splines on categorical variables.
+
+## GAMs
+```{r}
+library(gam)
+fit = gam(wage~maritl+jobclass+s(age,4), data=Wage)
+deviance(fit)
+```
+
+Without more advanced techniques, we cannot fit splines to categorical 
+variables (factors). `maritl` and `jobclass` do add statistically significant
+improvements to the previously discussed models.
+

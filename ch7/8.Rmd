@@ -1,0 +1,68 @@
+Chapter 7: Exercise 8
+=====================
+
+```{r 8.1}
+library(ISLR)
+set.seed(1)
+pairs(Auto)
+```
+mpg appears inversely proportional to cylinders, displacement, horsepower,
+weight.
+
+## Polynomial
+```{r}
+rss = rep(NA, 10)
+fits = list()
+for (d in 1:10) {
+  fits[[d]] = lm(mpg~poly(displacement, d), data=Auto)
+  rss[d] = deviance(fits[[d]])
+}
+rss
+anova(fits[[1]], fits[[2]], fits[[3]], fits[[4]])
+```
+Training RSS decreases over time. Quadratic polynomic sufficient from
+ANOVA-perspective.
+
+```{r}
+library(glmnet)
+library(boot)
+cv.errs = rep(NA, 15)
+for (d in 1:15) {
+  fit = glm(mpg~poly(displacement, d), data=Auto)
+  cv.errs[d] = cv.glm(Auto, fit, K=10)$delta[2]
+}
+which.min(cv.errs)
+cv.errs
+```
+Surprisingly, cross-validation selected a 10th-degree polynomial.
+
+## Step functions
+```{r 8.step}
+cv.errs = rep(NA,10)
+for (c in 2:10) {
+  Auto$dis.cut = cut(Auto$displacement, c)
+  fit = glm(mpg~dis.cut, data=Auto)
+  cv.errs[c] = cv.glm(Auto, fit, K=10)$delta[2]
+}
+which.min(cv.errs)
+cv.errs
+```
+
+## Splines
+```{r}
+library(splines)
+cv.errs = rep(NA,10)
+for (df in 3:10) {
+  fit = glm(mpg~ns(displacement, df=df), data=Auto)
+  cv.errs[df] = cv.glm(Auto, fit, K=10)$delta[2]
+}
+which.min(cv.errs)
+cv.errs
+```
+
+## GAMs
+```{r}
+library(gam)
+fit = gam(mpg~s(displacement, 4) + s(horsepower, 4), data=Auto)
+summary(fit)
+```
