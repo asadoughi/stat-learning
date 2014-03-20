@@ -1,0 +1,110 @@
+Chapter 9: Exercise 8
+========================================================
+
+### a
+```{r}
+library(ISLR)
+set.seed(9004)
+train = sample(dim(OJ)[1], 800)
+OJ.train = OJ[train, ]
+OJ.test = OJ[-train, ]
+```
+
+### b
+```{r}
+library(e1071)
+svm.linear = svm(Purchase~., kernel="linear", data=OJ.train, cost=0.01)
+summary(svm.linear)
+```
+Support vector classifier creates 432 support vectors out of 800 training points. Out of these, 217 belong to level $\tt{CH}$ and remaining 215 belong to level $\tt{MM}$.
+
+### c
+```{r}
+train.pred = predict(svm.linear, OJ.train)
+table(OJ.train$Purchase, train.pred)
+(82 + 53) / (439 + 53 + 82 + 226)
+test.pred = predict(svm.linear, OJ.test)
+table(OJ.test$Purchase, test.pred)
+(19 + 29) / (142 + 19 + 29 + 80)
+```
+The training error rate is $16.9$% and test error rate is about $17.8$%.
+
+### d
+```{r}
+set.seed(1554)
+tune.out = tune(svm, Purchase~., data=OJ.train, kernel="linear", ranges=list(cost=10^seq(-2, 1, by=0.25)))
+summary(tune.out)
+```
+Tuning shows that optimal cost is 0.3162
+
+
+### e
+```{r}
+svm.linear = svm(Purchase~., kernel="linear", data=OJ.train, cost=tune.out$best.parameters$cost)
+train.pred = predict(svm.linear, OJ.train)
+table(OJ.train$Purchase, train.pred)
+(57 + 71) / (435 + 57 + 71 + 237)
+test.pred = predict(svm.linear, OJ.test)
+table(OJ.test$Purchase, test.pred)
+(29 + 20) / (141 + 20 + 29 + 80)
+```
+The training error decreases to $16$% but test error slightly increases to $18.1$% by using best cost.
+
+### f
+```{r}
+set.seed(410)
+svm.radial = svm(Purchase~., data=OJ.train, kernel="radial")
+summary(svm.radial)
+train.pred = predict(svm.radial, OJ.train)
+table(OJ.train$Purchase, train.pred)
+(40 + 78) / (452 + 40 + 78 + 230)
+test.pred = predict(svm.radial, OJ.test)
+table(OJ.test$Purchase, test.pred)
+(27 + 15) / (146 + 15 + 27 + 82)
+```
+The radial basis kernel with default gamma creates 367 support vectors, out of which, 184 belong to level $\tt{CH}$ and remaining 183 belong to level $\tt{MM}$. The classifier has a training error of $14.7$% and a test error of $15.6$% which is a slight improvement over linear kernel. We now use cross validation to find optimal gamma.
+```{r}
+set.seed(755)
+tune.out = tune(svm, Purchase~., data=OJ.train, kernel="radial", ranges=list(cost=10^seq(-2, 1, by=0.25)))
+summary(tune.out)
+svm.radial = svm(Purchase~., data=OJ.train, kernel="radial", cost=tune.out$best.parameters$cost)
+train.pred = predict(svm.radial, OJ.train)
+table(OJ.train$Purchase, train.pred)
+(77 + 40) / (452 + 40 + 77 + 231)
+test.pred = predict(svm.radial, OJ.test)
+table(OJ.test$Purchase, test.pred)
+(28 + 15) / (146 + 15 + 28 + 81)
+```
+Tuning slightly decreases training error to $14.6$% and slightly increases test error to $16$% which is still better than linear kernel.
+
+### g
+```{r}
+set.seed(8112)
+svm.poly = svm(Purchase~., data=OJ.train, kernel="poly", degree=2)
+summary(svm.poly)
+train.pred = predict(svm.poly, OJ.train)
+table(OJ.train$Purchase, train.pred)
+(32 + 105) / (460 + 32 + 105 + 203)
+test.pred = predict(svm.poly, OJ.test)
+table(OJ.test$Purchase, test.pred)
+(12 + 37) / (149 + 12 + 37 + 72)
+```
+Summary shows that polynomial kernel produces 452 support vectors, out of which, 232 belong to level $\tt{CH}$ and remaining 220 belong to level $\tt{MM}$. This kernel produces a train error of $17.1$% and a test error of $18.1$% which are slightly higher than the errors produces by radial kernel but lower than the errors produced by linear kernel.
+
+### h
+```{r}
+set.seed(322)
+tune.out = tune(svm, Purchase~., data=OJ.train, kernel="poly", degree=2, ranges=list(cost=10^seq(-2, 1, by=0.25)))
+summary(tune.out)
+svm.poly = svm(Purchase~., data=OJ.train, kernel="poly", degree=2, cost=tune.out$best.parameters$cost)
+train.pred = predict(svm.poly, OJ.train)
+table(OJ.train$Purchase, train.pred)
+(37 + 84) / (455 + 37 + 84 + 224)
+test.pred = predict(svm.poly, OJ.test)
+table(OJ.test$Purchase, test.pred)
+(13 + 34) / (148 + 13 + 34 + 75)
+```
+Tuning reduces the training error to $15.12$% and test error to $17.4$% which is worse than radial kernel but slightly better than linear kernel.
+
+### g
+Overall, radial basis kernel seems to be producing minimum misclassification error on both train and test data.

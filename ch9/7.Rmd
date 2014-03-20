@@ -1,0 +1,41 @@
+Chapter 9: Exercise 7
+========================================================
+
+### a
+```{r}
+library(ISLR)
+gas.med = median(Auto$mpg)
+new.var = ifelse(Auto$mpg > gas.med, 1, 0)
+Auto$mpglevel = as.factor(new.var)
+```
+
+### b
+```{r}
+library(e1071)
+set.seed(3255)
+tune.out = tune(svm, mpglevel~., data=Auto, kernel="linear", ranges=list(cost=c(0.01, 0.1, 1, 5, 10, 100)))
+summary(tune.out)
+```
+We see that cross-validation error is minimized for $\tt{cost}=1$.
+
+### c
+```{r}
+set.seed(21)
+tune.out = tune(svm, mpglevel~., data=Auto, kernel="polynomial", ranges=list(cost=c(0.1, 1, 5, 10), degree=c(2, 3, 4)))
+summary(tune.out)
+```
+The lowest cross-validation error is obtained for $\tt{cost} = 10$ and $\tt{degree} = 2$.
+
+```{r}
+set.seed(463)
+tune.out = tune(svm, mpglevel~., data=Auto, kernel="radial", ranges=list(cost=c(0.1, 1, 5, 10), gamma=c(0.01, 0.1, 1, 5, 10, 100)))
+summary(tune.out)
+```
+Finally, for radial basis kernel, $\tt{cost} = 10$ and $\tt{gamma} = 0.01$.
+
+#### d
+```{r 7d}
+svm.linear = svm(mpglevel~., data=Auto, kernel="linear", cost=1)
+svm.poly = svm(mpglevel~., data=Auto, kernel="polynomial", cost=10, degree=2)
+svm.radial = svm(mpglevel~., data=Auto, kernel="radial", cost=10, gamma=0.01)
+```
