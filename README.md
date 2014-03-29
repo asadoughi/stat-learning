@@ -10,3 +10,5 @@ http://www.statlearning.com
 Try out RStudio (www.RStudio.com) as an R IDE with the knitr package.
 
 Pull requests gladly accepted. :)
+
+Visit http://asadoughi.github.io/stat-learning for an index of exercise solutions.
