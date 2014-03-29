@@ -1,1 +1,24 @@
-StatLearning Github Page
+<html>
+<body>
+
+<h3><i>An Introduction to Statistical Learning</i> Unofficial Solutions</h3>
+
+<p>
+  <a href="https://github.com/asadoughi/stat-learning">Fork the solutions!</a><br />
+  <a href="https://twitter.com/princehonest">Twitter me @princehonest</a><br />
+  <a href="http://www.statlearning.com">Official book website</a><br />
+</p>
+
+<script>
+exercise_count = [10, 15, 13, 9, 11, 12, 12, 8, 11];
+for (var chapter = 2; chapter <= 10; chapter++) {
+    for (var exercise = 1; exercise <= exercise_count[chapter-2]; exercise++) {
+        document.write("<a href='ch" + chapter + "/" + exercise + ".html'>Chapter " + chapter + " Exercise " + exercise + "</a>");
+        document.write("<br />");
+    }
+    document.write("<br />");
+}
+</script>
+
+</body>
+</html>
