@@ -1,0 +1,6 @@
+Chapter 8: Exercise 6
+=====================
+
+### Provide a detailed explanation of the algorithm that is used to fit a regression tree.
+
+Read section 8.1.1, including Algorithm 8.1.
