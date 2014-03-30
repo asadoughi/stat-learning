@@ -1,0 +1,19 @@
+Chapter 8: Exercise 5
+=====================
+
+```{r}
+p = c(0.1, 0.15, 0.2, 0.2, 0.55, 0.6, 0.6, 0.65, 0.7, 0.75)
+```
+
+## Majority approach
+```{r}
+sum(p>=0.5) > sum(p<0.5)  
+```
+The number of red predictions is greater than the number of green predictions
+based on a 50% threshold, thus RED.
+
+## Average approach
+```{r}
+mean(p)
+```
+The average of the probabilities is less than the 50% threshold, thus GREEN.
