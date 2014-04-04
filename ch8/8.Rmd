@@ -1,0 +1,61 @@
+Chapter 8: Exercise 8
+========================================================
+
+### a
+```{r 8a}
+library(ISLR)
+attach(Carseats)
+set.seed(1)
+
+train = sample(dim(Carseats)[1], dim(Carseats)[1] / 2)
+Carseats.train = Carseats[train, ]
+Carseats.test = Carseats[-train, ]
+```
+
+### b
+```{r b8}
+library(tree)
+tree.carseats = tree(Sales~., data=Carseats.train)
+summary(tree.carseats)
+plot(tree.carseats)
+text(tree.carseats, pretty=0)
+pred.carseats = predict(tree.carseats, Carseats.test)
+mean((Carseats.test$Sales - pred.carseats)^2)
+```
+The test MSE is about $4.15$.
+
+### c
+```{r 8c}
+cv.carseats = cv.tree(tree.carseats, FUN=prune.tree)
+par(mfrow=c(1, 2))
+plot(cv.carseats$size, cv.carseats$dev, type="b")
+plot(cv.carseats$k, cv.carseats$dev, type="b")
+
+# Best size = 9
+pruned.carseats = prune.tree(tree.carseats, best=9)
+par(mfrow=c(1, 1))
+plot(pruned.carseats)
+text(pruned.carseats, pretty=0)
+pred.pruned = predict(pruned.carseats, Carseats.test)
+mean((Carseats.test$Sales - pred.pruned)^2)
+```
+Pruning the tree in this case increases the test MSE to $4.99$.
+
+### d
+```{r 9d}
+library(randomForest)
+bag.carseats = randomForest(Sales~., data=Carseats.train, mtry=10, ntree=500, importance=T)
+bag.pred = predict(bag.carseats, Carseats.test)
+mean((Carseats.test$Sales - bag.pred)^2)
+importance(bag.carseats)
+```
+Bagging improves the test MSE to $2.58$. We also see that $\tt{Price}$, $\tt{ShelveLoc}$ and $\tt{Age}$ are three most important predictors of $\tt{Sale}$.
+
+### e
+```{r 9e}
+rf.carseats = randomForest(Sales~., data=Carseats.train, mtry=5, ntree=500, importance=T)
+rf.pred = predict(rf.carseats, Carseats.test)
+mean((Carseats.test$Sales - rf.pred)^2)
+importance(rf.carseats)
+```
+In this case, random forest worsens the MSE on test set to $2.87$. Changing $m$ varies test MSE between $2.6$ to $3$. We again see that $\tt{Price}$, $\tt{ShelveLoc}$ and $\tt{Age}$ are three most important predictors of $\tt{Sale}$.

@@ -1,0 +1,79 @@
+Chapter 8: Exercise 10
+========================================================
+
+### a
+```{r 10a}
+library(ISLR)
+sum(is.na(Hitters$Salary))
+Hitters = Hitters[-which(is.na(Hitters$Salary)), ]
+sum(is.na(Hitters$Salary))
+Hitters$Salary = log(Hitters$Salary)
+```
+
+### b
+```{r 10b}
+train = 1:200
+Hitters.train = Hitters[train, ]
+Hitters.test = Hitters[-train, ]
+```
+
+### c
+```{r 10c}
+library(gbm)
+set.seed(103)
+pows = seq(-10, -0.2, by=0.1)
+lambdas = 10 ^ pows
+length.lambdas = length(lambdas)
+train.errors = rep(NA, length.lambdas)
+test.errors = rep(NA, length.lambdas)
+for (i in 1:length.lambdas) {
+  boost.hitters = gbm(Salary~., data=Hitters.train, distribution="gaussian", n.trees=1000, shrinkage=lambdas[i])
+  train.pred = predict(boost.hitters, Hitters.train, n.trees=1000)
+  test.pred = predict(boost.hitters, Hitters.test, n.trees=1000)
+  train.errors[i] = mean((Hitters.train$Salary - train.pred)^2)
+  test.errors[i] = mean((Hitters.test$Salary - test.pred)^2)
+}
+
+plot(lambdas, train.errors, type="b", xlab="Shrinkage", ylab="Train MSE", col="blue", pch=20)
+```
+
+### d
+```{r 10d}
+plot(lambdas, test.errors, type="b", xlab="Shrinkage", ylab="Test MSE", col="red", pch=20)
+min(test.errors)
+lambdas[which.min(test.errors)]
+```
+Minimum test error is obtained at $\lambda = 0.05$.
+
+### e
+```{r 10e}
+lm.fit = lm(Salary~., data=Hitters.train)
+lm.pred = predict(lm.fit, Hitters.test)
+mean((Hitters.test$Salary - lm.pred)^2)
+library(glmnet)
+set.seed(134)
+x = model.matrix(Salary~., data=Hitters.train)
+y = Hitters.train$Salary
+x.test = model.matrix(Salary~., data=Hitters.test)
+lasso.fit = glmnet(x, y, alpha=1)
+lasso.pred = predict(lasso.fit, s=0.01, newx=x.test)
+mean((Hitters.test$Salary - lasso.pred)^2)
+```
+Both linear model and regularization like Lasso have higher test MSE than boosting.
+
+### f
+```{r 10f}
+boost.best = gbm(Salary~., data=Hitters.train, distribution="gaussian", n.trees=1000, shrinkage=lambdas[which.min(test.errors)])
+summary(boost.best)
+```
+$\tt{CAtBat}$, $\tt{CRBI}$ and $\tt{CWalks}$ are three most important variables in that order.
+
+### g
+```{r 10g}
+library(randomForest)
+set.seed(21)
+rf.hitters = randomForest(Salary~., data=Hitters.train, ntree=500, mtry=19)
+rf.pred = predict(rf.hitters, Hitters.test)
+mean((Hitters.test$Salary - rf.pred)^2)
+```
+Test MSE for bagging is about $0.23$, which is slightly lower than the best test MSE for boosting.
