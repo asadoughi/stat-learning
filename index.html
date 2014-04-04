@@ -29,6 +29,8 @@ for (var chapter = 2; chapter <= 10; chapter++) {
                 link = "https://raw.githubusercontent.com/asadoughi/stat-learning/master/ch3/answers";
             else
                 link = "ch3/applied.html";
+        } else if (chapter == 6 && exercise == 7) {
+            link = "https://github.com/asadoughi/stat-learning/issues/27";
         }
         document.write("<a href='" + link + "'>Chapter " + chapter + " Exercise " + exercise + "</a>");
         document.write("<br />");
