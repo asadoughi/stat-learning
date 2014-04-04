@@ -18,7 +18,19 @@
 exercise_count = [10, 15, 13, 9, 11, 12, 12, 8, 11];
 for (var chapter = 2; chapter <= 10; chapter++) {
     for (var exercise = 1; exercise <= exercise_count[chapter-2]; exercise++) {
-        document.write("<a href='ch" + chapter + "/" + exercise + ".html'>Chapter " + chapter + " Exercise " + exercise + "</a>");
+        link = "ch" + chapter + "/" + exercise + ".html";
+        if (chapter == 2) {
+            if (exercise < 8)
+                link = "https://raw.githubusercontent.com/asadoughi/stat-learning/master/ch2/answers";
+            else
+                link = "https://raw.githubusercontent.com/asadoughi/stat-learning/master/ch2/applied.R";
+        } else if (chapter == 3) {
+            if (exercise < 7)
+                link = "https://raw.githubusercontent.com/asadoughi/stat-learning/master/ch3/answers";
+            else
+                link = "ch3/applied.html";
+        }
+        document.write("<a href='" + link + "'>Chapter " + chapter + " Exercise " + exercise + "</a>");
         document.write("<br />");
     }
     document.write("<br />");
