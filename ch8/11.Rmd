@@ -1,0 +1,37 @@
+Chapter 8: Exercise 11
+========================================================
+
+### a
+```{r 11a}
+library(ISLR)
+train = 1:1000
+Caravan$Purchase = ifelse(Caravan$Purchase == "Yes", 1, 0)
+Caravan.train = Caravan[train, ]
+Caravan.test = Caravan[-train, ]
+```
+
+### b
+```{r 11b}
+library(gbm)
+set.seed(342)
+boost.caravan = gbm(Purchase~., data=Caravan.train, n.trees=1000, shrinkage=0.01, distribution="bernoulli")
+summary(boost.caravan)
+```
+$\tt{PPERSAUT}$, $\tt{MKOOPKLA}$ and $\tt{MOPLHOOG}$ are three most important variables in that order.
+
+### c
+```{r 11c}
+boost.prob = predict(boost.caravan, Caravan.test, n.trees=1000, type="response")
+boost.pred = ifelse(boost.prob >0.2, 1, 0)
+table(Caravan.test$Purchase, boost.pred)
+34 / (137 + 34)
+```
+About $20$% of people predicted to make purchase actually end up making one.
+```{r}
+lm.caravan = glm(Purchase~., data=Caravan.train, family=binomial)
+lm.prob = predict(lm.caravan, Caravan.test, type="response")
+lm.pred = ifelse(lm.prob > 0.2, 1, 0)
+table(Caravan.test$Purchase, lm.pred)
+58 / (350 + 58)
+```
+About $14$% of people predicted to make purchase using logistic regression actually end up making one. This is lower than boosting.
