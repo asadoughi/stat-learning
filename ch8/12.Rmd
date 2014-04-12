@@ -1,0 +1,65 @@
+Chapter 8: Exercise 12
+======================
+
+In this exercise I chose to examine the `Weekly` stock market data from the ISLR
+package.
+
+```{r}
+set.seed(1)
+library(ISLR)
+summary(Weekly)
+train = sample(nrow(Weekly), 2/3 * nrow(Weekly))
+test = -train
+```
+
+## Logistic regression
+```{r}
+glm.fit = glm(Direction~.-Year-Today, data=Weekly[train,], family="binomial")
+glm.probs = predict(glm.fit, newdata=Weekly[test, ], type = "response")
+glm.pred = rep("Down", length(glm.probs))
+glm.pred[glm.probs > 0.5] = "Up"
+table(glm.pred, Weekly$Direction[test])
+mean(glm.pred != Weekly$Direction[test])
+```
+
+## Boosting
+```{r}
+library(gbm)
+Weekly$BinomialDirection = ifelse(Weekly$Direction == "Up", 1, 0)
+boost.weekly = gbm(BinomialDirection~.-Year-Today-Direction,
+                   data=Weekly[train,],
+                   distribution="bernoulli",
+                   n.trees=5000)
+yhat.boost = predict(boost.weekly, newdata=Weekly[test,], n.trees=5000)
+yhat.pred = rep(0, length(yhat.boost))
+yhat.pred[yhat.boost > 0.5] = 1
+table(yhat.pred, Weekly$BinomialDirection[test])
+mean(yhat.pred != Weekly$BinomialDirection[test])
+```
+
+## Bagging
+```{r}
+Weekly = Weekly[,!(names(Weekly) %in% c("BinomialDirection"))]
+library(randomForest)
+bag.weekly = randomForest(Direction~.-Year-Today,
+                          data=Weekly,
+                          subset=train,
+                          mtry=6)
+yhat.bag = predict(bag.weekly, newdata=Weekly[test,])
+table(yhat.bag, Weekly$Direction[test])
+mean(yhat.bag != Weekly$Direction[test])
+```
+
+## Random forests
+```{r}
+rf.weekly = randomForest(Direction~.-Year-Today,
+                          data=Weekly,
+                          subset=train,
+                          mtry=2)
+yhat.bag = predict(rf.weekly, newdata=Weekly[test,])
+table(yhat.bag, Weekly$Direction[test])
+mean(yhat.bag != Weekly$Direction[test])
+```
+
+## Best performance summary
+Boosting resulted in the lowest validation set test error rate.
