@@ -33,9 +33,17 @@ summary(tune.out)
 ```
 Finally, for radial basis kernel, $\tt{cost} = 10$ and $\tt{gamma} = 0.01$.
 
-#### d
+### d
 ```{r 7d}
 svm.linear = svm(mpglevel~., data=Auto, kernel="linear", cost=1)
 svm.poly = svm(mpglevel~., data=Auto, kernel="polynomial", cost=10, degree=2)
 svm.radial = svm(mpglevel~., data=Auto, kernel="radial", cost=10, gamma=0.01)
+plotpairs = function(fit){
+  for (name in names(Auto)[!(names(Auto) %in% c("mpg", "mpglevel","name"))]) {
+    plot(fit, Auto, as.formula(paste("mpg~", name, sep="")))
+  }
+}
+plotpairs(svm.linear)
+plotpairs(svm.poly)
+plotpairs(svm.radial)
 ```
