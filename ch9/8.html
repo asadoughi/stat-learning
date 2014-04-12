@@ -1,13 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!-- saved from url=(0014)about:internet -->
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
 
 <title>Chapter 9: Exercise 8</title>
-
-<base target="_blank"/>
 
 <style type="text/css">
 body, td {
@@ -53,13 +51,14 @@ pre {
    margin-top: 0;
    max-width: 95%;
    border: 1px solid #ccc;
+   white-space: pre-wrap;
 }
 
 pre code {
    display: block; padding: 0.5em;
 }
 
-code.r {
+code.r, code.cpp {
    background-color: #F8F8F8;
 }
 
@@ -198,6 +197,9 @@ OJ.test = OJ[-train, ]
 <h3>b</h3>
 
 <pre><code class="r">library(e1071)
+</code></pre>
+
+<pre><code>## Warning: package &#39;e1071&#39; was built under R version 3.0.2
 </code></pre>
 
 <pre><code>## Loading required package: class
@@ -541,8 +543,6 @@ table(OJ.test$Purchase, test.pred)
 
 <p>Summary shows that polynomial kernel produces 452 support vectors, out of which, 232 belong to level \( \tt{CH} \) and remaining 220 belong to level \( \tt{MM} \). This kernel produces a train error of \( 17.1 \)% and a test error of \( 18.1 \)% which are slightly higher than the errors produces by radial kernel but lower than the errors produced by linear kernel.</p>
 
-<h3>h</h3>
-
 <pre><code class="r">set.seed(322)
 tune.out = tune(svm, Purchase ~ ., data = OJ.train, kernel = &quot;poly&quot;, degree = 2, 
     ranges = list(cost = 10^seq(-2, 1, by = 0.25)))
@@ -612,7 +612,7 @@ table(OJ.test$Purchase, test.pred)
 
 <p>Tuning reduces the training error to \( 15.12 \)% and test error to \( 17.4 \)% which is worse than radial kernel but slightly better than linear kernel.</p>
 
-<h3>g</h3>
+<h3>h</h3>
 
 <p>Overall, radial basis kernel seems to be producing minimum misclassification error on both train and test data.</p>
 
