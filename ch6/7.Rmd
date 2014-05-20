@@ -65,7 +65,7 @@ $$
     = f(Y \mid X, \beta) p(\beta)
 $$
 
-Substituting our values gives us:
+Substituting our values from (a) and our density function gives us:
 
 $$
 \begin{aligned}
@@ -198,9 +198,9 @@ $$
             }
         \right)
     \right]
-    +
+    -
     \left(
-        - \frac{
+        \frac{
             1
         }{
             2\sigma^2
@@ -209,12 +209,12 @@ $$
         \left[
             Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
         \right]^2
-        -
+        +
         \frac{
             \lvert \beta \rvert
         }{
             b
-            }
+        }
     \right)
 \end{aligned}
 $$
@@ -271,7 +271,6 @@ $\beta$. This results in:
 
 $$
 \begin{aligned}
-    \arg\max_\beta \, f(\beta \mid X, Y)
     &=
     \arg\min_\beta
     \,
@@ -339,7 +338,6 @@ By letting $\lambda = 2\sigma^2/b$, we can see that we end up with:
 
 $$
 \begin{aligned}
-    \arg\max_\beta \, f(\beta \mid X, Y)
     &=
     \arg\min_\beta
     \,
