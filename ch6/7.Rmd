@@ -137,7 +137,15 @@ $$
 
 
 ### c
-Let's simplify it by taking the logarithm of both sides gives:
+
+Showing that the Lasso estimate for $\beta$ is the mode under this posterior
+distribution is the same thing as showing that the most likely value for
+$\beta$ is given by the lasso solution with a certain $\lambda$.
+
+We can do this by taking our likelihood and posterior and showing that it can
+be reduced to the canonical Lasso Equation 6.7 from the book.
+
+Let's start by simplifying it by taking the logarithm of both sides:
 
 $$
 \begin{aligned}
@@ -359,7 +367,10 @@ $$
 \end{aligned}
 $$
 
-which we know is the Lasso from Equation 6.7 in the book.
+which we know is the Lasso from Equation 6.7 in the book. Thus we know that
+when the posterior comes from a Laplace distribution with mean zero and common
+scale parameter $b$, the mode for $\beta$ is given by the Lasso solution when
+$\lambda = 2\sigma^2 / b$.
 
 ### d
 The posterior distributed according to Normal distribution with mean 0 and
@@ -494,7 +505,18 @@ $$
 
 ### e
 
+Like from part c, showing that the Ridge Regression estimate for $\beta$ is
+the mode and mean under this posterior distribution is the same thing as
+showing that the most likely value for $\beta$ is given by the lasso solution
+with a certain $\lambda$.
+
+We can do this by taking our likelihood and posterior and showing that it can
+be reduced to the canonical Ridge Regression Equation 6.5 from the book.
+
+Let's start by simplifying it by taking the logarithm of both sides:
+
 Once again, we can take the logarithm of both sides to simplify it:
+
 $$
 \begin{aligned}
     \log f(Y \mid X, \beta)p(\beta)
@@ -712,4 +734,8 @@ $$
 \end{aligned}
 $$
 
-which we know is the Ridge Regression from Equation 6.5 in the book.
+which we know is the Ridge Regression from Equation 6.5 in the book. Thus we
+know that when the posterior comes from a normal distribution with mean zero
+and variance $c$, the mode for $\beta$ is given by the Ridge Regression
+solution when $\lambda = \sigma^2 / c$. Since the posterior is Gaussian, we
+also know that it is the posterior mean.

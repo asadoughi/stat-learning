@@ -286,7 +286,14 @@ common scale parameter \( b \), i.e. \( p(\beta) = \frac{1}{2b}\exp(- \lvert \be
 
 <h3>c</h3>
 
-<p>Let&#39;s simplify it by taking the logarithm of both sides gives:</p>
+<p>Showing that the Lasso estimate for \( \beta \) is the mode under this posterior
+distribution is the same thing as showing that the most likely value for
+\( \beta \) is given by the lasso solution with a certain \( \lambda \).</p>
+
+<p>We can do this by taking our likelihood and posterior and showing that it can
+be reduced to the canonical Lasso Equation 6.7 from the book.</p>
+
+<p>Let&#39;s start by simplifying it by taking the logarithm of both sides:</p>
 
 <p>\[ 
 \begin{aligned}
@@ -508,7 +515,10 @@ the equivalent to taking the difference of the second value in terms of
 \end{aligned}
  \]</p>
 
-<p>which we know is the Lasso from Equation 6.7 in the book.</p>
+<p>which we know is the Lasso from Equation 6.7 in the book. Thus we know that
+when the posterior comes from a Laplace distribution with mean zero and common
+scale parameter \( b \), the mode for \( \beta \) is given by the Lasso solution when
+\( \lambda = 2\sigma^2 / b \).</p>
 
 <h3>d</h3>
 
@@ -644,8 +654,19 @@ variance \( c \) is:</p>
 
 <h3>e</h3>
 
-<p>Once again, we can take the logarithm of both sides to simplify it:
-\[ 
+<p>Like from part c, showing that the Ridge Regression estimate for \( \beta \) is
+the mode and mean under this posterior distribution is the same thing as
+showing that the most likely value for \( \beta \) is given by the lasso solution
+with a certain \( \lambda \).</p>
+
+<p>We can do this by taking our likelihood and posterior and showing that it can
+be reduced to the canonical Ridge Regression Equation 6.5 from the book.</p>
+
+<p>Let&#39;s start by simplifying it by taking the logarithm of both sides:</p>
+
+<p>Once again, we can take the logarithm of both sides to simplify it:</p>
+
+<p>\[ 
 \begin{aligned}
     \log f(Y \mid X, \beta)p(\beta)
     &=
@@ -862,7 +883,11 @@ the equivalent to taking the difference of the second value in terms of
 \end{aligned}
  \]</p>
 
-<p>which we know is the Ridge Regression from Equation 6.5 in the book.</p>
+<p>which we know is the Ridge Regression from Equation 6.5 in the book. Thus we
+know that when the posterior comes from a normal distribution with mean zero
+and variance \( c \), the mode for \( \beta \) is given by the Ridge Regression
+solution when \( \lambda = \sigma^2 / c \). Since the posterior is Gaussian, we
+also know that it is the posterior mean.</p>
 
 </body>
 
