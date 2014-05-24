@@ -1,0 +1,741 @@
+Chapter 6: Exercise 7
+========================================================
+
+### a
+The likelihood for the data is:
+
+$$
+\begin{aligned}
+    L(\theta \mid \beta)
+    &= p(\beta \mid \theta)
+    \\
+    &= p(\beta_1 \mid \theta)
+    \times \cdots
+    \times p(\beta_n \mid \theta)
+    \\
+    &= \prod_{i = 1}^{n}
+    p(\beta_i \mid \theta)
+    \\
+    &= \prod_{i = 1}^{n}
+    \frac{
+        1
+    }{
+        \sigma \sqrt{2\pi}
+    }
+    \exp
+    \left(-
+        \frac{
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        }{
+            2\sigma^2
+        }
+    \right)
+    \\
+    &=
+    \left(
+        \frac{
+            1
+        }{
+            \sigma \sqrt{2\pi}
+        }
+    \right)^n
+    \exp
+    \left(
+        - \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+    \right)
+\end{aligned}
+$$
+
+### b
+The posterior with double exponential (Laplace Distribution) with mean 0 and
+common scale parameter $b$, i.e. $p(\beta) = \frac{1}{2b}\exp(- \lvert \beta
+\rvert / b)$ is:
+
+$$
+    f(\beta \mid X, Y)
+    \propto f(Y \mid X, \beta) p(\beta \mid X)
+    = f(Y \mid X, \beta) p(\beta)
+$$
+
+Substituting our values from (a) and our density function gives us:
+
+$$
+\begin{aligned}
+    f(Y \mid X, \beta)p(\beta)
+    &=
+    \left(
+        \frac{
+            1
+        }{
+            \sigma \sqrt{2\pi}
+        }
+    \right)^n
+    \exp
+    \left(
+        - \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+    \right)
+    \left(
+        \frac{
+            1
+        }{
+            2b
+        }
+        \exp(- \lvert \beta \rvert / b)
+    \right)
+    \\
+    &=
+    \left(
+        \frac{
+            1
+        }{
+            \sigma \sqrt{2\pi}
+        }
+    \right)^n
+    \left(
+        \frac{
+            1
+        }{
+            2b
+        }
+    \right)
+    \exp
+    \left(
+        - \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        -
+        \frac{
+            \lvert \beta \rvert
+        }{
+            b
+            }
+    \right)
+\end{aligned}
+$$
+
+
+### c
+
+Showing that the Lasso estimate for $\beta$ is the mode under this posterior
+distribution is the same thing as showing that the most likely value for
+$\beta$ is given by the lasso solution with a certain $\lambda$.
+
+We can do this by taking our likelihood and posterior and showing that it can
+be reduced to the canonical Lasso Equation 6.7 from the book.
+
+Let's start by simplifying it by taking the logarithm of both sides:
+
+$$
+\begin{aligned}
+    \log
+    f(Y \mid X, \beta)p(\beta)
+    &=
+    \log
+    \left[
+        \left(
+            \frac{
+                1
+            }{
+                \sigma \sqrt{2\pi}
+            }
+        \right)^n
+        \left(
+            \frac{
+                1
+            }{
+                2b
+            }
+        \right)
+        \exp
+        \left(
+            - \frac{
+                1
+            }{
+                2\sigma^2
+            }
+            \sum_{i = 1}^{n}
+            \left[
+                Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+            \right]^2
+            -
+            \frac{
+                \lvert \beta \rvert
+            }{
+                b
+                }
+        \right)
+    \right]
+    \\
+    &=
+    \log
+    \left[
+        \left(
+            \frac{
+                1
+            }{
+                \sigma \sqrt{2\pi}
+            }
+        \right)^n
+        \left(
+            \frac{
+                1
+            }{
+                2b
+            }
+        \right)
+    \right]
+    -
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            \lvert \beta \rvert
+        }{
+            b
+        }
+    \right)
+\end{aligned}
+$$
+
+We want to maximize the posterior, this means:
+$$
+\begin{aligned}
+    \arg\max_\beta \, f(\beta \mid X, Y)
+    &=
+    \arg\max_\beta
+    \,
+    \log
+    \left[
+        \left(
+            \frac{
+                1
+            }{
+                \sigma \sqrt{2\pi}
+            }
+        \right)^n
+        \left(
+            \frac{
+                1
+            }{
+                2b
+            }
+        \right)
+    \right]
+    -
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            \lvert \beta \rvert
+        }{
+            b
+            }
+    \right)
+    \\
+\end{aligned}
+$$
+
+Since we are taking the difference of two values, the maximum of this value is
+the equivalent to taking the difference of the second value in terms of
+$\beta$. This results in:
+
+$$
+\begin{aligned}
+    &=
+    \arg\min_\beta
+    \,
+    \frac{
+        1
+    }{
+        2\sigma^2
+    }
+    \sum_{i = 1}^{n}
+    \left[
+        Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+    \right]^2
+    +
+    \frac{
+        \lvert \beta \rvert
+    }{
+        b
+    }
+    \\
+    &=
+    \arg\min_\beta
+    \,
+    \frac{
+        1
+    }{
+        2\sigma^2
+    }
+    \sum_{i = 1}^{n}
+    \left[
+        Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+    \right]^2
+    +
+    \frac{
+        1
+    }{
+        b
+    }
+    \sum_{j = 1}^{p} \lvert \beta_j \rvert
+    \\
+    &=
+    \arg\min_\beta
+    \,
+    \frac{
+        1
+    }{
+        2\sigma^2
+    }
+    \left(
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            2\sigma^2
+        }{
+            b
+        }
+        \sum_{j = 1}^{p} \lvert \beta_j \rvert
+    \right)
+\end{aligned}
+$$
+
+By letting $\lambda = 2\sigma^2/b$, we can see that we end up with:
+
+$$
+\begin{aligned}
+    &=
+    \arg\min_\beta
+    \,
+    \sum_{i = 1}^{n}
+    \left[
+        Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+    \right]^2
+    +
+    \lambda
+    \sum_{j = 1}^{p} \lvert \beta_j \rvert
+    \\
+    &=
+    \arg\min_\beta
+    \,
+    \text{RSS}
+    +
+    \lambda
+    \sum_{j = 1}^{p} \lvert \beta_j \rvert
+\end{aligned}
+$$
+
+which we know is the Lasso from Equation 6.7 in the book. Thus we know that
+when the posterior comes from a Laplace distribution with mean zero and common
+scale parameter $b$, the mode for $\beta$ is given by the Lasso solution when
+$\lambda = 2\sigma^2 / b$.
+
+### d
+The posterior distributed according to Normal distribution with mean 0 and
+variance $c$ is:
+
+$$
+\begin{aligned}
+    f(\beta \mid X, Y)
+    \propto f(Y \mid X, \beta) p(\beta \mid X)
+    = f(Y \mid X, \beta) p(\beta)
+\end{aligned}
+$$
+
+Our probability distribution function then becomes:
+$$
+        p(\beta)
+        = \prod_{i = 1}^{p} p(\beta_i)
+        = \prod_{i = 1}^{p}
+        \frac{
+            1
+        }{
+            \sqrt{
+                2c\pi
+            }
+        }
+        \exp \left(
+            - \frac{
+                \beta_i^2
+                }{
+                    2c
+                }
+        \right)
+        = \left(
+            \frac{
+                1
+            }{
+                \sqrt{
+                    2c\pi
+                }
+            }
+        \right)^p
+        \exp \left(
+            - \frac{
+                1
+            }{
+                2c
+            }
+            \sum_{i = 1}^{p} \beta_i^2
+        \right)
+$$
+
+Substituting our values from (a) and our density function gives us:
+
+$$
+\begin{aligned}
+    f(Y \mid X, \beta)p(\beta)
+    &=
+    \left(
+        \frac{
+            1
+        }{
+            \sigma \sqrt{2\pi}
+        }
+    \right)^n
+    \exp
+    \left(
+        - \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+    \right)
+    \left(
+        \frac{
+            1
+        }{
+            \sqrt{
+                2c\pi
+            }
+        }
+    \right)^p
+    \exp \left(
+        - \frac{
+            1
+        }{
+            2c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+    \\
+    &=
+    \left(
+        \frac{
+            1
+        }{
+            \sigma \sqrt{2\pi}
+        }
+    \right)^n
+    \left(
+        \frac{
+            1
+        }{
+            \sqrt{
+                2c\pi
+            }
+        }
+    \right)^p
+    \exp
+    \left(
+        - \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        - \frac{
+            1
+        }{
+            2c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+\end{aligned}
+$$
+
+### e
+
+Like from part c, showing that the Ridge Regression estimate for $\beta$ is
+the mode and mean under this posterior distribution is the same thing as
+showing that the most likely value for $\beta$ is given by the lasso solution
+with a certain $\lambda$.
+
+We can do this by taking our likelihood and posterior and showing that it can
+be reduced to the canonical Ridge Regression Equation 6.5 from the book.
+
+Let's start by simplifying it by taking the logarithm of both sides:
+
+Once again, we can take the logarithm of both sides to simplify it:
+
+$$
+\begin{aligned}
+    \log f(Y \mid X, \beta)p(\beta)
+    &=
+    \left(
+        \frac{
+            1
+        }{
+            \sigma \sqrt{2\pi}
+        }
+    \right)^n
+    \left(
+        \frac{
+            1
+        }{
+            \sqrt{
+                2c\pi
+            }
+        }
+    \right)^p
+    \exp
+    \left(
+        - \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        - \frac{
+            1
+        }{
+            2c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+    \\
+    &=
+    \log
+    \left[
+        \left(
+            \frac{
+                1
+            }{
+                \sigma \sqrt{2\pi}
+            }
+        \right)^n
+        \left(
+            \frac{
+                1
+            }{
+                \sqrt{
+                    2c\pi
+                }
+            }
+        \right)^p
+    \right]
+    -
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            1
+        }{
+            2c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+\end{aligned}
+$$
+
+We want to maximize the posterior, this means:
+$$
+\begin{aligned}
+    \arg\max_\beta \, f(\beta \mid X, Y)
+    &=
+    \arg\max_\beta
+    \,
+    \log
+    \left[
+        \left(
+            \frac{
+                1
+            }{
+                \sigma \sqrt{2\pi}
+            }
+        \right)^n
+        \left(
+            \frac{
+                1
+            }{
+                \sqrt{
+                    2c\pi
+                }
+            }
+        \right)^p
+    \right]
+    -
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            1
+        }{
+            2c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+\end{aligned}
+$$
+
+Since we are taking the difference of two values, the maximum of this value is
+the equivalent to taking the difference of the second value in terms of
+$\beta$. This results in:
+
+$$
+\begin{aligned}
+    &=
+    \arg\min_\beta
+    \,
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            1
+        }{
+            2c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+    \\
+    &=
+    \arg\min_\beta
+    \,
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+    \right)
+    \left(
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \frac{
+            \sigma^2
+        }{
+            c
+        }
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+\end{aligned}
+$$
+
+By letting $\lambda = \sigma^2/ c$, we end up with:
+
+$$
+\begin{aligned}
+    &=
+    \arg\min_\beta
+    \,
+    \left(
+        \frac{
+            1
+        }{
+            2\sigma^2
+        }
+    \right)
+    \left(
+        \sum_{i = 1}^{n}
+        \left[
+            Y_i - (\beta_0 + \sum_{j = 1}^{p} \beta_j X_{ij})
+        \right]^2
+        +
+        \lambda
+        \sum_{i = 1}^{p} \beta_i^2
+    \right)
+    \\
+    &=
+    \arg\min_\beta
+    \,
+    \text{RSS}
+    +
+    \lambda
+    \sum_{i = 1}^{p} \beta_i^2
+\end{aligned}
+$$
+
+which we know is the Ridge Regression from Equation 6.5 in the book. Thus we
+know that when the posterior comes from a normal distribution with mean zero
+and variance $c$, the mode for $\beta$ is given by the Ridge Regression
+solution when $\lambda = \sigma^2 / c$. Since the posterior is Gaussian, we
+also know that it is the posterior mean.
