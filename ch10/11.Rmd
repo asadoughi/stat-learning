@@ -1,0 +1,39 @@
+---
+title: "Chapter 10: Exercise 11"
+output: html_document
+---
+
+### a
+```{r}
+data = read.csv("./Ch10Ex11.csv", header=F)
+dim(data)
+```
+
+### b
+```{r 2b}
+dd = as.dist(1 - cor(data))
+plot(hclust(dd, method="complete"))
+plot(hclust(dd, method="single"))
+plot(hclust(dd, method="average"))
+```
+
+Two or three groups depending on the linkage method.
+
+### c
+To look at which genes differ the most across the healthy patients and diseased
+patients, we could look at the loading vectors outputted from
+PCA to see which genes are used to describe the variance the most.
+```{r}
+pr.out = prcomp(t(data))
+summary(pr.out)
+total_load = apply(pr.out$rotation, 1, sum)
+indices = order(abs(total_load), decreasing=T)
+indices[1:10]
+total_load[indices[1:10]]
+```
+This shows one representation of the top 1% of differing genes. 
+
+(*) I'm not sure this is the correct way to aggregate the loading vector.
+
+
+
