@@ -1,0 +1,41 @@
+---
+title: 'Chapter 10: Exercise 9'
+output: html_document
+---
+
+```{r}
+library(ISLR)
+set.seed(2)
+```
+
+### a
+```{r}
+hc.complete = hclust(dist(USArrests), method="complete")
+plot(hc.complete)
+```
+
+### b
+```{r}
+cutree(hc.complete, 3)
+table(cutree(hc.complete, 3))
+```
+
+### c
+```{r}
+dsc = scale(USArrests)
+hc.s.complete = hclust(dist(dsc), method="complete")
+plot(hc.s.complete)
+```
+
+### d
+```{r}
+cutree(hc.s.complete, 3)
+table(cutree(hc.s.complete, 3))
+table(cutree(hc.s.complete, 3), cutree(hc.complete, 3))
+```
+Scaling the variables effects the max height of the dendogram obtained from
+hierarchical clustering. From a cursory glance, it doesn't effect the bushiness
+of the tree obtained. However, it does affect the clusters obtained from cutting
+the dendogram into 3 clusters. In my opinion, for this data set the data should 
+be standardized because the data measured has different units ($UrbanPop$ 
+compared to other three columns).
