@@ -1,0 +1,17 @@
+---
+title: 'Chapter 10: Exercise 7'
+output: html_document
+---
+
+```{r}
+library(ISLR)
+set.seed(1)
+```
+
+```{r}
+dsc = scale(USArrests)
+a = dist(dsc)^2
+b = as.dist(1 - cor(t(dsc)))
+summary(b/a)
+```
+
