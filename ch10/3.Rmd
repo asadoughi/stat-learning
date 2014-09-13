@@ -1,0 +1,73 @@
+---
+title: 'Chapter 10: Exercise 3'
+output: html_document
+---
+
+```{r}
+set.seed(1)
+x = cbind(c(1, 1, 0, 5, 6, 4), c(4, 3, 4, 1, 2, 0))
+x
+```
+
+### a
+```{r}
+plot(x[,1], x[,2])
+```
+
+### b
+```{r}
+labels = sample(2, nrow(x), replace=T)
+labels
+```
+
+### c
+```{r}
+centroid1 = c(mean(x[labels==1, 1]), mean(x[labels==1, 2]))
+centroid2 = c(mean(x[labels==2, 1]), mean(x[labels==2, 2]))
+centroid1
+centroid2
+plot(x[,1], x[,2], col=(labels+1), pch=20, cex=2)
+points(centroid1[1], centroid1[2], col=2, pch=4)
+points(centroid2[1], centroid2[2], col=3, pch=4)
+```
+
+### d
+```{r}
+euclid = function(a, b) {
+  return(sqrt((a[1] - b[1])^2 + (a[2]-b[2])^2))
+}
+assign_labels = function(x, centroid1, centroid2) {
+  labels = rep(NA, nrow(x))
+  for (i in 1:nrow(x)) {
+    if (euclid(x[i,], centroid1) < euclid(x[i,], centroid2)) {
+      labels[i] = 1
+    } else {
+      labels[i] = 2
+    }
+  }
+  return(labels)
+}
+labels = assign_labels(x, centroid1, centroid2)
+labels
+```
+
+### e
+```{r}
+last_labels = rep(-1, 6)
+while (!all(last_labels == labels)) {
+  last_labels = labels
+  centroid1 = c(mean(x[labels==1, 1]), mean(x[labels==1, 2]))
+  centroid2 = c(mean(x[labels==2, 1]), mean(x[labels==2, 2]))
+  print(centroid1)
+  print(centroid2)
+  labels = assign_labels(x, centroid1, centroid2)
+}
+labels
+```
+
+### f
+```{r}
+plot(x[,1], x[,2], col=(labels+1), pch=20, cex=2)
+points(centroid1[1], centroid1[2], col=2, pch=4)
+points(centroid2[1], centroid2[2], col=3, pch=4)
+```
