@@ -1,0 +1,14 @@
+---
+title: 'Chapter 10: Exercise 4'
+output: html_document
+---
+
+### a
+Not enough information to tell. The maximal intercluster dissimilarity could be
+equal or not equal to the minimial intercluster dissimilarity. If the
+dissimilarities were equal, they would fuse at the same height. If they were
+not equal, they single linkage dendogram would fuse at a lower height.
+
+### b
+They would fuse at the same height because linkage does not affect leaf-to-leaf
+fusion.
