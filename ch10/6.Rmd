@@ -1,0 +1,46 @@
+---
+title: "Chapter 10: Exercise 6"
+output: html_document
+---
+
+### a
+The first principal component "explains 10% of the variation" means 90% of the
+information in the gene data set is lost by projecting the tissue sample
+observations onto the first principal component. Another way of explaining it is
+90% of the variance in the data is not contained in the first principal
+component.
+
+### b
+Given the flaw shown in pre-analysis of a time-wise linear trend amongst the
+tissue samples' first principal component, I would advise the researcher to
+include the machine used (A vs B) as a feature of the data set. This should
+enhance the PVE of the first principal component before applying the two-sample
+t-test.
+
+### c
+```{r}
+set.seed(1)
+Control = matrix(rnorm(50*1000), ncol=50)
+Treatment = matrix(rnorm(50*1000), ncol=50)
+X = cbind(Control, Treatment)
+X[1,] = seq(-18, 18 - .36, .36) # linear trend in one dimension
+```
+
+```{r}
+pr.out = prcomp(scale(X))
+summary(pr.out)$importance[,1]
+```
+9.911% variance explained by the first principal component.
+
+Now, adding in A vs B via 10 vs 0 encoding.
+```{r}
+X = rbind(X, c(rep(10, 50), rep(0, 50)))
+pr.out = prcomp(scale(X))
+summary(pr.out)$importance[,1]
+```
+11.54% variance explained by the first principal component. That's an
+improvement of 1.629%.
+
+(*) I'm sure a better simulation could be derived from someone more versed in
+PCA.
+
