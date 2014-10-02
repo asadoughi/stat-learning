@@ -37,8 +37,11 @@ yield a closer fit
 iv. test error - concave up curve because increase in flexibility yields a closer
 fit before it overfits
 
-v. Bayes (irreducible) error - probability determined from class overlap from
- the decision boundary so it's a constant with between 0 and 1.
+v. Bayes (irreducible) error - defines the lower limit, the test error is bounded 
+below by the irreducible error due to variance in the error (epsilon) in the output 
+values. 
+The Bayes error is defined for classification problems and is determined by the actual class
+overlapping the decision boundary so it's a constant with value between 0 and 1.
 
 
 4. (a) i. stock market price direction, prediction, response: up, down,
