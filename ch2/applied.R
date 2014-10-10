@@ -73,44 +73,20 @@ dim(newAuto) == dim(Auto) - c(76,0)
 newAuto[9,] == Auto[9,]
 newAuto[10,] == Auto[86,]
 
-mean(newAuto$mpg); sd(newAuto$mpg); range(newAuto$mpg)
-# 24.40443 7.867283 (11.0 46.6)
-
-mean(newAuto$cylinders); sd(newAuto$cylinders);
-# 5.373418 1.654179
-range(newAuto$cylinders)
-# 3 8
-
-mean(newAuto$displacement); sd(newAuto$displacement);
-# 187.2405 99.67837
-range(newAuto$displacement)
-# 68 455
-
-mean(newAuto$horsepower); sd(newAuto$horsepower); range(newAuto$horsepower)
-# 100.7215
-# 35.70885
-# 46 230
-
-mean(newAuto$weight); sd(newAuto$weight); range(newAuto$weight)
-# 2935.972
-# 811.3002
-# 1649 4997
-
-mean(newAuto$acceleration); sd(newAuto$acceleration);
-# 15.7269
-# 2.693721
-range(newAuto$acceleration)
-# 8.5 24.8
-
-mean(newAuto$year); sd(newAuto$year); range(newAuto$year)
-# 77.14557
-# 3.106217
-# 70 82
-
-mean(newAuto$origin); sd(newAuto$origin); range(newAuto$origin)
-# 1.601266
-# 0.81991
-# 1 3
+sapply(newAuto[, 1:7], range)
+#       mpg cylinders displacement horsepower weight acceleration year
+# [1,] 11.0         3           68         46   1649          8.5   70
+# [2,] 46.6         8          455        230   4997         24.8   82
+sapply(newAuto[, 1:7], mean)
+#         mpg    cylinders displacement   horsepower       weight acceleration 
+#   24.404430     5.373418   187.240506   100.721519  2935.971519    15.726899 
+#        year 
+#   77.145570 
+sapply(newAuto[, 1:7], sd)
+#         mpg    cylinders displacement   horsepower       weight acceleration 
+#    7.867283     1.654179    99.678367    35.708853   811.300208     2.693721 
+#        year 
+#    3.106217 
 
 # (e)
 pairs(Auto)
@@ -123,8 +99,10 @@ plot(Auto$mpg, Auto$year)
 
 # (f)
 pairs(Auto)
-# Virtually all of the predictors minus origin, name.
 # See descriptions of plots in (e).
+# All of the predictors show some correlation with mpg. The name predictor has 
+# too little observations per name though, so using this as a predictor is 
+# likely to result in overfitting the data and will not generalize well.
 
 # 10.
 # (a)
@@ -158,12 +136,14 @@ plot(Boston$ptratio, Boston$crim)
 # Higher pupil:teacher ratio, more crime
 
 # (d)
-range(Boston$crim)
-# Virtually 0 to 88.98; very wide range: two orders of magnitude
-range(Boston$tax)
-# 187 to 711; not as wide of a range as crime rate
-range(Boston$ptratio)
-# 12.6 to 22.0; not as wide of a range as crime rate
+par(mfrow=c(1,3))
+hist(Boston$crim[Boston$crim>1], breaks=25)
+# most cities have low crime rates, but there is a long tail: 18 suburbs appear
+# to have a crime rate > 20, reaching to above 80
+hist(Boston$tax, breaks=25)
+# there is a large divide between suburbs with low tax rates and a peak at 660-680
+hist(Boston$ptratio, breaks=25)
+# a skew towards high ratios, but no particularly high ratios
 
 # (e)
 dim(subset(Boston, chas == 1))
