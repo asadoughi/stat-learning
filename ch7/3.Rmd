@@ -3,6 +3,6 @@ Chapter 7: Exercise 3
 
 ```{r}
 x = -2:2
-y = 1 + x + -2 * (x-1)^2 * I(x>0)
+y = 1 + x + -2 * (x-1)^2 * I(x>1)
 plot(x, y)
 ```
