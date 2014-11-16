@@ -9,6 +9,6 @@ http://www.statlearning.com
 
 Try out RStudio (www.RStudio.com) as an R IDE with the knitr package.
 
-Pull requests gladly accepted. :)
+Pull requests gladly accepted. If a pull request is too much effort, please at least file a new issue. :)
 
 Visit http://asadoughi.github.io/stat-learning for an index of exercise solutions.

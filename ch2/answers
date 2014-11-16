@@ -18,14 +18,17 @@ p - profit, number of employees, industry
 n - 20 similar products previously launched
 p - price charged, marketing budget, comp. price, ten other variables
 
-(c) regression. prediction. qualitative output of % change
+(c) regression. prediction. quantitative output of % change
 n - 52 weeks of 2012 weekly data
 p - % change in US market, % change in British market, % change in German market
 
 
 3. (a) See 3a.jpg.
 
-(b) i. (squared) bias - decreases monotonically because increases in flexibility
+(b) 
+all 5 lines >= 0
+
+i. (squared) bias - decreases monotonically because increases in flexibility
 yield a closer fit
 
 ii. variance - increases monotonically because increases in flexibility yield
@@ -37,8 +40,13 @@ yield a closer fit
 iv. test error - concave up curve because increase in flexibility yields a closer
 fit before it overfits
 
-v. Bayes (irreducible) error - probability determined from class overlap from
- the decision boundary so it's a constant with between 0 and 1.
+v. Bayes (irreducible) error - defines the lower limit, the test error is bounded 
+below by the irreducible error due to variance in the error (epsilon) in the output 
+values (0 <= value). When the training error is lower than the irreducible error,
+overfitting has taken place.
+The Bayes error rate is defined for classification problems and is determined by 
+the ratio of data points which lie at the 'wrong' side of the decision boundary, 
+(0 <= value < 1).
 
 
 4. (a) i. stock market price direction, prediction, response: up, down,
