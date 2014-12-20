@@ -1,9 +1,10 @@
 stat-learning
 =============
 
-My notes and exercise attempts for "An Introduction to Statistical Learning"
+Notes and exercise attempts for "An Introduction to Statistical Learning"
 
 http://www.statlearning.com
+http://statlearning.class.stanford.edu/
 
 "(*)" means I am not sure about the answer
 
