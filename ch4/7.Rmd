@@ -11,7 +11,7 @@ p_k(x) = \frac {\pi_k
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
                }}
 \\
-       = \frac {\pi_{yes}
+       p_{yes}(x)= \frac {\pi_{yes}
                 \exp(- \frac {1} {2 \sigma^2}  (x - \mu_{yes})^2)
                }
                {\sum {
