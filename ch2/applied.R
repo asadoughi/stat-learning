@@ -115,12 +115,23 @@ dim(Boston)
 
 # (b)
 pairs(Boston)
+
+# Build correlation matrix and only keep pairs above threshold
+corM  <- cor(Boston)
+k <- which(abs(corM) > 0.50)
+
+# Only keep upper triangle of matrix
+m <- subset(k, k[,1] > k[,2])
+
 # X correlates with: a, b, c
-# crim: age, dis, rad, tax, ptratio
-# zn: indus, nox, age, lstat
-# indus: age, dis
-# nox: age, dis
-# dis: lstat
+# crim: rad, tax
+# zn: indus, nox, age, dis
+# indus: nox, age, dis, rad, tax, lstat
+# nox: age, dis, rad, tax, lstat
+# age: dis, tax, lstat
+# dis: tax
+# rad: tax
+# tax: lstat
 # lstat: medv
 
 # (c)
