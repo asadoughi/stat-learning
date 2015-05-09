@@ -138,6 +138,26 @@ plot has less of a discernible pattern than the plot of all linear regression
 terms. The studentized residuals displays potential outliers (>3). The
 leverage plot indicates more than three points with high leverage.
 
+However, 2 problems are observed from the above plots:
+1) the residuals vs fitted plot indicates heteroskedasticity(unconstant variance over mean) in the model.
+2) The Q-Q plot indicates somewhat unnormality of the residuals. 
+
+So, a better transformation need to be applied to our model.
+From the correlation matrix in 9a., displacement, horsepower and weight show a similar nonlinear pattern against our response mpg.
+This nonlinear pattern is very close to a log form. So in the next attemp, we use log(mpg) as our response variable.
+
+The outputs show that Log transform of mpg yield better model fitting (better R^2, normality of residuals)
+```{r}
+lm.fit2<-lm(log(mpg)~cylinders+displacement+horsepower+weight+acceleration+year+origin,data=Auto)
+summary(lm.fit2)
+```
+
+```{r}
+par(mfrow=c(2,2)) 
+plot(lm.fit2)
+plot(predict(lm.fit2),rstudent(lm.fit2))
+```
+
 10a.
 ----
 
