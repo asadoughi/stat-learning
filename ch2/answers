@@ -20,7 +20,7 @@ p - price charged, marketing budget, comp. price, ten other variables
 
 (c) regression. prediction. quantitative output of % change
 n - 52 weeks of 2012 weekly data
-p - % change in US market, % change in British market, % change in German market
+p - % change in dollar, % change in US market, % change in British market, % change in German market
 
 
 3. (a) See 3a.jpg.
