@@ -29,9 +29,14 @@ Once the GPA is high enough, males earn more on average. => iii.
 determine if the interaction term is statstically significant or not.
 
 
-4. (a) I would expect the polynomial regression to have a lower training RSS
-than the linear regression because it could make a tighter fit against data that
-matched with a wider irreducible error (Var(epsilon)).
+4. (a) Given a simple linear model, the RSS (sum of squared differences between the
+expected output and the true label) is essentially the same. The least squares algorithm
+essentially minimizes the quadratic and cubic coefficients so that they are essentially zero,
+so whether or not we model with a function yhat = b0 + b1(x1) or a cubic function,
+yhat = b0 + b1x1 + b2x1squared + b3x1cubed, the models are essentially the same.
+
+However, for a non-linear model, we would expect the cubic function to do a better
+job of minimizing the RSS in the training set.
 
 (b) Converse to (a), I would expect the polynomial regression to have a higher
 test RSS as the overfit from training would have more error than the linear
