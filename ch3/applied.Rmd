@@ -408,7 +408,7 @@ suggests that there isn't a relationship between y and $x^2$.
 ----
 ```{r}
 set.seed(1)
-eps1 = rnorm(100, 0, 0.125)
+eps1 = rnorm(100, 0, sqrt(0.125))
 x1 = rnorm(100)
 y1 = -1 + 0.5*x1 + eps1
 plot(x1, y1)
@@ -424,7 +424,7 @@ As expected, the error observed in $R^2$ and $RSE$ decreases considerably.
 ----
 ```{r}
 set.seed(1)
-eps2 = rnorm(100, 0, 0.5)
+eps2 = rnorm(100, 0, sqrt(0.5))
 x2 = rnorm(100)
 y2 = -1 + 0.5*x2 + eps2
 plot(x2, y2)
