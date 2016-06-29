@@ -26,7 +26,7 @@ Once the GPA is high enough, males earn more on average. => iii.
 = 137.1
 
 (c) False. We must examine the p-value of the regression coefficient to
-determine if the interaction term is statstically significant or not.
+determine if the interaction term is statistically significant or not.
 
 
 4. (a) I would expect the polynomial regression to have a lower training RSS
