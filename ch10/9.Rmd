@@ -8,34 +8,121 @@ library(ISLR)
 set.seed(2)
 ```
 
+Consider the $USArrests$ data. We will perform hierarchical clustering on the
+states.
+
+To aid visualization of the resulting clusters, let's use dendrograms. First,
+let's change the state labels from their names to their abbreviations to make
+things neater.
+
+```{r}
+post_codes = c('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+				'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+				'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+				'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+				'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY')
+row.names(USArrests) = post_codes
+states = rownames(USArrests)
+```
+
+Second, define the following function to color the leaf labels of the dendrogram
+according to a cluster-label vector we pass it.
+
+```{r}
+labelCol=function(X, clustLabs) {
+	# X is a node of the dendrogram
+	if(is.leaf(X)) {
+		# Fetch the label
+		label = attr(X, "label")
+		# Set the label color based on 3-clustering labels
+		attr(X, "nodePar") = list(
+				lab.col=ifelse(label %in% states[clustLabs==1], "red",
+				ifelse(label %in% states[clustLabs==2], "blue", "green")))
+	}
+	return(X)
+}
+```
+
 ### a
+
+Using hierarchical clustering with complete linkage and Euclidean distance,
+cluster the states.
+
 ```{r}
 hc.complete = hclust(dist(USArrests), method="complete")
-plot(hc.complete)
 ```
 
 ### b
+
+Cut the dendrogram at a height that results in three distinct clusters. 
+
 ```{r}
-cutree(hc.complete, 3)
-table(cutree(hc.complete, 3))
+clusters = cutree(hc.complete, 3)
+table(clusters)
+```
+
+Now transform hierarchical clusters into a dendrogram and apply our coloring
+function from above. Note dendrograms will tell you the heights of their nodes.
+In this problem, it so happens that the midpoint of the heights of the first two
+nodes cuts the tree into three clusters.
+
+```{r}
+dend = dendrapply(as.dendrogram(hc.complete), labelCol, clusters)
+cutheight=mean(c(attr(dend[[1]],'height'),attr(dend[[2]],'height')))
+```
+
+We're now ready to plot the dendrogram and clusters.
+
+```{r}
+plot(dend, main="Hierarchical Clustering of USArrests with Complete Linkage",
+	xlab="3 clusters from cutree()", sub="",cex=.9)
+abline(h=cutheight, col="red", lty=2)
 ```
 
 ### c
+
+Hierarchically cluster the states using complete linkage and Euclidean distance
+after scaling the variables to have standard deviation one.
+
 ```{r}
 dsc = scale(USArrests)
 hc.s.complete = hclust(dist(dsc), method="complete")
-plot(hc.s.complete)
 ```
 
 ### d
+
+Cut the dendrogram at a height that results in three distinct clusters. 
+
 ```{r}
-cutree(hc.s.complete, 3)
-table(cutree(hc.s.complete, 3))
-table(cutree(hc.s.complete, 3), cutree(hc.complete, 3))
+clusters.sc = cutree(hc.s.complete, 3)
+table(clusters.sc)
+table(clusters.sc, clusters)
 ```
-Scaling the variables effects the max height of the dendogram obtained from
-hierarchical clustering. From a cursory glance, it doesn't effect the bushiness
-of the tree obtained. However, it does affect the clusters obtained from cutting
-the dendogram into 3 clusters. In my opinion, for this data set the data should 
-be standardized because the data measured has different units ($UrbanPop$ 
-compared to other three columns).
+
+Transform to a dendrogram, color, and find the cut height as before.
+
+```{r}
+dend.sc = dendrapply(as.dendrogram(hc.s.complete), labelCol, clusters.sc)
+cutheight.sc=mean(c(attr(dend.sc[[1]],'height'),attr(dend.sc[[2]],'height')))
+```
+
+Plot.
+
+```{r}
+plot(dend.sc,
+	main="Hierarchical Clustering of Scaled USArrests with Complete Linkage",
+	xlab="3 clusters from cutree()", sub="",cex=.9)
+abline(h=cutheight.sc, col="red", lty=2)
+```
+
+The arrest rates for $USArrests$ are in units of arrests per 100,000 residents,
+and $UrbanPop$ is a percentage. We must judge whether these units are
+appropriate or compatible. We might, for example, decide to change the arrest
+rates to percentages (though that would give more weight to $UrbanPop$). Scaling
+the data is a less biased way of giving each feature equal importance in the
+comparison. Of course, we might want to give more weight to the arrest
+statistics over $UrbanPop$, in which case we wouldn't scale the data.
+
+Also consider that the $USArrests$ data is a good candidate for hierarchical
+clustering with correlation-based distance. This would compare states on what
+could be called a "crime and urban population profile."
