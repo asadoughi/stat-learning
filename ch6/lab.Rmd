@@ -1,0 +1,165 @@
+Model Selection
+================
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring web pages, and a very nice way of distributing an analysis. It has some very simple syntax rules.
+  
+
+```{r}
+library(ISLR)
+summary(Hitters)
+```
+
+There are some missing values here, so before we proceed we will remove them:
+
+```{r}
+Hitters = na.omit(Hitters)
+with(Hitters, sum(is.na(Salary)))
+```
+
+Best Subset regression
+========================
+
+We will now use the package `leaps` to evaluate all the best-subset models.
+
+```{r}
+library(leaps)
+regfit.full = regsubsets(Salary ~ ., data = Hitters)
+summary(regfit.full)
+```
+
+It gives by default best-subsets up to size 8; lets increase that to 19, i.e. all the variables
+
+```{r}
+regfit.full = regsubsets(Salary ~ ., data = Hitters, nvmax = 19L)
+reg.summary = summary(regfit.full)
+names(reg.summary)
+plot(reg.summary$cp, xlab = "Number of Variables", ylab = "Cp")
+which.min(reg.summary$cp)
+points(10, reg.summary$cp[10L], pch = 20L, col = "red")
+```
+
+There is a plot method for the `regsubsets` object
+
+```{r}
+plot(regfit.full, scale = "Cp")
+coef(regfit.full, 10L)
+```
+
+Forward Stepwise Selection
+============================
+
+Here we use the `regsubsets` function but specify the `method=“forward”` option:
+
+```{r}
+regfit.fwd = regsubsets(Salary ~ ., data = Hitters, 
+                        nvmax = 19L, method = "forward")
+summary(regfit.fwd)
+plot(regfit.fwd, scale = "Cp")
+```
+
+Model Selection Using a Validation Set
+========================================
+
+Lets make a training and validation set, so that we can choose a good subset model. We will do it using a slightly different approach from what was done in the the book.
+
+```{r}
+dim(Hitters)
+set.seed(1)
+train = sample(263L, 180L, replace = FALSE)
+train
+regfit.fwd = regsubsets(Salary ~ ., data = Hitters[train, ],
+                        nvmax = 19L, method = "forward")
+```
+
+Now we will make predictions on the observations not used for training. We know there are 19 models, so we set up some vectors to record the errors. We have to do a bit of work here, because there is no `predict` method for `regsubsets`.
+
+```{r}
+val.errors = numeric(19L)
+x.test = model.matrix(Salary ~ ., data = Hitters[-train, ])  # notice the -index!
+for (i in 1L:19L) {
+    coefi = coef(regfit.fwd, id = i)
+    pred = x.test[ , names(coefi)] %*% coefi
+    val.errors[i] = mean((Hitters$Salary[-train] - pred)^2)
+}
+plot(sqrt(val.errors), ylab = "Root MSE",
+     ylim = c(300, 400), pch = 19L, type = "b")
+points(sqrt(regfit.fwd$rss[-1L]/180), 
+       col = "blue", pch = 19L, type = "b")
+legend("topright", legend = c("Training", "Validation"), 
+       col = c("blue", "black"), pch = 19L)
+```
+
+As we expect, the training error goes down monotonically as the model gets bigger, but not so for the validation error.
+
+This was a little tedious - not having a predict method for regsubsets. So we will write one!
+
+```{r}
+predict.regsubsets = function(object, newdata, id, ...) {
+    form = as.formula(object$call[[2L]])
+    mat = model.matrix(form, newdata)
+    coefi = coef(object, id = id)
+    mat[ , names(coefi)] %*% coefi
+}
+```
+
+Model Selection by Cross-Validation
+=====================================
+
+We will do 10-fold cross-validation. Its really easy!
+
+```{r}
+set.seed(11)
+folds = sample(rep(1L:10L, length = nrow(Hitters)))
+folds
+table(folds)
+cv.errors = matrix(NA, 10L, 19L)
+for (k in 1L:10L) {
+    best.fit = regsubsets(Salary ~ ., data = Hitters[folds != k, ], 
+                          nvmax = 19L, method = "forward")
+    for (i in 1L:19L) {
+        pred = predict(best.fit, Hitters[folds == k, ], id = i)
+        cv.errors[k, i] = mean((Hitters$Salary[folds == k] - pred)^2)
+    }
+}
+rmse.cv = sqrt(apply(cv.errors, 2L, mean))
+plot(rmse.cv, pch = 19L, type = "b")
+```
+
+Ridge Regression and the Lasso
+================================
+
+We will use the package `glmnet`, which does not use the model formula language, so we will set up an x and y.
+
+```{r}
+library(glmnet)
+x = model.matrix(Salary ~ . - 1, data = Hitters)
+y = Hitters$Salary
+fit.ridge = glmnet(x, y, alpha = 0)
+plot(fit.ridge, xvar = "lambda", label = TRUE)
+cv.ridge = cv.glmnet(x, y, alpha = 0)
+plot(cv.ridge)
+```
+
+Now we fit a lasso model; for this we use the default `alpha=1`
+
+```{r}
+fit.lasso = glmnet(x, y)
+plot(fit.lasso, xvar = "lambda", label = TRUE)
+cv.lasso = cv.glmnet(x, y)
+plot(cv.lasso)
+coef(cv.lasso)
+```
+
+Suppose we want to use our earlier train/validation division to select the `lambda` for the lasso. This is easy to do.
+
+```{r}
+lasso.tr = glmnet(x[train, ], y[train])
+lasso.tr
+pred = predict(lasso.tr, x[-train, ])
+dim(pred)
+rmse = sqrt(apply((y[-train] - pred)^2, 2, mean))
+plot(log(lasso.tr$lambda), rmse, type = "b", xlab = "Log(lambda)")
+lam.best = lasso.tr$lambda[order(rmse)[1]]
+lam.best
+coef(lasso.tr, s = lam.best)
+```
