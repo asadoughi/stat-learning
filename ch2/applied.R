@@ -43,7 +43,7 @@ dim(Auto)
 summary(Auto)
 
 # (a)
-sapply(auto, class)
+sapply(Auto, class)
 # quantitative: mpg, cylinders, displacement, horsepower, weight,
 # acceleration, year
 # qualitative: name, origin
