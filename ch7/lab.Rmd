@@ -1,0 +1,146 @@
+Nonlinear Models
+==================
+
+Here we explore the use of nonlinear models using some tools in R
+
+```{r}
+library(ISLR)
+```
+
+Polynomials
+-------------
+
+First we will use polynomials, and focus on a single predictor age:
+
+```{r}
+fit = lm(wage ~ poly(age, 4L), data = Wage)
+summary(fit)
+```
+
+The `poly()` function generates a basis of orthogonal polynomials. Lets make a plot of the fitted function, along with the standard errors of the fit.
+
+```{r fig.width = 7, fig.height = 6}
+agelims = range(Wage$age)
+age.grid = seq(from = agelims[1L], to = agelims[2L])
+preds = predict(fit, newdata = list(age = age.grid), se = TRUE)
+se.bands = with(preds, fit + 2 * cbind(se.fit, -se.fit))
+with(Wage, plot(age, wage, col = "darkgrey"))
+lines(age.grid, preds$fit, lwd = 2, col = "blue")
+matlines(age.grid, se.bands, col = "blue", lty = 2L)
+```
+
+There are other more direct ways of doing this in R. For example
+
+```{r}
+fita = lm(wage ~ age + I(age^2) + I(age^3) + I(age^4), data = Wage)
+summary(fita)
+```
+
+Here `I()` is a *wrapper* function; we need it because `age^2` means something to the formula language, while `I(age^2)` is protected. The coefficients are different to those we got before! However, the fits are the same:
+
+```{r}
+plot(fitted(fit), fitted(fita))
+```
+
+By using orthogonal polynomials in this simple way, it turns out that we can separately test for each coefficient. So if we look at the summary again, we can see that the linear, quadratic and cubic terms are significant, but not the quartic.
+
+```{r}
+summary(fit)
+```
+
+This only works with linear regression, and if there is a single predictor. In general we would use `anova()` as this next example demonstrates.
+
+```{r}
+fita = lm(wage ~ education, data = Wage)
+fitb = lm(wage ~ education + age, data = Wage)
+fitc = lm(wage ~ education + poly(age, 2L), data = Wage)
+fitd = lm(wage ~ education + poly(age, 3L), data = Wage)
+anova(fita, fitb, fitc, fitd)
+```
+
+### Polynomial logistic regression
+
+Now we fit a logistic regression model to a binary response variable, constructed from `wage`. We code the big earners (`>250K`) as 1, else 0.
+
+```{r}
+fit = glm(I(wage > 250) ~ poly(age, 3L), data = Wage, family = binomial)
+summary(fit)
+preds = predict(fit, list(age = age.grid), se = TRUE)
+se.bands = with(preds, fit + 2 * cbind(fit = 0, lower = -se.fit, upper = se.fit))
+se.bands[1L:5L, ]
+```
+
+We have done the computations on the logit scale. To transform we need to apply the inverse logit mapping
+
+$$ p=\frac{e^\eta}{1+e^\eta}.$$
+
+(Here we have used the ability of MarkDown to interpret TeX expressions.) We can do this simultaneously for all three columns of `se.bands`:
+
+```{r}
+prob.bands = exp(se.bands)/(1 + exp(se.bands))
+matplot(age.grid, prob.bands, col = "blue",
+        lwd = c(2L, 1L, 1L), lty = c(1L, 2L, 2L), 
+        type = "l", ylim = c(0, 0.1))
+with(Wage, points(jitter(age), I(wage > 250)/10, pch = "|", cex = 0.5))
+```
+
+Splines
+---------
+
+Splines are more flexible than polynomials, but the idea is rather similar. Here we will explore cubic splines.
+
+
+```{r plotchunk}
+library(splines)
+fit = lm(wage ~ bs(age, knots = c(25, 40, 60)), data = Wage)
+with(Wage, plot(age, wage, col = "darkgrey"))
+lines(age.grid, predict(fit, list(age = age.grid)),
+      col = "darkgreen", lwd = 2)
+abline(v = c(25, 40, 60), lty = 2L, col = "darkgreen")
+```
+
+The smoothing splines does not require knot selection, but it does have a smoothing parameter, which can conveniently be specified via the effective degrees of freedom or `df`.
+
+```{r, ref.label = 'plotchunk'}
+fit = with(Wage, smooth.spline(age, wage, df = 16))
+lines(fit, col = "red", lwd = 2L)
+```
+
+Or we can use LOO cross-validation to select the smoothing parameter for us automatically:
+
+```{r, ref.label = 'plotchunk'}
+fit = with(Wage, smooth.spline(age, wage, cv = TRUE))
+lines(fit, col = "purple", lwd = 2L)
+fit
+```
+
+Generalized Additive Models
+-----------------------------
+
+So far we have focused on fitting models with mostly single nonlinear terms. The `gam` package makes it easier to work with multiple nonlinear terms. In addition it knows how to plot these functions and their standard errors.
+
+```{r}
+library(gam)
+gam1 = gam(wage ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage)
+par(mfrow = c(1L, 3L))
+plot(gam1, se = TRUE)
+gam2 = gam(I(wage > 250) ~ s(age, df = 4) + s(year, df = 4) + education, 
+           data = Wage, family = binomial)
+plot(gam2)
+```
+
+Lets see if we need a nonlinear terms for year
+
+```{r}
+gam2a = gam(I(wage > 250) ~ s(age, df = 4) + year + education,
+            data = Wage, family = binomial)
+anova(gam2a, gam2, test = "Chisq")
+```
+
+One nice feature of the `gam` package is that it knows how to plot the functions nicely, even for models fit by `lm` and `glm`.
+
+```{r, fig.width = 10, fig.height = 5}
+par(mfrow = c(1L, 3L))
+lm1 = lm(wage ~ ns(age, df = 4) + ns(year, df = 4) + education, data = Wage)
+plot.gam(lm1, se = TRUE)
+```
