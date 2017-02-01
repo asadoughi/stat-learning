@@ -56,7 +56,8 @@ par(mfrow=c(2,2))
 plot(lm.fit)
 ```
 
-Based on the residuals plots, there is some evidence of non-linearity.
+Based on the residuals plots, there is some evidence of non-linearity as weell
+as heteroscedasticity.
 
 
 9a.
@@ -473,11 +474,13 @@ plot(x1, x2)
 lm.fit = lm(y~x1+x2)
 summary(lm.fit)
 ```
-$$\beta_0 = 2.0533, \beta_1 = 1.6336, \beta_3 = 0.5588$$
-The regression coefficients are close to the true coefficients, although with
-high standard error. We can reject the null hypothesis for $\beta_1$ because
+$$\beta_0 = 2.1305, \beta_1 = 1.4396, \beta_3 = 1.0097
+The intercept is close to the true coefficient, while $\beta_1$ and $\beta_2$ 
+are deflated and inflated respectively. The standard error
+is moreover high and the model covers 21 % of the overall variance. We can 
+reject the null hypothesis for $\beta_1$ because
 its p-value is below 5%. We cannot reject the null hypothesis for $\beta_2$
-because its p-value is much above the 5% typical cutoff, over 60%.
+because its p-value is much above the 5% typical cutoff.
 
 14d.
 ----
