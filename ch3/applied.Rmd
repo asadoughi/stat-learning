@@ -401,7 +401,7 @@ lm.fit_sq = lm(y~x+I(x^2))
 summary(lm.fit_sq)
 ```
 There is evidence that model fit has increased over the training data given the
-slight increase in $R^2$ and $RSE$. Although, the p-value of the t-statistic
+slight increase in $R^2$ and slight decrease in $RSE$. Although, the p-value of the t-statistic
 suggests that there isn't a relationship between y and $x^2$.
 
 13h.
