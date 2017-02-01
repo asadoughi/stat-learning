@@ -144,7 +144,7 @@ variance over mean) in the model.
 2) The Q-Q plot indicates somewhat unnormality of the residuals. 
 
 So, a better transformation need to be applied to our model.
-From the correlation matrix in 9a., displacement, horsepower and weight show a
+From the scatter plot in 9a., displacement, horsepower and weight show a
 similar nonlinear pattern against our response mpg.
 This nonlinear pattern is very close to a log form. So in the next attempt, we 
 use `log(mpg)` as our response variable.
