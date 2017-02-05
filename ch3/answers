@@ -32,6 +32,12 @@ determine if the interaction term is statistically significant or not.
 4. (a) I would expect the polynomial regression to have a lower training RSS
 than the linear regression because it could make a tighter fit against data that
 matched with a wider irreducible error (Var(epsilon)).
+[ This doesn't seem to be correct. First of all data doesn't match with the irreducible error. 
+  It only seeks to minimize the reducible error. Secondly since the model that we're trying to 
+  fit is cubic, the coffiecient of degree 2 and higher would be really small. Moreover whether the
+  RSS is lesser or more than the linear model depends on the value of x (input) in the training
+  data. So the right answer is that there is not enough information to tell
+]
 
 (b) Converse to (a), I would expect the polynomial regression to have a higher
 test RSS as the overfit from training would have more error than the linear
