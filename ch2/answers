@@ -1,5 +1,6 @@
 1. (a) better - a more flexible approach will fit the data closer and with the
-large sample size a better fit than an inflexible approach would be obtained
+large sample size a better fit than an inflexible approach would be obtained. 
+       YX add on: I would agree on "better" due to large sample size. But what is the effect of small number of predictors
 
 (b) worse - a flexible method would overfit the small number of observations
 
@@ -7,6 +8,8 @@ large sample size a better fit than an inflexible approach would be obtained
 better fit
 
 (d) worse - flexible methods fit to the noise in the error terms and increase variance
+       YX add on: I am wondering if error term is very big, would variance/bias still be relevant. After all the MSE is dominated
+                  by error terms already. How can we tell the difference between high flexibility model and low flexibility model?
 
 
 2. (a) regression. inference. quantitative output of CEO salary based on CEO
