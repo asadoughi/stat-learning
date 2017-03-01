@@ -609,7 +609,7 @@ x = c(coefficients(lm.zn)[2],
 y = coefficients(lm.all)[2:14]
 plot(x, y)
 ```
-Coefficient for nox is approximately -10 in univariate model and 31 in
+Coefficient for nox is approximately 31 in univariate model and -10 in
 multiple regression model.
 
 15d.
