@@ -90,11 +90,11 @@ sapply(newAuto[, 1:7], sd)
 
 # (e)
 pairs(Auto)
-plot(Auto$mpg, Auto$weight)
+plot(Auto$weight, Auto$mpg)
 # Heavier weight correlates with lower mpg.
-plot(Auto$mpg, Auto$cylinders)
+plot(Auto$cylinders, Auto$mpg)
 # More cylinders, less mpg.
-plot(Auto$mpg, Auto$year)
+plot(Auto$year, Auto$mpg)
 # Cars become more efficient over time.
 
 # (f)
