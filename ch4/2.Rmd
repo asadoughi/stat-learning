@@ -33,7 +33,7 @@ $$
 \geq
 \pi_i \exp (x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2})
 $$
-Multipy this inequality by the positive constant
+Multiply this inequality by the positive constant
 $$
 c = \frac {
                 \frac {1} {\sqrt{2 \pi} \sigma}
@@ -47,7 +47,6 @@ c = \frac {
 $$
 and we have that
 $$
-
 \frac {\pi_k
                 \frac {1} {\sqrt{2 \pi} \sigma}
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
@@ -57,9 +56,7 @@ $$
                 \frac {1} {\sqrt{2 \pi} \sigma}
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
                }}
-               
 \geq
-
 \frac {\pi_i
                 \frac {1} {\sqrt{2 \pi} \sigma}
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_i)^2)
