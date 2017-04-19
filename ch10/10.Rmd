@@ -55,6 +55,6 @@ Perfect match, once again.
 km.out = kmeans(scale(x), 3, nstart=20)
 km.out$cluster
 ```
-Poorer results than (b): the scaling of the observations effects the distance
+Poorer results than (b): the scaling of the observations affects the distance
 between them.
 
