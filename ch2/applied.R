@@ -12,6 +12,9 @@ summary(college)
 pairs(college[,1:10])
 # iii.
 plot(college$Private, college$Outstate)
+Private.1 <- as.factor(Private)
+college <- data.frame(college, Private.1)
+boxplot(college$Outstate, college$Private.1)
 # iv.
 Elite = rep("No", nrow(college))
 Elite[college$Top10perc>50] = "Yes"
@@ -19,6 +22,7 @@ Elite = as.factor(Elite)
 college = data.frame(college, Elite)
 summary(college$Elite)
 plot(college$Elite, college$Outstate)
+boxplot(college$Outstate, college$Elite)
 # v.
 par(mfrow=c(2,2))
 hist(college$Apps)
