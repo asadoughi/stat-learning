@@ -40,7 +40,7 @@ regression.
 (c) Polynomial regression has lower train RSS than the linear fit because of
 higher flexibility: no matter what the underlying true relationshop is the
 more flexible model will closer follow points and reduce train RSS.
-An example of this beahvior is shown on Figure~2.9 from Chapter 2.
+An example of this behavior is shown on Figure~2.9 from Chapter 2.
 
 (d) There is not enough information to tell which test RSS would be lower
 for either regression given the problem statement is defined as not knowing
