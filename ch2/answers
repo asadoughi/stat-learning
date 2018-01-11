@@ -59,9 +59,10 @@ heart rate, resting breath rate, mile run time
 iii. car part replacement, prediction, response: needs to be replace, good,
 input: age of part, mileage used for, current amperage
 
-(b) i. CEO salary. prediction,response: salary. predictors: age, industry experience, industry,
-years of education. 
-ii. car part replacement. prediction,. response: life of car part. predictors: age
+(b) i. CEO salary. inference. predictors: age, industry experience, industry,
+years of education. response: salary.
+
+ii. car part replacement. inference. response: life of car part. predictors: age
 of part, mileage used for, current amperage.
 
 iii. illness classification, prediction, response: age of death,
