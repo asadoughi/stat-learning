@@ -1,4 +1,3 @@
-# 8. (a)
 college = read.csv("../data/College.csv")
 # 8. (b)
 fix(college)
@@ -154,7 +153,7 @@ median(Boston$ptratio)
 # 19.05
 
 # (g)
-> t(subset(Boston, medv == min(Boston$medv)))
+t(subset(Boston, medv == min(Boston$medv)))
 #              399      406
 # crim     38.3518  67.9208 above 3rd quartile
 # zn        0.0000   0.0000 at min
