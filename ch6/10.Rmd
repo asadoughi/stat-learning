@@ -15,26 +15,29 @@ B[19] = 0
 B[10] = 0
 eps = rnorm(p)
 y = x %*% B + eps
+
+data.full = as.data.frame(x)
+colnames(data.full) = paste("col", 1:p, sep="")
+data.full$y = y
 ```
 
 ## b
 ```{r}
 train = sample(seq(1000), 100, replace = FALSE)
-y.train = y[train,]
-y.test = y[-train,]
-x.train = x[train,]
-x.test = x[-train,]
+y.train = data.full$y[train]
+y.test = data.full$y[-train]
+x.train = model.matrix(y~., data=data.full[train,])
+x.test = model.matrix(y~., data=data.full[-train,])
 ```
 
 ## c
 ```{r}
 library(leaps)
-regfit.full = regsubsets(y~., data=data.frame(x=x.train, y=y.train), nvmax=p)
+regfit.full = regsubsets(y~., data=data.full[train,], nvmax=p)
 val.errors = rep(NA, p)
-x_cols = colnames(x, do.NULL=FALSE, prefix="x.")
 for (i in 1:p) {
   coefi = coef(regfit.full, id=i)
-  pred = as.matrix(x.train[, x_cols %in% names(coefi)]) %*% coefi[names(coefi) %in% x_cols]
+  pred = x.train[, names(coefi)] %*% coefi
   val.errors[i] = mean((y.train - pred)^2)
 }
 plot(val.errors, ylab="Training MSE", pch=19, type="b")
@@ -45,7 +48,7 @@ plot(val.errors, ylab="Training MSE", pch=19, type="b")
 val.errors = rep(NA, p)
 for (i in 1:p) {
   coefi = coef(regfit.full, id=i)
-  pred = as.matrix(x.test[, x_cols %in% names(coefi)]) %*% coefi[names(coefi) %in% x_cols]
+  pred = as.matrix(x.test[, names(coefi)]) %*% coefi
   val.errors[i] = mean((y.test - pred)^2)
 }
 plot(val.errors, ylab="Test MSE", pch=19, type="b")
@@ -68,6 +71,7 @@ Caught all but one zeroed out coefficient at x.19.
 val.errors = rep(NA, p)
 a = rep(NA, p)
 b = rep(NA, p)
+x_cols = colnames(x, do.NULL = FALSE, prefix = "col")
 for (i in 1:p) {
   coefi = coef(regfit.full, id=i)
   a[i] = length(coefi)-1
