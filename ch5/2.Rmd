@@ -30,7 +30,7 @@ plot(x, pr(x))
 The plot quickly reaches an asymptote of about 63.2%. This is what we should expect, because a standard result from calculus tells us that $\lim_{n \to \infty} (1 + \frac{x}{n})^n = e^{x}$ for any $x \in \mathbb{R}$, which means that 
 
 $$
-1 - \lim_{n \to \infty} (1 - \frac{1}{n})^n = 1 - e^{-1} \approx 0.632
+1 - \lim_{n \to \infty} \left( 1 - \frac{1}{n}\right)^n = 1 - e^{-1} \approx 0.632
 $$
 
 ### h
