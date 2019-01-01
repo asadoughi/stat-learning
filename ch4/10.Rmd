@@ -34,7 +34,7 @@ table(glm.pred, Direction)
 ```
 Percentage of currect predictions: (54+557)/(54+557+48+430) = 56.1%. Weeks the 
 market goes up the logistic regression is right most of the time, 557/(557+48)
-= 92.1%. Weeks the market goes up the logistic regression is wrong most of the
+= 92.1%. Weeks the market goes down the logistic regression is wrong most of the
 time 54/(430+54) = 11.2%.
 
 ### d
