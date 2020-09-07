@@ -1,5 +1,5 @@
 # 8. (a)
-college = read.csv("../data/College.csv")
+college = read.csv("../data/College.csv", stringsAsFactors=TRUE)
 # 8. (b)
 fix(college)
 rownames(college) = college[,1]
