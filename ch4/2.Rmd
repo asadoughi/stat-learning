@@ -1,3 +1,4 @@
+
 2
 ========================================================
 
@@ -21,53 +22,65 @@ $$
 
 *Claim: Maximizing $p_k(x)$ is equivalent to maximizing $\delta_k(x)$.*
 
-*Proof.* Let $x$ remain fixed and observe that we are maximizing over the parameter $k$. Suppose that $\delta_k(x) \geq \delta_i(x)$. We will show that $f_k(x) \geq f_i(x)$. From our assumption we have
+*Proof.* Let $x$ remain fixed and observe that we are maximizing over the parameter $k$. Notice that maximizing $p_k(x)$ is equivalent to maximizing $\log p_k(x)$. Take the logarithm of $p_k(x)$ and simplify:
 $$
-x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2} + \log(\pi_k)
-\geq
-x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2} + \log(\pi_i).
+\begin{aligned}
+\log p_k(x) 
+  &=
+  \log 
+    \Bigl(
+      \pi_k 
+      \frac {1} {\sqrt{2 \pi} \sigma} 
+      \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_k)^2 \bigr) 
+    \Bigr)
+  - \log 
+      \Bigl(
+        \sum_l 
+        \pi_l 
+        \frac {1} {\sqrt{2 \pi} \sigma} 
+        \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr) 
+      \Bigr) \\
+  &= 
+  \log(\pi_k) 
+  + \log\bigl(\frac{1}{\sqrt{2\pi}\sigma}\bigr) 
+  - \frac{1}{2\sigma^2}(x-\mu_k)^2
+  - \log 
+      \Bigl(
+        \sum_l 
+        \pi_l 
+        \frac {1} {\sqrt{2 \pi} \sigma} 
+        \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr) 
+      \Bigr) \\
+    &= 
+    \log(\pi_k) 
+    + \log\bigl(\frac{1}{\sqrt{2\pi}\sigma}\bigr) 
+    - \frac{x^2}{2\sigma^2} 
+    + x\frac{\mu_k}{2\sigma^2} 
+    - \frac{\mu_k^2}{2\sigma^2}
+    - \log 
+        \Bigl(
+          \sum_l 
+          \pi_l 
+          \frac {1} {\sqrt{2 \pi} \sigma} 
+          \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr) 
+        \Bigr) \\
+    &= 
+      x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2}
+      + \log(\pi_k) 
+      + \log\bigl(\frac{1}{\sqrt{2\pi}\sigma}\bigr) 
+      - \frac{x^2}{2\sigma^2} 
+      - \log 
+          \Bigl(
+            \sum_l 
+            \pi_l 
+            \frac {1} {\sqrt{2 \pi} \sigma} 
+            \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr) 
+          \Bigr)\\
+    &= 
+      \delta_k(x) 
+      + \text{(terms that don't depend on } k \text{)}
+\end{aligned}
 $$
-Exponentiation is a monotonically increasing function, so the following inequality holds
-$$
-\pi_k \exp (x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2})
-\geq
-\pi_i \exp (x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2})
-$$
-Multipy this inequality by the positive constant
-$$
-c = \frac {
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} x^2)
-               }
-               {\sum {
-                \pi_l
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
-$$
-and we have that
-$$
+Therefore, we can conclude that choosing a $k$ that maximizes $p_k(x)$ is equivalent to choosing one that maximizes $\delta_k(x)$.
 
-\frac {\pi_k
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
-               }
-               {\sum {
-                \pi_l
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
-               
-\geq
 
-\frac {\pi_i
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_i)^2)
-               }
-               {\sum {
-                \pi_l
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
-$$
-or equivalently, $f_k(x) \geq f_i(x)$. Reversing these steps also holds, so we have that maximizing $\delta_k$ is equivalent to maximizing $p_k$.

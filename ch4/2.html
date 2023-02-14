@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0014)about:internet -->
+
 <html>
+
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 
 <title>2</title>
 
@@ -136,7 +140,6 @@ hr {
 </style>
 
 
-
 <!-- MathJax scripts -->
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
@@ -146,10 +149,17 @@ hr {
 </head>
 
 <body>
-<h1>2</h1>
 
-<p>Assuming that \( f_k(x) \) is normal, the probability that an observation \( x \) is in class \( k \) is given by
-\[ 
+
+
+
+
+
+
+<div id="section" class="section level1">
+<h1>2</h1>
+<p>Assuming that <span class="math inline">\(f_k(x)\)</span> is normal,
+the probability that an observation <span class="math inline">\(x\)</span> is in class <span class="math inline">\(k\)</span> is given by <span class="math display">\[
 p_k(x) = \frac {\pi_k
                 \frac {1} {\sqrt{2 \pi} \sigma}
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
@@ -159,67 +169,75 @@ p_k(x) = \frac {\pi_k
                 \frac {1} {\sqrt{2 \pi} \sigma}
                 \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
                }}
- \]
-while the discriminant function is given by
-\[ 
+\]</span> while the discriminant function is given by <span class="math display">\[
 \delta_k(x) = x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2}
               + \log(\pi_k)
- \]            </p>
+\]</span></p>
+<p><em>Claim: Maximizing <span class="math inline">\(p_k(x)\)</span> is
+equivalent to maximizing <span class="math inline">\(\delta_k(x)\)</span>.</em></p>
+<p><em>Proof.</em> Let <span class="math inline">\(x\)</span> remain
+fixed and observe that we are maximizing over the parameter <span class="math inline">\(k\)</span>. Notice that maximizing <span class="math inline">\(p_k(x)\)</span> is equivalent to maximizing <span class="math inline">\(\log p_k(x)\)</span>. Take the logarithm of <span class="math inline">\(p_k(x)\)</span> and simplify: <span class="math display">\[
+\begin{aligned}
+\log p_k(x)
+  &amp;=
+  \log
+    \Bigl(
+      \pi_k
+      \frac {1} {\sqrt{2 \pi} \sigma}
+      \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_k)^2 \bigr)
+    \Bigr)
+  - \log
+      \Bigl(
+        \sum_l
+        \pi_l
+        \frac {1} {\sqrt{2 \pi} \sigma}
+        \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr)
+      \Bigr) \\
+  &amp;=
+  \log(\pi_k)
+  + \log\bigl(\frac{1}{\sqrt{2\pi}\sigma}\bigr)
+  - \frac{1}{2\sigma^2}(x-\mu_k)^2
+  - \log
+      \Bigl(
+        \sum_l
+        \pi_l
+        \frac {1} {\sqrt{2 \pi} \sigma}
+        \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr)
+      \Bigr) \\
+    &amp;=
+    \log(\pi_k)
+    + \log\bigl(\frac{1}{\sqrt{2\pi}\sigma}\bigr)
+    - \frac{x^2}{2\sigma^2}
+    + x\frac{\mu_k}{2\sigma^2}
+    - \frac{\mu_k^2}{2\sigma^2}
+    - \log
+        \Bigl(
+          \sum_l
+          \pi_l
+          \frac {1} {\sqrt{2 \pi} \sigma}
+          \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr)
+        \Bigr) \\
+    &amp;=
+      x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2}
+      + \log(\pi_k)
+      + \log\bigl(\frac{1}{\sqrt{2\pi}\sigma}\bigr)
+      - \frac{x^2}{2\sigma^2}
+      - \log
+          \Bigl(
+            \sum_l
+            \pi_l
+            \frac {1} {\sqrt{2 \pi} \sigma}
+            \exp\bigl(- \frac {1} {2 \sigma^2} (x - \mu_l)^2\bigr)
+          \Bigr)\\
+    &amp;=
+      \delta_k(x)
+      + \text{(terms that don&#39;t depend on } k \text{)}
+\end{aligned}
+\]</span> Therefore, we can conclude that choosing a <span class="math inline">\(k\)</span> that maximizes <span class="math inline">\(p_k(x)\)</span> is equivalent to choosing one that
+maximizes <span class="math inline">\(\delta_k(x)\)</span>.</p>
+</div>
 
-<p><em>Claim: Maximizing \( p_k(x) \) is equivalent to maximizing \( \delta_k(x) \).</em></p>
 
-<p><em>Proof.</em> Let \( x \) remain fixed and observe that we are maximizing over the parameter \( k \). Suppose that \( \delta_k(x) \geq \delta_i(x) \). We will show that \( f_k(x) \geq f_i(x) \). From our assumption we have
-\[ 
-x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2} + \log(\pi_k)
-\geq
-x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2} + \log(\pi_i).
- \]
-Exponentiation is a monotonically increasing function, so the following inequality holds
-\[ 
-\pi_k \exp (x \frac {\mu_k} {\sigma^2} - \frac {\mu_k^2} {2 \sigma^2})
-\geq
-\pi_i \exp (x \frac {\mu_i} {\sigma^2} - \frac {\mu_i^2} {2 \sigma^2})
- \]
-Multipy this inequality by the positive constant
-\[ 
-c = \frac {
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} x^2)
-               }
-               {\sum {
-                \pi_l
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
- \]
-and we have that
-\[ 
-
-\frac {\pi_k
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_k)^2)
-               }
-               {\sum {
-                \pi_l
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
-               
-\geq
-
-\frac {\pi_i
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_i)^2)
-               }
-               {\sum {
-                \pi_l
-                \frac {1} {\sqrt{2 \pi} \sigma}
-                \exp(- \frac {1} {2 \sigma^2} (x - \mu_l)^2)
-               }}
- \]
-or equivalently, \( f_k(x) \geq f_i(x) \). Reversing these steps also holds, so we have that maximizing \( \delta_k \) is equivalent to maximizing \( p_k \).</p>
 
 </body>
-
 </html>
-
